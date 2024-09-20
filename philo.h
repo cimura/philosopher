@@ -41,7 +41,7 @@ struct	s_table
 	long	start_time;
 	bool	is_end;
 	t_fork	*forks;
-	t_philo	philos;
+	t_philo	*philos;
 };
 
 enum	e_flag
@@ -54,10 +54,19 @@ enum	e_flag
 };
 
 // *** utils.c ***
-void	ft_thread(pthread_t *thread, int flag);
+void	ft_thread(pthread_t *thread, int flag, void *func(void *));
 void	ft_mutex(pthread_mutex_t *mutex, int flag);
 void	error_exit(const char *message);
 void	*ft_malloc(size_t bytes);
+long  gettime_ms(void);
+void print_state(long timestamp, int id, const char *state, t_table *table);
 
 // *** init.c ***
 void	data_init(t_table table);
+
+// *** parsing.c ***
+void	parse_input(t_table table, char *argv[]);
+
+void	party(t_table table);
+
+void  clean(t_table table);

@@ -1,37 +1,20 @@
 #include "philo.h"
 
-void	ft_thread(pthread_t *thread, int flag)
+long  gettime_ms(void)
 {
-	int	thread_value;
+  struct timeval tv;
 
-	thread_value = -1;
-	if (flag == CREATE)
-		thread_value = pthread_create(thread, NULL, philo, NULL);
-	else if (flag == DESTROY)
-		thread_value = pthread_join(thread, NULL);
-	else
-		error_exit("thread flag is not good");
-	if (thread_value != 0)
-		error_exit("The return value of thread func is bad...");
+  gettimeofday(&tv, NULL);
+  return (tv.tv_sec * 1000 + tv.tv_usec / 1000); 
 }
 
-void	ft_mutex(pthread_mutex_t *mutex, int flag)
+void  precise_sleep(long milisec, t_table *table)
 {
-	int	mutex_value;
+  long  start;
 
-	mutex_value = -1;
-	if (flag == INIT)
-		mutex_value = pthread_mutex_init(mutex, NULL);
-	else if (flag == DESTROY)
-		mutex_value = pthread_mutex_destroy(mutex);
-	else if (flag == LOCK)
-		mutex_value = pthread_mutex_lock(mutex);
-	else if (flag == UNLOCK)
-		mutex_value = pthread_mutex_unlock(mutex);
-	else
-		error_exit("mutex flag is not good");
-	if (mutex_value != 0)
-		error_exit("The return value of mutex func is bad...");
+  start = gettime_ms();
+  while (gettime_ms() - start < milisec)
+    usleep(60);
 }
 
 void	error_exit(const char *message)
@@ -40,12 +23,10 @@ void	error_exit(const char *message)
 	exit(EXIT_FAILURE);
 }
 
-void	*ft_malloc(size_t bytes)
+void print_state(long timestamp, int id, const char *state, t_table *table)
 {
-	void	*memory;
-
-	memory = malloc(bytes);
-	if (!memory)
-		error_exit("Failed with malloc");
-	return (memory);
+    // Ensure that the printing is thread-safe
+    // pthread_mutex_lock(&meal_check); // Reusing the meal_check mutex for simplicity
+    printf("%ld %d %s\n", timestamp - table->start_time, id, state);
+    // pthread_mutex_unlock(&meal_check);
 }

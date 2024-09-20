@@ -12,6 +12,6 @@ int	main(int argc, char *argv[])
 	}
 	else
 		error_exit("Wrong input:\n"
-			GREEN"[example] ./philo 5 800 200 200 [5]"RESET);
+			GREEN"example// ./philo 5 800 200 200 [5]"RESET);
 	return (0);
 }
