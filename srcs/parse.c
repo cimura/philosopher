@@ -12,10 +12,8 @@ static inline	bool	is_digit(char c)
 
 static void	valid_input(const char *str)
 {
-	int	i;
 	int	len;
 
-	i = 0;
 	len = 0;
 	while (is_whitespace(*str))
 		str++;
@@ -44,20 +42,20 @@ static	long	ft_atol(const char *str)
 	return (num);
 }
 
-void	parse_input(t_table table, char *argv[])
+void	parse_input(t_table *table, char *argv[])
 {
-	table.philo_nbr = ft_atol(argv[1]);
-	if (table.philo_nbr > 20)
+	table->philo_nbr = ft_atol(argv[1]);
+	if (table->philo_nbr > 20)
 		error_exit("Less than 20 philosophers");
-	table.time_to_die = ft_atol(argv[2]) * 1e3;
-	table.time_to_eat = ft_atol(argv[3]) * 1e3;
-	table.time_to_sleep = ft_atol(argv[4]) * 1e3;
+	table->time_to_die = ft_atol(argv[2]) * 1e3;
+	table->time_to_eat = ft_atol(argv[3]) * 1e3;
+	table->time_to_sleep = ft_atol(argv[4]) * 1e3;
 	if (argv[5])
-		table.nbr_limit_meals = ft_atol(argv[5]);
+		table->nbr_limit_meals = ft_atol(argv[5]);
 	else
-		table.nbr_limit_meals = -1;
-	if (table.time_to_die < 6e4
-	|| table.time_to_eat < 6e4
-	|| table.time_to_sleep < 6e4)
+		table->nbr_limit_meals = -1;
+	if (table->time_to_die < 6e4
+	|| table->time_to_eat < 6e4
+	|| table->time_to_sleep < 6e4)
 		error_exit("Time input should be over 60ms");
 }
