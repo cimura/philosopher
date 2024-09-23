@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
+/*   Updated: 2024/09/23 17:24:49 by sshimura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static inline bool	is_whitespace(char c)
@@ -46,7 +58,7 @@ void	parse_input(t_table *table, char *argv[])
 {
 	table->philo_nbr = ft_atol(argv[1]);
 	if (table->philo_nbr > 20)
-		error_exit("Less than 20 philosophers");
+		error_exit("Less than 20 philoophers");
 	table->time_to_die = ft_atol(argv[2]) * 1e3;
 	table->time_to_eat = ft_atol(argv[3]) * 1e3;
 	table->time_to_sleep = ft_atol(argv[4]) * 1e3;
@@ -55,7 +67,7 @@ void	parse_input(t_table *table, char *argv[])
 	else
 		table->nbr_limit_meals = -1;
 	if (table->time_to_die < 6e4
-	|| table->time_to_eat < 6e4
-	|| table->time_to_sleep < 6e4)
+		|| table->time_to_eat < 6e4
+		|| table->time_to_sleep < 6e4)
 		error_exit("Time input should be over 60ms");
 }

@@ -47,12 +47,20 @@ void print_state(long timestamp, int id, const char *state, t_table *table)
     ft_mutex(&table->write, UNLOCK);
 }
 
-void  check_life(t_table *table)
+bool  philo_died(t_table *table)
 {
+  ft_mutex(&table->write, LOCK);
   if (gettime_ms() - table->philos->last_mealtime > table->time_to_die)
   {
-    	print_state(gettime_ms(), table->philos->philo_id, "is dead", table);
-      free(table);
-      free(table->philos);
+    print_state(gettime_ms(), table->philos->philo_id, "is dead", table);
+    free(table);
+    free(table->philos);
+    ft_mutex(&table->write, UNLOCK);
+    exit(EXIT_FAILURE);
+  }
+  else
+  {
+    ft_mutex(&table->write, UNLOCK);
+    return (false);
   }
 }

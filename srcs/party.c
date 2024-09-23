@@ -1,50 +1,52 @@
 #include "philo.h"
 
-static void	take_fork(t_table *table)
+static void	take_fork(t_philo *philos)
 {
-  if (table->philos->philo_id % 2 == 0)
+  printf("philo id is %d\n", philos->philo_id);
+  if (philos->philo_id % 2 == 0)
   {
-    ft_mutex(&table->philos->left_fork.fork, LOCK);
-    print_state(gettime_ms(), table->philos->philo_id, "has taken a fork(left)", table);
-    ft_mutex(&table->philos->right_fork.fork, LOCK);
-    print_state(gettime_ms(), table->philos->philo_id, "has taken a fork(right)", table);
+    ft_mutex(&philos->left_fork.fork, LOCK);
+    print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
+    ft_mutex(&philos->right_fork.fork, LOCK);
+    print_state(gettime_ms(), philos->philo_id, "has taken a fork(right)", philos->table);
   }
   else
   {
-    ft_mutex(&table->philos->right_fork.fork, LOCK);
-    print_state(gettime_ms(), table->philos->philo_id, "has taken a fork(right)", table);
-    ft_mutex(&table->philos->left_fork.fork, LOCK);
-    print_state(gettime_ms(), table->philos->philo_id, "has taken a fork(left)", table);
+    ft_mutex(&philos->right_fork.fork, LOCK);
+    print_state(gettime_ms(), philos->philo_id, "has taken a fork(right)", philos->table);
+    ft_mutex(&philos->left_fork.fork, LOCK);
+    print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
   }
 }
 
-static void	eat(t_table *table)
+static void	eat(t_philo *philos)
 {
-  take_fork(table);
-  print_state(gettime_ms(), table->philos->philo_id, "is eating", table);
-	ft_mutex(&table->philos->monitor, LOCK);
-  table->philos->last_mealtime = gettime_ms();
-  precise_sleep(table->time_to_eat);
-	ft_mutex(&table->philos->monitor, UNLOCK);
-  ft_mutex(&table->philos->left_fork.fork, UNLOCK);
-  ft_mutex(&table->philos->right_fork.fork, UNLOCK);
+  take_fork(philos);
+  print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
+	ft_mutex(&philos->monitor, LOCK);
+  philos->last_mealtime = gettime_ms();
+  precise_sleep(philos->table->time_to_eat);
+	ft_mutex(&philos->monitor, UNLOCK);
+  ft_mutex(&philos->left_fork.fork, UNLOCK);
+  ft_mutex(&philos->right_fork.fork, UNLOCK);
 }
 
-static void think(t_table *table)
+static void think(t_philo *philo)
 {
-	print_state(gettime_ms(), table->philos->philo_id, "is thinking", table);
+	print_state(gettime_ms(), philo->philo_id, "is thinking", philo->table);
 }
 
 static void  *simulation(void *info)
 {
-  t_table *table;
+  t_philo *philos;
 
-  table = (t_table *)info;
+  philos = (t_philo *)info;
   while (1)
   {
-  eat(table);
-  think(table);
-  precise_sleep(table->time_to_sleep);
+    eat(philos);
+    think(philos);
+    precise_sleep(philos->table->time_to_sleep);
+    philo_died(philos->table);
   }
   return (NULL);
 }
@@ -53,10 +55,10 @@ static void	create_philo(t_table *table)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < table->philo_nbr)
 	{
-		pthread_create(&table->philos[i].philosopher, NULL, simulation, table);
+		pthread_create(&table->philos[i].philosopher, NULL, simulation, &table->philos[i]);
 		i++;
 	}
 }
@@ -65,7 +67,7 @@ static void  join_threads(t_table *table)
 {
   int i;
 
-  i = 0;
+  i = 1;
   while (i < table->philo_nbr)
   {
     pthread_join(table->philos[i].philosopher, NULL);

@@ -62,8 +62,8 @@ void	error_exit(const char *message);
 void	*ft_malloc(size_t bytes);
 long  gettime_ms(void);
 void print_state(long timestamp, int id, const char *state, t_table *table);
-void  check_life(t_table *table);
 void precise_sleep(long milisec);
+bool  philo_died(t_table *table);
 
 // *** init.c ***
 void	data_init(t_table *table);
@@ -73,4 +73,4 @@ void	parse_input(t_table *table, char *argv[]);
 
 void	party(t_table *table);
 
-void  clean(t_table *table);
+void  clean(t_philo *philos);
