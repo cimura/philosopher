@@ -20,14 +20,19 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 	int	mutex_value;
 
 	mutex_value = -1;
+	// printf("in ft_mutex, flag == %d\n", flag);
 	if (flag == INIT)
 		mutex_value = pthread_mutex_init(mutex, NULL);
 	else if (flag == DESTROY)
 		mutex_value = pthread_mutex_destroy(mutex);
 	else if (flag == LOCK)
-		mutex_value = pthread_mutex_lock(mutex);
+		{mutex_value = pthread_mutex_lock(mutex);
+			printf("flag is lock\n");
+		}
 	else if (flag == UNLOCK)
-		mutex_value = pthread_mutex_unlock(mutex);
+		{mutex_value = pthread_mutex_unlock(mutex);
+			printf("flag is unlock\n");
+		}
 	else
 		error_exit("mutex flag is not good");
 	if (mutex_value != 0)

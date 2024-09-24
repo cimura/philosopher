@@ -13,22 +13,22 @@
 
 typedef	struct	s_table t_table;
 
-typedef struct  s_fork
-{
-	pthread_mutex_t fork;
-	int             fork_id;
-}	t_fork;
+// typedef struct  s_fork
+// {
+// 	pthread_mutex_t fork;
+// 	int             fork_id;
+// }	t_fork;
 
 typedef struct	s_philo
 {
 	int		philo_id;
+	int     left_fork_id;
+	int		right_fork_id;
 	long	meal_counter;
 	bool	is_dead;
 	long	last_mealtime;
 	pthread_mutex_t	monitor;
-	t_fork	left_fork;
-	t_fork	right_fork;
-	pthread_t	philosopher;
+	pthread_t	thread;
   t_table *table;
 }	t_philo;
 
@@ -41,9 +41,9 @@ struct	s_table
 	long	nbr_limit_meals;
 	long	start_time;
 	bool	is_end;
-  pthread_mutex_t write;
-	t_fork	*forks;
-	t_philo	*philos;
+	pthread_mutex_t write;
+	pthread_mutex_t forks[250];
+	t_philo	philos[250];
 };
 
 enum	e_flag
@@ -65,6 +65,9 @@ void print_state(long timestamp, int id, const char *state, t_table *table);
 void precise_sleep(long milisec);
 bool  philo_died(t_table *table);
 
+// debug
+void d(const char *msg);
+
 // *** init.c ***
 void	data_init(t_table *table);
 
@@ -73,4 +76,4 @@ void	parse_input(t_table *table, char *argv[]);
 
 void	party(t_table *table);
 
-void  clean(t_philo *philos);
+void  clean(t_table *table);
