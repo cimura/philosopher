@@ -26,13 +26,9 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 	else if (flag == DESTROY)
 		mutex_value = pthread_mutex_destroy(mutex);
 	else if (flag == LOCK)
-		{mutex_value = pthread_mutex_lock(mutex);
-			printf("flag is lock\n");
-		}
+		mutex_value = pthread_mutex_lock(mutex);
 	else if (flag == UNLOCK)
-		{mutex_value = pthread_mutex_unlock(mutex);
-			printf("flag is unlock\n");
-		}
+		mutex_value = pthread_mutex_unlock(mutex);
 	else
 		error_exit("mutex flag is not good");
 	if (mutex_value != 0)

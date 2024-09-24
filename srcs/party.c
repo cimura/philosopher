@@ -6,9 +6,10 @@ static void	take_fork(t_philo *philos)
   //     philos->right_fork_id);
   if (philos->philo_id % 2 == 0)
   {
-    d("even: before mutex lock");
+    // d("even: before mutex lock");
+    // SEGV
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-    d("after mutex lock");
+    // d("after mutex lock");
 
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
@@ -16,7 +17,7 @@ static void	take_fork(t_philo *philos)
   }
   else
   {
-    d("before mutex lock");
+    // d("before mutex lock");
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(right)", philos->table);
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
@@ -28,6 +29,9 @@ static void	eat(t_philo *philos)
 {
 	ft_mutex(&philos->monitor, LOCK);
   take_fork(philos);
+  ft_mutex(&philos->monitor, UNLOCK);
+
+
   print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
   philos->last_mealtime = gettime_ms();
   precise_sleep(philos->table->time_to_eat);
@@ -35,7 +39,6 @@ static void	eat(t_philo *philos)
   ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
   ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
 
-  ft_mutex(&philos->monitor, UNLOCK);
 }
 
 static void think(t_philo *philo)
@@ -62,7 +65,7 @@ static void	create_philo(t_table *table)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (i < table->philo_nbr)
 	{
 		pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]);
@@ -74,7 +77,7 @@ static void  join_threads(t_table *table)
 {
   int i;
 
-  i = 1;
+  i = 0;
   while (i < table->philo_nbr)
   {
     pthread_join(table->philos[i].thread, NULL);
