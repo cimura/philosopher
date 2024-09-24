@@ -13,14 +13,14 @@ void	data_init(t_table *table)
 	while (i < table->philo_nbr)
 	{
 		//　⚠　3重マトリョーシカ現象が起きてます！！！解決！！
-		table->philos[i].table = table;
-		table->philos[i].last_mealtime = 0;
-		table->philos[i].left_fork_id = i;
-		table->philos[i].philo_id = i + 1;
-		table->philos[i].right_fork_id = (i + 1) % table->philo_nbr;
+		table->philos[i + 1].table = table;
+		table->philos[i + 1].philo_id = (i + 1) % table->philo_nbr;
+		table->philos[i + 1].last_mealtime = 0;
+		table->philos[i + 1].left_fork_id = i;
+		table->philos[i + 1].right_fork_id = (i + 1) % table->philo_nbr;
 
 		ft_mutex(&table->forks[i], INIT);
-		// ft_mutex(&table->philos[i].monitor, INIT);
+		ft_mutex(&table->philos[i].monitor, INIT);
 		i++;
 	}
 	// philo_init(table);

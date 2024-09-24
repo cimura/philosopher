@@ -22,7 +22,7 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 	mutex_value = -1;
 	// printf("in ft_mutex, flag == %d\n", flag);
 	if (flag == INIT)
-		mutex_value = pthread_mutex_init(mutex, NULL);
+      mutex_value = pthread_mutex_init(mutex, NULL);
 	else if (flag == DESTROY)
 		mutex_value = pthread_mutex_destroy(mutex);
 	else if (flag == LOCK)
@@ -35,12 +35,12 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 		error_exit("The return value of mutex func is bad...");
 }
 
-void	*ft_malloc(size_t bytes)
-{
-	void	*memory;
+// void	*ft_malloc(size_t bytes)
+// {
+// 	void	*memory;
 
-	memory = malloc(bytes);
-	if (!memory)
-		error_exit("Failed with malloc");
-	return (memory);
-}
+// 	memory = malloc(bytes);
+// 	if (!memory)
+// 		error_exit("Failed with malloc");
+// 	return (memory);
+// }
