@@ -61,11 +61,11 @@ enum	e_flag
 void	ft_thread(pthread_t *thread, int flag, void *func(void *));
 void	ft_mutex(pthread_mutex_t *mutex, int flag);
 void	error_exit(const char *message);
-void	*ft_malloc(size_t bytes);
+// void	*ft_malloc(size_t bytes);
 long  gettime_ms(void);
 void print_state(long timestamp, int id, const char *state, t_table *table);
 void 	precise_sleep(long milisec);
-bool  philo_died(t_philo *philos);
+// bool  philo_died(t_philo *philos);
 
 // debug
 void d(const char *msg);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/25 16:20:36 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/25 22:52:15 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	*monitor_philo_life(void *info)
 			}
 			id++;
 		}
-		precise_sleep(5);
+		precise_sleep(1);
 	}
 	return (NULL);
 }
