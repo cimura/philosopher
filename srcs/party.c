@@ -2,14 +2,14 @@
 
 static void	taking_forks(t_philo *philos)
 {
-  ft_mutex(&philos->monitor, LOCK);
-  printf(GREEN"philo id is %d\nleft is %d, right is %d\n"RESET, philos->philo_id, philos->left_fork_id,
-      philos->right_fork_id);
+  // ft_mutex(&philos->monitor, LOCK);
+  // printf(GREEN"philo id is %d\nleft is %d, right is %d\n"RESET, philos->philo_id, philos->left_fork_id,
+  //     philos->right_fork_id);
   if (philos->philo_id % 2 == 0)
   {
     // d("even: before mutex lock");
     // SEGV
-    // precise_sleep(100);
+    // precise_sleep(50);
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
@@ -23,20 +23,32 @@ static void	taking_forks(t_philo *philos)
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
   }
-  ft_mutex(&philos->monitor, UNLOCK);
+  // ft_mutex(&philos->monitor, UNLOCK);
 }
 
 static void	eating(t_philo *philos)
 {
   taking_forks(philos);
-  print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
 	ft_mutex(&philos->monitor, LOCK);
+  print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
   philos->last_mealtime = gettime_ms();
-
-  precise_sleep(philos->table->time_to_eat);
-  ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
-  ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+  philos->table->meal_counter++;
+  if (philos->table->nbr_limit_meals * philos->table->philo_nbr
+       == philos->table->meal_counter)
+    exit(EXIT_SUCCESS);
   ft_mutex(&philos->monitor, UNLOCK);
+  precise_sleep(philos->table->time_to_eat);
+
+  // if (philos->philo_id % 2 == 0)
+  // {
+    ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+    ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+  // }
+  // else
+  // {
+    // ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+    // ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+  // }
 }
 
 static void thinking(t_philo *philos)
@@ -47,7 +59,7 @@ static void thinking(t_philo *philos)
 static void sleeping(t_philo *philos)
 {
   print_state(gettime_ms(), philos->philo_id, "is sleeping", philos->table);
-  printf("sleeping time => %lu", philos->table->time_to_sleep);
+  // printf("sleeping time => %lu", philos->table->time_to_sleep);
   precise_sleep(philos->table->time_to_sleep);
 }
 
@@ -58,12 +70,12 @@ static void  *simulation(void *info)
   philos = (t_philo *)info;
   while (1)
   {
-    eating(philos);
-    // print_state(gettime_ms(), philos->philo_id, "is sleeping", philos->table);
-    // precise_sleep(philos->table->time_to_sleep);
-    sleeping(philos);
-    thinking(philos);
-    philo_died(philos->table);
+    while (!philo_died(philos))
+    {
+      eating(philos);
+      sleeping(philos);
+      thinking(philos);
+    }
   }
   return (NULL);
 }

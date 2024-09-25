@@ -56,20 +56,17 @@ void print_state(long timestamp, int id, const char *state, t_table *table)
     ft_mutex(&table->write, UNLOCK);
 }
 
-bool  philo_died(t_table *table)
+bool  philo_died(t_philo *philos)
 {
-  ft_mutex(&table->write, LOCK);
-  if (gettime_ms() - table->philos->last_mealtime > table->time_to_die)
+  if (gettime_ms() - philos->last_mealtime > philos->table->time_to_die)
   {
-    print_state(gettime_ms(), table->philos->philo_id, "is dead", table);
-    free(table);
-    free(table->philos);
-    ft_mutex(&table->write, UNLOCK);
-    exit(EXIT_FAILURE);
+    ft_mutex(&philos->monitor, LOCK);
+    print_state(gettime_ms(), philos->philo_id, "died", philos->table);
+    ft_mutex(&philos->monitor, UNLOCK);
+    return (true);
   }
   else
   {
-    ft_mutex(&table->write, UNLOCK);
     return (false);
   }
 }

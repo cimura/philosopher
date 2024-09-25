@@ -24,7 +24,6 @@ typedef struct	s_philo
 	int		philo_id;
 	int     left_fork_id;
 	int		right_fork_id;
-	long	meal_counter;
 	bool	is_dead;
 	long	last_mealtime;
 	pthread_mutex_t	monitor;
@@ -34,11 +33,12 @@ typedef struct	s_philo
 
 struct	s_table
 {
-	long	philo_nbr;
+	int	philo_nbr;
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
 	long	nbr_limit_meals;
+	long	meal_counter;
 	long	start_time;
 	bool	is_end;
 	pthread_mutex_t write;
@@ -63,7 +63,7 @@ void	*ft_malloc(size_t bytes);
 long  gettime_ms(void);
 void print_state(long timestamp, int id, const char *state, t_table *table);
 void precise_sleep(long milisec);
-bool  philo_died(t_table *table);
+bool  philo_died(t_philo *philos);
 
 // debug
 void d(const char *msg);
