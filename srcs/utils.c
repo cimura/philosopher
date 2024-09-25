@@ -19,7 +19,6 @@ void precise_sleep(long milisec)
     long start;
     long elapsed;
     long  time_left;
-
     start = gettime_ms();
     while (gettime_ms() - start < milisec)
     {
@@ -30,9 +29,11 @@ void precise_sleep(long milisec)
       else
       {
         while (gettime_ms() - start < milisec)
-        {;}
+        {
+          ;
+        }
       }
-    } 
+    }
 }
 
 void	error_exit(const char *message)
@@ -58,15 +59,18 @@ void print_state(long timestamp, int id, const char *state, t_table *table)
 
 bool  philo_died(t_philo *philos)
 {
+  ft_mutex(&philos->dead_monitor, LOCK);
+  // printf("gettime - lastmeal => %lu\n", gettime_ms() - philos->last_mealtime);
+  // printf("philos->lastmeal => %lu\n", philos->last_mealtime);
+  // printf("gettime => %lu\n", philos->table->time_to_die);
+
   if (gettime_ms() - philos->last_mealtime > philos->table->time_to_die)
   {
-    ft_mutex(&philos->monitor, LOCK);
     print_state(gettime_ms(), philos->philo_id, "died", philos->table);
-    ft_mutex(&philos->monitor, UNLOCK);
+    philos->is_dead = true;
+    ft_mutex(&philos->dead_monitor, UNLOCK);
     return (true);
   }
-  else
-  {
-    return (false);
-  }
+  ft_mutex(&philos->dead_monitor, UNLOCK);
+  return (false);
 }

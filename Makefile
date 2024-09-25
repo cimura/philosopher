@@ -1,6 +1,6 @@
 NAME		:=	philo
 LIST_SRCS	:=		clean.c init.c main.c parse.c \
-					party.c rapper.c utils.c
+					party.c rapper.c utils.c monitor.c
 LIST_BONUS	:=	
 
 DIR_SRCS	:=	srcs
@@ -15,6 +15,7 @@ INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
 CFLAGS		:=	-Wall -Wextra -Werror
+TFLAGS		:=	-fsanitize=thread
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m

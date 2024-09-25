@@ -2,14 +2,10 @@
 
 static void	taking_forks(t_philo *philos)
 {
-  // ft_mutex(&philos->monitor, LOCK);
-  // printf(GREEN"philo id is %d\nleft is %d, right is %d\n"RESET, philos->philo_id, philos->left_fork_id,
-  //     philos->right_fork_id);
+  ft_mutex(&philos->meal_monitor, LOCK);
+
   if (philos->philo_id % 2 == 0)
   {
-    // d("even: before mutex lock");
-    // SEGV
-    // precise_sleep(50);
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
@@ -17,38 +13,37 @@ static void	taking_forks(t_philo *philos)
   }
   else
   {
-    // d("before mutex lock");
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(right)", philos->table);
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork(left)", philos->table);
   }
-  // ft_mutex(&philos->monitor, UNLOCK);
+  ft_mutex(&philos->meal_monitor, UNLOCK);
 }
 
 static void	eating(t_philo *philos)
 {
   taking_forks(philos);
-	ft_mutex(&philos->monitor, LOCK);
+	ft_mutex(&philos->meal_monitor, LOCK);
   print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
-  philos->last_mealtime = gettime_ms();
   philos->table->meal_counter++;
   if (philos->table->nbr_limit_meals * philos->table->philo_nbr
        == philos->table->meal_counter)
     exit(EXIT_SUCCESS);
-  ft_mutex(&philos->monitor, UNLOCK);
+  ft_mutex(&philos->meal_monitor, UNLOCK);
+  philos->last_mealtime = gettime_ms() - philos->table->start_time;
   precise_sleep(philos->table->time_to_eat);
 
-  // if (philos->philo_id % 2 == 0)
-  // {
+  if (philos->philo_id % 2 == 0)
+   {
     ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
     ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
-  // }
-  // else
-  // {
-    // ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
-    // ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
-  // }
+   }
+  else
+   {
+  	ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+    ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+   }
 }
 
 static void thinking(t_philo *philos)
@@ -68,14 +63,15 @@ static void  *simulation(void *info)
   t_philo *philos;
 
   philos = (t_philo *)info;
-  while (1)
+  while (!philos->is_dead)
   {
-    while (!philo_died(philos))
-    {
+    // while (!philo_died(philos))
+    // {
       eating(philos);
       sleeping(philos);
       thinking(philos);
-    }
+      // philo_died(philos);
+    // }
   }
   return (NULL);
 }
@@ -87,9 +83,12 @@ static void	create_philo(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]);
+		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]))
+      exit(EXIT_FAILURE);
 		i++;
 	}
+  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table))
+    exit(EXIT_FAILURE);
 }
 
 static void  join_threads(t_table *table)
@@ -102,6 +101,7 @@ static void  join_threads(t_table *table)
     pthread_join(table->philos[i].thread, NULL);
     i++;
   }
+  pthread_join(table->death_thread, NULL);
 }
 
 void	party(t_table *table)

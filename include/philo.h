@@ -26,7 +26,8 @@ typedef struct	s_philo
 	int		right_fork_id;
 	bool	is_dead;
 	long	last_mealtime;
-	pthread_mutex_t	monitor;
+	pthread_mutex_t	meal_monitor;
+	pthread_mutex_t	dead_monitor;
 	pthread_t	thread;
   t_table *table;
 }	t_philo;
@@ -43,6 +44,7 @@ struct	s_table
 	bool	is_end;
 	pthread_mutex_t write;
 	pthread_mutex_t forks[250];
+	pthread_t	death_thread;
 	t_philo	philos[250];
 };
 
@@ -62,7 +64,7 @@ void	error_exit(const char *message);
 void	*ft_malloc(size_t bytes);
 long  gettime_ms(void);
 void print_state(long timestamp, int id, const char *state, t_table *table);
-void precise_sleep(long milisec);
+void 	precise_sleep(long milisec);
 bool  philo_died(t_philo *philos);
 
 // debug
@@ -77,3 +79,6 @@ void	parse_input(t_table *table, char *argv[]);
 void	party(t_table *table);
 
 void  clean(t_table *table);
+
+// *** monitor.c ***
+void	*monitor_philo_life(void *info);
