@@ -66,14 +66,15 @@ static void  *simulation(void *info)
   philos = (t_philo *)info;
   while (1)
   {
-    // while (!philo_died(philos))
-    // {
+    while (!philos->is_dead)
+    {
+      printf("in simulatin... is_dead-->> %d\n", philos->is_dead);
       precise_sleep(1);
       eating(philos);
       sleeping(philos);
       thinking(philos);
       // philo_died(philos);
-    // }
+    }
   }
   return (NULL);
 }
@@ -83,16 +84,15 @@ static bool	create_philo(t_table *table)
 	int	i;
 
 	i = 0;
+  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table) != 0)
+    return (false);
 	while (i < table->philo_nbr)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]) != 0)
       return (false);
 		i++;
 	}
-  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table) != 0)
-    return (false);
-  else
-    return (true);
+  return (true);
 }
 
 static bool  join_threads(t_table *table)
@@ -100,16 +100,15 @@ static bool  join_threads(t_table *table)
   int i;
 
   i = 0;
+  if (pthread_join(table->death_thread, NULL))
+    return (false);
   while (i < table->philo_nbr)
   {
     if (pthread_join(table->philos[i].thread, NULL))
       return (false);
     i++;
   }
-  if (pthread_join(table->death_thread, NULL))
-    return (false);
-  else
-    return (true);
+  return (true);
 }
 
 void	party(t_table *table)

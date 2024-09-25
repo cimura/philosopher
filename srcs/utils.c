@@ -57,20 +57,20 @@ void print_state(long timestamp, int id, const char *state, t_table *table)
     ft_mutex(&table->write, UNLOCK);
 }
 
-bool  philo_died(t_philo *philos)
-{
-  ft_mutex(&philos->dead_monitor, LOCK);
-  // printf("gettime - lastmeal => %lu\n", gettime_ms() - philos->last_mealtime);
-  // printf("philos->lastmeal => %lu\n", philos->last_mealtime);
-  // printf("gettime => %lu\n", philos->table->time_to_die);
+// bool  philo_died(t_philo *philos)
+// {
+//   ft_mutex(&philos->dead_monitor, LOCK);
+//   // printf("gettime - lastmeal => %lu\n", gettime_ms() - philos->last_mealtime);
+//   // printf("philos->lastmeal => %lu\n", philos->last_mealtime);
+//   // printf("gettime => %lu\n", philos->table->time_to_die);
 
-  if (gettime_ms() - philos->last_mealtime > philos->table->time_to_die)
-  {
-    print_state(gettime_ms(), philos->philo_id, "died", philos->table);
-    philos->is_dead = true;
-    ft_mutex(&philos->dead_monitor, UNLOCK);
-    return (true);
-  }
-  ft_mutex(&philos->dead_monitor, UNLOCK);
-  return (false);
-}
+//   if (gettime_ms() - philos->last_mealtime > philos->table->time_to_die)
+//   {
+//     print_state(gettime_ms(), philos->philo_id, "died", philos->table);
+//     philos->is_dead = true;
+//     ft_mutex(&philos->dead_monitor, UNLOCK);
+//     return (true);
+//   }
+//   ft_mutex(&philos->dead_monitor, UNLOCK);
+//   return (false);
+// }

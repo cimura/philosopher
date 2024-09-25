@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/25 23:47:41 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/26 00:22:08 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,16 @@ void	*monitor_philo_life(void *info)
 		{
 			last_meal = table->philos[id].last_mealtime;
 			// printf("last_meal => %lu\n", last_meal);
-			if (check_starvation(table, last_meal, &table->philos[id]))
+			if (!check_starvation(table, last_meal, &table->philos[id]))
 			{
-        // return (false);
-				exit(EXIT_SUCCESS);
+        printf("is_dead => %d\n", table->philos[id].is_dead);
+        return (NULL);
+				// exit(EXIT_SUCCESS);
 			}
 			id++;
       // precise_sleep(5);
 		}
-		precise_sleep(1);
+		precise_sleep(5);
 	}
 	return (NULL);
 }
