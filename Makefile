@@ -37,7 +37,7 @@ $(DIR_OBJS):
 	@mkdir -p $(DIR_OBJS)
 
 $(NAME): $(DIR_OBJS) $(OBJS)
-	@$(CC) $(CFLAGS) -I$(DIR_INCS) -o $(NAME) $(OBJS)
+	@$(CC) $(CFLAGS) $(TFLAGS) -I$(DIR_INCS) -o $(NAME) $(OBJS)
 	@printf "$(ERASE)$(GREEN)$@ made\n$(END)"
 
 clean:

@@ -82,3 +82,6 @@ void  clean(t_table *table);
 
 // *** monitor.c ***
 void	*monitor_philo_life(void *info);
+
+// void	assign_bool(t_table *table, bool *dst, bool src);
+// void	assign_value(t_table *table, long *dst, long src);

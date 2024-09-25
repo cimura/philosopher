@@ -2,7 +2,7 @@
 
 static void	taking_forks(t_philo *philos)
 {
-  ft_mutex(&philos->meal_monitor, LOCK);
+  // ft_mutex(&philos->meal_monitor, LOCK);
 
   if (philos->philo_id % 2 == 0)
   {
@@ -19,20 +19,20 @@ static void	taking_forks(t_philo *philos)
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork", philos->table);
   }
-  ft_mutex(&philos->meal_monitor, UNLOCK);
+  // ft_mutex(&philos->meal_monitor, UNLOCK);
 }
 
 static void	eating(t_philo *philos)
 {
   taking_forks(philos);
-	ft_mutex(&philos->meal_monitor, LOCK);
   print_state(gettime_ms(), philos->philo_id, "is eating", philos->table);
+	ft_mutex(&philos->meal_monitor, LOCK);
   philos->table->meal_counter++;
   if (philos->table->nbr_limit_meals * philos->table->philo_nbr
        == philos->table->meal_counter)
     exit(EXIT_SUCCESS);
-  ft_mutex(&philos->meal_monitor, UNLOCK);
   philos->last_mealtime = gettime_ms() - philos->table->start_time;
+  ft_mutex(&philos->meal_monitor, UNLOCK);
   precise_sleep(philos->table->time_to_eat);
 
   if (philos->philo_id % 2 == 0)
@@ -85,11 +85,11 @@ static bool	create_philo(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]))
+		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]) != 0)
       return (false);
 		i++;
 	}
-  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table))
+  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table) != 0)
     return (false);
   else
     return (true);
@@ -114,6 +114,7 @@ static bool  join_threads(t_table *table)
 
 void	party(t_table *table)
 {
+  // printf("philo nbr => %d\n", table->philo_nbr);
   if (!create_philo(table))
     return ;
   if (!join_threads(table))
