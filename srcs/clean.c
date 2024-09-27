@@ -2,6 +2,7 @@
 
 void  clean(t_table *table)
 {
+  // (void)tale;
   int i;
 
   i = 0;
@@ -12,4 +13,6 @@ void  clean(t_table *table)
     ft_mutex(&table->philos[i].meal_monitor, DESTROY);
   }
   ft_mutex(&table->write, DESTROY);
+  // printf("Let s EXIT\n");
+  // exit(0);
 }

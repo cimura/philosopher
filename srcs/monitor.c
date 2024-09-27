@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/26 00:22:08 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/27 21:35:03 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,32 @@ static bool	check_starvation(t_table *table, long last_meal, t_philo *philos)
 		print_state(gettime_ms(), table->philos->philo_id, "died", table);
 		// assign_bool(table, &table->philos->is_dead, true);
 		ft_mutex(&philos->dead_monitor, LOCK);
-		philos->is_dead = true;
+		philos->table->is_end = true;
 		ft_mutex(&philos->dead_monitor, UNLOCK);
     // ft_mutex(&philos->meal_monitor, UNLOCK);
-    return (false);
+		return (false);
 	}
 	return (true);
 }
 
 void	*monitor_philo_life(void *info)
 {
-	t_table	*table;
+	t_philo	*philos;
 	long	last_meal;
 	int		id;
 
-	table = (t_table *)info;
+	philos = (t_philo *)info;
 	while (1)
 	{
 		id = 0;
-		while (id < table->philo_nbr)
+		while (id < philos->table->philo_nbr)
 		{
-			last_meal = table->philos[id].last_mealtime;
+			last_meal = philos[id].last_mealtime;
 			// printf("last_meal => %lu\n", last_meal);
-			if (!check_starvation(table, last_meal, &table->philos[id]))
+			if (!check_starvation(philos->table, last_meal, &philos[id]))
 			{
-        printf("is_dead => %d\n", table->philos[id].is_dead);
+        // printf("is_dead => %d\n", table->philos[id].is_dead);
+        // philos->table->is_end = true;
         return (NULL);
 				// exit(EXIT_SUCCESS);
 			}

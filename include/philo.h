@@ -42,6 +42,7 @@ struct	s_table
 	long	meal_counter;
 	long	start_time;
 	bool	is_end;
+  // bool  end_simulation;
 	pthread_mutex_t write;
 	pthread_mutex_t forks[250];
 	pthread_t	death_thread;

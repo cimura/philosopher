@@ -15,7 +15,7 @@ void	data_init(t_table *table)
 	{
 		//　⚠　3重マトリョーシカ現象が起きてます！！！解決！！
 		table->philos[i].table = table;
-		table->philos[i].is_dead = false;
+		// table->philos[i]. = false;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = gettime_ms();
 		table->philos[i].left_fork_id = table->philos[i].philo_id;

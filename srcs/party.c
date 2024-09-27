@@ -13,7 +13,7 @@ static void	taking_forks(t_philo *philos)
   }
   else
   {
-    precise_sleep(1);
+    precise_sleep(10);
     ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
     print_state(gettime_ms(), philos->philo_id, "has taken a fork", philos->table);
     ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
@@ -59,36 +59,49 @@ static void sleeping(t_philo *philos)
   precise_sleep(philos->table->time_to_sleep);
 }
 
+static bool is_dead(t_philo *philos)
+{
+  bool  dead;
+
+  ft_mutex(&philos->dead_monitor, LOCK);
+  dead = philos->table->is_end;
+  ft_mutex(&philos->dead_monitor, UNLOCK);
+  return (dead);
+}
+
 static void  *simulation(void *info)
 {
   t_philo *philos;
 
   philos = (t_philo *)info;
-  while (1)
-  {
-    while (!philos->is_dead)
+  // while (1)
+  // {
+    while (!is_dead(philos))
     {
-      printf("in simulatin... is_dead-->> %d\n", philos->is_dead);
-      precise_sleep(1);
+      // printf("in simulatin... is_dead-->> %d\n", philos->is_dead);
+      // precise_sleep(1);
       eating(philos);
       sleeping(philos);
       thinking(philos);
       // philo_died(philos);
     }
-  }
+  // }
   return (NULL);
 }
 
-static bool	create_philo(t_table *table)
+static bool	create_philos(t_table *table)
 {
 	int	i;
 
 	i = 0;
-  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, table) != 0)
+  if (pthread_create(&table->death_thread, NULL, monitor_philo_life, &table->philos))
+  {
+    printf("create death monitor NULL\n");
     return (false);
+  }
 	while (i < table->philo_nbr)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]) != 0)
+		if (pthread_create(&table->philos[i].thread, NULL, simulation, &table->philos[i]))
       return (false);
 		i++;
 	}
@@ -100,8 +113,11 @@ static bool  join_threads(t_table *table)
   int i;
 
   i = 0;
-  if (pthread_join(table->death_thread, NULL))
-    return (false);
+  // if (pthread_join(table->death_thread, NULL))
+  // {
+  //   printf("death monitor NULL\n");
+  //   return (false);
+  // }
   while (i < table->philo_nbr)
   {
     if (pthread_join(table->philos[i].thread, NULL))
@@ -114,8 +130,15 @@ static bool  join_threads(t_table *table)
 void	party(t_table *table)
 {
   // printf("philo nbr => %d\n", table->philo_nbr);
-  if (!create_philo(table))
+  if (!create_philos(table))
+  {
+    printf("return from create_philos\n");
     return ;
+  }
   if (!join_threads(table))
+  {
+   
+    printf("return from join\n");
     return ;
+  }
 }
