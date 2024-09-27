@@ -44,6 +44,7 @@ struct	s_table
 	bool	is_end;
   // bool  end_simulation;
 	pthread_mutex_t write;
+	// pthread_mutex_t read;
 	pthread_mutex_t forks[250];
 	pthread_t	death_thread;
 	t_philo	philos[250];
@@ -78,6 +79,8 @@ void	data_init(t_table *table);
 void	parse_input(t_table *table, char *argv[]);
 
 void	party(t_table *table);
+void stop_simulation(t_philo *philos);
+bool is_dead(t_philo *philos);
 
 void  clean(t_table *table);
 

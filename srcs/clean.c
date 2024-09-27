@@ -2,6 +2,7 @@
 
 void  clean(t_table *table)
 {
+  // exit(1);
   // (void)tale;
   int i;
 
