@@ -56,7 +56,6 @@ static void thinking(t_philo *philos)
 static void sleeping(t_philo *philos)
 {
   print_state(gettime_ms(), philos->philo_id, "is sleeping", philos->table);
-  // printf("sleeping time => %lu", philos->table->time_to_sleep);
   precise_sleep(philos->table->time_to_sleep);
 }
 
@@ -92,7 +91,9 @@ static void  *simulation(void *info)
       // if (philos->philo_id % 2 != 0)
       //   precise_sleep(philos->table->time_to_eat);
       eating(philos);
+      if (!is_dead(philos)) break ;
       sleeping(philos);
+      if (!is_dead(philos)) break ;
       thinking(philos);
       // philo_died(philos);
     }
@@ -126,16 +127,16 @@ static bool  join_threads(t_table *table)
   int i;
 
   i = 0;
+  if (pthread_join(table->death_thread, NULL))
+  {
+    printf("death monitor NULL\n");
+    return (false);
+  }
   while (i < table->philo_nbr)
   {
     if (pthread_join(table->philos[i].thread, NULL))
       return (false);
     i++;
-  }
-  if (pthread_join(table->death_thread, NULL))
-  {
-    printf("death monitor NULL\n");
-    return (false);
   }
   return (true);
 }

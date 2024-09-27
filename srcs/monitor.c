@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/27 23:20:36 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/27 23:30:29 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ static bool	check_starvation(long last_meal, t_philo *philos)
 {
 	long	now;
 
-  ft_mutex(&philos->dead_monitor, LOCK);
+  ft_mutex(&philos->meal_monitor, LOCK);
 	now = gettime_ms() - philos->table->start_time;
-	ft_mutex(&philos->dead_monitor, UNLOCK);
+	ft_mutex(&philos->meal_monitor, UNLOCK);
   
   if (now - last_meal > philos->table->time_to_die)
 	{
     // ft_mutex(&philos->meal_monitor, LOCK);
 		print_state(gettime_ms(), philos->philo_id, "died", philos->table);
 		// assign_bool(table, &table->philos->is_dead, true);
-		ft_mutex(&philos->dead_monitor, LOCK);
+		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
-		ft_mutex(&philos->dead_monitor, UNLOCK);
+		ft_mutex(&philos->meal_monitor, UNLOCK);
     // ft_mutex(&philos->meal_monitor, UNLOCK);
 		return (false);
 	}
@@ -60,9 +60,9 @@ void	*monitor_philo_life(void *info)
 		id = 0;
 		while (id < philos->table->philo_nbr)
 		{
-      ft_mutex(&philos->dead_monitor, LOCK);
+      ft_mutex(&philos->meal_monitor, LOCK);
 			last_meal = philos[id].last_mealtime;
-      ft_mutex(&philos->dead_monitor, UNLOCK); 
+      ft_mutex(&philos->meal_monitor, UNLOCK); 
 			if (!check_starvation(last_meal, &philos[id]))
 			{
         // printf("is_dead => %d\n", table->philos[id].is_dead);

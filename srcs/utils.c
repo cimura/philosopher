@@ -51,6 +51,8 @@ void print_state(long timestamp, int id, const char *state, t_table *table)
   // printf(RED"hello\n"RESET);
     // Ensure that the printing is thread-safe
     // d("1 hello");
+    if (is_dead(table->philos))
+      return ;
     ft_mutex(&table->write, LOCK);
     printf("%ld %d %s\n", timestamp - table->start_time, id, state);
     // d("2 hello");

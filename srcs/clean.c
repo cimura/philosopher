@@ -2,18 +2,16 @@
 
 void  clean(t_table *table)
 {
-  // exit(1);
-  // (void)tale;
-  int i;
+  // int i;
+  (void)table;
 
-  i = 0;
-  while (i < table->philo_nbr)
-  {
-    ft_mutex(&table->forks[i + 1], DESTROY);
-    ft_mutex(&table->philos[i].dead_monitor, DESTROY);
-    ft_mutex(&table->philos[i].meal_monitor, DESTROY);
-  }
-  ft_mutex(&table->write, DESTROY);
-  // printf("Let s EXIT\n");
-  // exit(0);
+  // i = 0;
+  // ft_mutex(&table->write, DESTROY);
+  // while (i < table->philo_nbr)
+  // {
+  //   ft_mutex(&table->forks[i + 1], DESTROY);
+  //   ft_mutex(&table->philos[i].dead_monitor, DESTROY);
+  //   ft_mutex(&table->philos[i].meal_monitor, DESTROY);
+  // }
+  exit(0);
 }
