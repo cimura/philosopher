@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 15:54:34 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:45:08 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void	taking_forks(t_philo *philos)
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-		print_state(gettime_ms(), philos->philo_id,
+		print_state(philos->philo_id,
 			"has taken a fork", philos->table);
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
-		print_state(gettime_ms(), philos->philo_id,
+		print_state(philos->philo_id,
 			"has taken a fork", philos->table);
 	}
 	else
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
-		print_state(gettime_ms(), philos->philo_id,
+		print_state(philos->philo_id,
 			"has taken a fork", philos->table);
 		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-		print_state(gettime_ms(), philos->philo_id,
+		print_state(philos->philo_id,
 			"has taken a fork", philos->table);
 	}
 }
@@ -48,7 +48,7 @@ void	eating(t_philo *philos)
 		ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
 		return ;
 	}
-	print_state(gettime_ms(), philos->philo_id,
+	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
 	philos->table->meal_counter++;
@@ -61,11 +61,11 @@ void	eating(t_philo *philos)
 
 void	thinking(t_philo *philos)
 {
-	print_state(gettime_ms(), philos->philo_id, "is thinking", philos->table);
+	print_state(philos->philo_id, "is thinking", philos->table);
 }
 
 void	sleeping(t_philo *philos)
 {
-	print_state(gettime_ms(), philos->philo_id, "is sleeping", philos->table);
+	print_state(philos->philo_id, "is sleeping", philos->table);
 	precise_sleep(philos->table->time_to_sleep);
 }

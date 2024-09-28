@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 15:59:24 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:47:37 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ void	error_exit(const char *message)
 	exit(EXIT_FAILURE);
 }
 
-void	print_state(long timestamp, int id, const char *state, t_table *table)
+void	print_state(int id, const char *state, t_table *table)
 {
-	if (is_dead(table->philos))
-		return ;
+	long	timestamp;
+
+	timestamp = gettime_ms() - table->start_time;
 	ft_mutex(&table->write, LOCK);
-	printf("%ld %d %s\n", timestamp - table->start_time, id, state);
+	if (!is_dead(table->philos))
+		printf("%ld %d %s\n", timestamp, id, state);
 	ft_mutex(&table->write, UNLOCK);
 }
 

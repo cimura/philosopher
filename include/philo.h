@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 15:09:50 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:36:46 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ enum	e_flag
 // *** utils.c ***
 void	error_exit(const char *message);
 long	gettime_ms(void);
-void	print_state(long timestamp, int id, const char *state, t_table *table);
+void	print_state(int id, const char *state, t_table *table);
 void	precise_sleep(long milisec);
 void	ft_mutex(pthread_mutex_t *mutex, int flag);
 

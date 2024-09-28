@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 15:55:54 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:48:01 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static bool	check_starvation(long last_meal, t_philo *philos)
 	ft_mutex(&philos->meal_monitor, UNLOCK);
 	if (now - last_meal > philos->table->time_to_die)
 	{
-		print_state(gettime_ms(), philos->philo_id, "died", philos->table);
+		precise_sleep(5);
+		print_state(philos->philo_id, "died", philos->table);
 		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
 		ft_mutex(&philos->meal_monitor, UNLOCK);

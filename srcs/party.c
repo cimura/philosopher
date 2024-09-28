@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   party.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 15:20:21 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:47:46 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	lonely_philo(t_philo *philos)
 {
 	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-	print_state(gettime_ms(), philos->philo_id,
+	print_state(philos->philo_id,
 		"has taken a fork", philos->table);
 	precise_sleep(philos->table->time_to_eat);
 	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
