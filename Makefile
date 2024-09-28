@@ -1,7 +1,6 @@
 NAME		:=	philo
 LIST_SRCS	:=	action.c init.c main.c parse.c \
 				party.c utils.c monitor.c
-LIST_BONUS	:=	
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
