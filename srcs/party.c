@@ -6,17 +6,30 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 13:43:44 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:20:21 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	lonely_philo(t_philo *philos)
+{
+	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+	print_state(gettime_ms(), philos->philo_id,
+		"has taken a fork", philos->table);
+	precise_sleep(philos->table->time_to_eat);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+	while (!is_dead(philos))
+		precise_sleep(philos->table->time_to_sleep);
+}
 
 static void	*simulation(void *info)
 {
 	t_philo	*philos;
 
 	philos = (t_philo *)info;
+	if (philos->table->philo_nbr == 1)
+		lonely_philo(philos);
 	while (!is_dead(philos))
 	{
 		eating(philos);
@@ -26,7 +39,7 @@ static void	*simulation(void *info)
 	return (NULL);
 }
 
-static void	create_philos(t_table *table)
+void	create_philos(t_table *table)
 {
 	int	i;
 
@@ -43,7 +56,7 @@ static void	create_philos(t_table *table)
 		error_exit("CREATION: death monitor thread failed.");
 }
 
-static void	join_threads(t_table *table)
+void	join_threads(t_table *table)
 {
 	int	i;
 
@@ -56,10 +69,4 @@ static void	join_threads(t_table *table)
 			error_exit("JOIN: death monitor thread failed.");
 		i++;
 	}
-}
-
-void	party(t_table *table)
-{
-	create_philos(table);
-	join_threads(table);
 }

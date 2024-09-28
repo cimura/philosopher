@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 13:53:36 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:09:50 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	data_init(t_table *table);
 void	parse_input(t_table *table, char *argv[]);
 
 // *** party.c ***
-void	party(t_table *table);
-bool	is_dead(t_philo *philos);
+void	create_philos(t_table *table);
+void	join_threads(t_table *table);
 
 // *** action.c ***
 void	taking_forks(t_philo *philos);
@@ -89,5 +89,6 @@ void	sleeping(t_philo *philos);
 
 // *** monitor.c ***
 void	*monitor_philo_life(void *info);
+bool	is_dead(t_philo *philos);
 
 #endif

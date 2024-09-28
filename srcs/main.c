@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 13:48:46 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:08:45 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char *argv[])
 	{
 		parse_input(&table, argv);
 		data_init(&table);
-		party(&table);
+		create_philos(&table);
+		join_threads(&table);
 	}
 	else if (argc == 3)
 		printf("hello\n");
