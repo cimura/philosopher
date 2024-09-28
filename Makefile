@@ -1,6 +1,6 @@
 NAME		:=	philo
-LIST_SRCS	:=		action.c init.c main.c parse.c \
-					party.c utils.c monitor.c
+LIST_SRCS	:=	action.c init.c main.c parse.c \
+				party.c utils.c monitor.c
 LIST_BONUS	:=	
 
 DIR_SRCS	:=	srcs
@@ -12,9 +12,9 @@ OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
 
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
-CC			:=	cc
+CC			:=	clang
 CFLAGS		:=	-Wall -Wextra -Werror
-TFLAGS		:=	-fsanitize=thread
+# DEBUG_FLAGS	:=	-g -fsanitize=thread
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m
@@ -32,7 +32,7 @@ $(DIR_OBJS):
 	@mkdir -p $(DIR_OBJS)
 
 $(NAME): $(DIR_OBJS) $(OBJS)
-	@$(CC) $(CFLAGS) $(TFLAGS) -I$(DIR_INCS) -o $(NAME) $(OBJS)
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -I$(DIR_INCS) -o $(NAME) $(OBJS)
 	@printf "$(ERASE)$(GREEN)$@ made\n$(END)"
 
 clean:

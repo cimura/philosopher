@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 13:11:42 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:48:46 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(int argc, char *argv[])
 		data_init(&table);
 		party(&table);
 	}
+	else if (argc == 3)
+		printf("hello\n");
 	else
 		error_exit("Wrong input:\n"
 			GREEN"example// ./philo 5 800 200 200 [5]"RESET);
