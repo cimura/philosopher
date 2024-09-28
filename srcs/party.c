@@ -36,16 +36,16 @@ static void	eating(t_philo *philos)
   philos->last_mealtime = gettime_ms() - philos->table->start_time;
   ft_mutex(&philos->meal_monitor, UNLOCK);
 
-  // if (philos->philo_id % 2 == 0)
-  //  {
-  //   ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
-  //   ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
-  //  }
-  // else
-  //  {
+  if (philos->philo_id % 2 == 0)
+   {
+    ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+    ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+   }
+  else
+   {
   	ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
     ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
-  //  }
+   }
 }
 
 static void thinking(t_philo *philos)
