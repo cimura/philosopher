@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/28 13:44:41 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:53:36 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # define RESET	"\033[0m"
 # define RED	"\033[1;31m"
-# define WHITE	"\033[1;37m"
 # define GREEN	"\033[1;32m"
 
 typedef struct s_table	t_table;
