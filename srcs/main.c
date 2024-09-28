@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
+/*   Updated: 2024/09/28 13:11:42 by sshimura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	main(int argc, char *argv[])
@@ -9,7 +21,6 @@ int	main(int argc, char *argv[])
 		parse_input(&table, argv);
 		data_init(&table);
 		party(&table);
-		clean(&table);
 	}
 	else
 		error_exit("Wrong input:\n"

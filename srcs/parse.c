@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/25 10:33:43 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/28 13:10:10 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static void	valid_input(const char *str)
 	if (!is_digit(*str))
 		error_exit("Input should be number");
 	while (is_digit(*str))
-  {
+	{
 		len++;
-    str++; 
-  }
-  if (*str != '\0' && !is_whitespace(*str))
-    error_exit("Input contains invalid characters!");
+		str++;
+	}
+	if (*str != '\0' && !is_whitespace(*str))
+		error_exit("Input contains invalid characters!");
 	if (len > 10)
 		error_exit("Input is too big!");
 }

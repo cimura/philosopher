@@ -1,6 +1,6 @@
 NAME		:=	philo
-LIST_SRCS	:=		clean.c init.c main.c parse.c \
-					party.c rapper.c utils.c monitor.c
+LIST_SRCS	:=		action.c init.c main.c parse.c \
+					party.c utils.c monitor.c
 LIST_BONUS	:=	
 
 DIR_SRCS	:=	srcs
@@ -8,9 +8,8 @@ DIR_OBJS	:=	objs
 DIR_INCS	:=	include
 
 SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LIST_SRCS))
-BONUS_SRCS	:=	$(addprefix $(DIR_SRCS)/,$(LIST_BONUS))
 OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
-BONUS_OBJS	:=	$(addprefix $(DIR_OBJS)/,$(LIST_BONUS:.c=.o))
+
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
@@ -22,10 +21,6 @@ PINK		:=	\033[35m
 BLUE		:=	\033[34m
 GREEN		:=	\033[32m
 END			:=	\033[0m
-
-ifeq ($(BONUS_FLAG),true)
-	$(OBJS) += $(BONUS_OBJS)
-endif
 
 all: $(NAME)
 
@@ -50,7 +45,4 @@ fclean: clean
 
 re: fclean all
 
-bonus: $(OBJS) $(BONUS_OBJS)
-	@$(MAKE) all BONUS_FLAG=true
-
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
