@@ -21,7 +21,7 @@ static bool	check_starvation(long last_meal, t_philo *philos)
 	ft_mutex(&philos->meal_monitor, UNLOCK);
 	if (now - last_meal > philos->table->time_to_die)
 	{
-		precise_sleep(5);
+		precise_sleep(4);
 		print_state(philos->philo_id, "died", philos->table);
 		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
