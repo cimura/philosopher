@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 00:36:46 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:58:57 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_philo
 	int				philo_id;
 	int				left_fork_id;
 	int				right_fork_id;
+	long			meal_counter;
 	bool			is_dead;
 	long			last_mealtime;
 	pthread_mutex_t	meal_monitor;
@@ -46,7 +47,6 @@ struct	s_table
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nbr_limit_meals;
-	long			meal_counter;
 	long			start_time;
 	bool			is_end;
 	pthread_mutex_t	write;

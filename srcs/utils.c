@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 00:47:37 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/29 13:37:43 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,10 @@ long	gettime_ms(void)
 void	precise_sleep(long milisec)
 {
 	long	start;
-	long	elapsed;
-	long	time_left;
 
 	start = gettime_ms();
 	while (gettime_ms() - start < milisec)
-	{
-		elapsed = gettime_ms() - start;
-		time_left = milisec - elapsed;
-		if (time_left * 2 < milisec)
-			usleep(milisec / 4);
-		else
-		{
-			while (gettime_ms() - start < milisec)
-			{
-			}
-		}
-	}
+		usleep(10);
 }
 
 void	error_exit(const char *message)

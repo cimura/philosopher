@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   party.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 00:47:46 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/29 14:06:08 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,13 @@ static void	*simulation(void *info)
 	philos = (t_philo *)info;
 	if (philos->table->philo_nbr == 1)
 		lonely_philo(philos);
+	if (philos->philo_id % 2 == 0)
+		precise_sleep(philos->table->time_to_eat);
 	while (!is_dead(philos))
 	{
+		if (philos->table->nbr_limit_meals > 0
+			&& philos->meal_counter >= philos->table->nbr_limit_meals)
+			break ;
 		eating(philos);
 		sleeping(philos);
 		thinking(philos);
@@ -61,12 +66,10 @@ void	join_threads(t_table *table)
 	int	i;
 
 	i = 0;
-	if (pthread_join(table->death_thread, NULL))
-		error_exit("JOIN: death monitor thread failed.");
 	while (i < table->philo_nbr)
 	{
 		if (pthread_join(table->philos[i].thread, NULL))
-			error_exit("JOIN: death monitor thread failed.");
+			error_exit("JOIN: philo thread failed.");
 		i++;
 	}
 }

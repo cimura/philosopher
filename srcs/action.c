@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 00:45:08 by cimy             ###   ########.fr       */
+/*   Updated: 2024/09/29 14:00:56 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ void	taking_forks(t_philo *philos)
 
 void	eating(t_philo *philos)
 {
-	if (philos->table->nbr_limit_meals * philos->table->philo_nbr
-		== philos->table->meal_counter)
-		exit(EXIT_SUCCESS);
 	taking_forks(philos);
 	if (is_dead(philos))
 	{
@@ -51,8 +48,8 @@ void	eating(t_philo *philos)
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
-	philos->table->meal_counter++;
 	ft_mutex(&philos->meal_monitor, LOCK);
+	philos->meal_counter++;
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
 	ft_mutex(&philos->meal_monitor, UNLOCK);
 	ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
