@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 13:37:43 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:58:35 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <string.h>
 
-long	gettime_ms(void)
+long long	gettime_ms(void)
 {
 	struct timeval	tv;
 
@@ -21,9 +21,9 @@ long	gettime_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	precise_sleep(long milisec)
+void	precise_sleep(long long milisec)
 {
-	long	start;
+	long long	start;
 
 	start = gettime_ms();
 	while (gettime_ms() - start < milisec)
@@ -38,12 +38,12 @@ void	error_exit(const char *message)
 
 void	print_state(int id, const char *state, t_table *table)
 {
-	long	timestamp;
+	long long	timestamp;
 
 	timestamp = gettime_ms() - table->start_time;
 	ft_mutex(&table->write, LOCK);
 	if (!is_dead(table->philos))
-		printf("%ld %d %s\n", timestamp, id, state);
+		printf("%lld %d %s\n", timestamp, id, state);
 	ft_mutex(&table->write, UNLOCK);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 13:58:57 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:01:18 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct s_philo
 	int				philo_id;
 	int				left_fork_id;
 	int				right_fork_id;
-	long			meal_counter;
+	long long		meal_counter;
 	bool			is_dead;
-	long			last_mealtime;
+	long long		last_mealtime;
 	pthread_mutex_t	meal_monitor;
 	pthread_mutex_t	dead_monitor;
 	pthread_t		thread;
@@ -43,11 +43,11 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			nbr_limit_meals;
-	long			start_time;
+	long long		time_to_die;
+	long long		time_to_eat;
+	long long		time_to_sleep;
+	long long		nbr_limit_meals;
+	long long		start_time;
 	bool			is_end;
 	pthread_mutex_t	write;
 	pthread_mutex_t	forks[250];
@@ -65,30 +65,30 @@ enum	e_flag
 };
 
 // *** utils.c ***
-void	error_exit(const char *message);
-long	gettime_ms(void);
-void	print_state(int id, const char *state, t_table *table);
-void	precise_sleep(long milisec);
-void	ft_mutex(pthread_mutex_t *mutex, int flag);
+void		error_exit(const char *message);
+long long	gettime_ms(void);
+void		print_state(int id, const char *state, t_table *table);
+void		precise_sleep(long long milisec);
+void		ft_mutex(pthread_mutex_t *mutex, int flag);
 
 // *** init.c ***
-void	data_init(t_table *table);
+void		data_init(t_table *table);
 
 // *** parsing.c ***
-void	parse_input(t_table *table, char *argv[]);
+void		parse_input(t_table *table, char *argv[]);
 
 // *** party.c ***
-void	create_philos(t_table *table);
-void	join_threads(t_table *table);
+void		create_philos(t_table *table);
+void		join_threads(t_table *table);
 
 // *** action.c ***
-void	taking_forks(t_philo *philos);
-void	eating(t_philo *philos);
-void	thinking(t_philo *philos);
-void	sleeping(t_philo *philos);
+void		taking_forks(t_philo *philos);
+void		eating(t_philo *philos);
+void		thinking(t_philo *philos);
+void		sleeping(t_philo *philos);
 
 // *** monitor.c ***
-void	*monitor_philo_life(void *info);
-bool	is_dead(t_philo *philos);
+void		*monitor_philo_life(void *info);
+bool		is_dead(t_philo *philos);
 
 #endif

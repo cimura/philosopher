@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"pthread.h": "c",
-		"stdbool.h": "c",
-		"limits.h": "c"
-	}
-}

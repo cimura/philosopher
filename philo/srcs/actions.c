@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   action.c                                           :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 14:00:56 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:56:56 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,12 @@ void	taking_forks(t_philo *philos)
 {
 	if (is_dead(philos))
 		return ;
-	if (philos->philo_id % 2 == 0)
-	{
-		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-	}
-	else
-	{
-		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-	}
+	ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
 }
 
 void	eating(t_philo *philos)

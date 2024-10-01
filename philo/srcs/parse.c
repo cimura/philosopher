@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 13:50:14 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:57:46 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static void	valid_input(const char *str)
 		error_exit("Input is too big!");
 }
 
-static	long	ft_atol(const char *str)
+static	long long	ft_atol(const char *str)
 {
-	long	num;
+	long long	num;
 
 	num = 0;
 	valid_input(str);

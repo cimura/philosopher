@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 13:38:23 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:00:09 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	check_starvation(long last_meal, t_philo *philos)
+static bool	check_starvation(long long last_meal, t_philo *philos)
 {
-	long	now;
+	long long	now;
 
-	ft_mutex(&philos->meal_monitor, LOCK);
 	now = gettime_ms() - philos->table->start_time;
-	ft_mutex(&philos->meal_monitor, UNLOCK);
 	if (now - last_meal > philos->table->time_to_die)
 	{
-		precise_sleep(4);
 		print_state(philos->philo_id, "died", philos->table);
 		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
 		ft_mutex(&philos->meal_monitor, UNLOCK);
+		precise_sleep(4);
 		return (false);
 	}
 	return (true);
@@ -33,9 +31,9 @@ static bool	check_starvation(long last_meal, t_philo *philos)
 
 void	*monitor_philo_life(void *info)
 {
-	t_philo	*philos;
-	long	last_meal;
-	int		id;
+	t_philo		*philos;
+	long long	last_meal;
+	int			id;
 
 	philos = (t_philo *)info;
 	while (1)

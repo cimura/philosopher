@@ -1,6 +1,6 @@
 NAME		:=	philo
-LIST_SRCS	:=	action.c init.c main.c parse.c \
-				party.c utils.c monitor.c
+LIST_SRCS	:=	actions.c init.c main.c parse.c \
+				threads.c utils.c monitor.c
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
@@ -24,14 +24,14 @@ END			:=	\033[0m
 all: $(NAME)
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
-	@$(CC) $(CFLAGS) -I$(DIR_INCS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(DIR_INCS) -c $< -o $@
 	@printf "$(ERASE)$(BLUE) > Compilation :$(END) $<"
 
 $(DIR_OBJS):
 	@mkdir -p $(DIR_OBJS)
 
 $(NAME): $(DIR_OBJS) $(OBJS)
-	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -I$(DIR_INCS) -o $(NAME) $(OBJS)
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -I $(DIR_INCS) -o $(NAME) $(OBJS)
 	@printf "$(ERASE)$(GREEN)$@ made\n$(END)"
 
 clean:
