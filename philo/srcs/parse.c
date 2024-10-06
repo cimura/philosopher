@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/01 22:57:46 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/06 15:03:16 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	valid_input(const char *str)
 	int	len;
 
 	len = 0;
+	if (str == NULL || *str == '\0')
+		error_exit("enter valid input");
 	while (is_whitespace(*str))
 		str++;
 	if (*str == '+')
@@ -52,10 +54,16 @@ static	long long	ft_atol(const char *str)
 
 	num = 0;
 	valid_input(str);
+	while (is_whitespace(*str))
+		str++;
+	if (*str == '+')
+		str++;
 	while (is_digit(*str))
 		num = (num * 10) + (*str++ - '0');
 	if (num > INT_MAX)
 		error_exit("Input is too large!");
+	if (num <= 0)
+		error_exit("Input should be positive!");
 	return (num);
 }
 

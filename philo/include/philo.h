@@ -90,6 +90,6 @@ void		sleeping(t_philo *philos);
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
 bool		is_dead(t_philo *philos);
-bool	is_full(t_philo *philos);
+bool		is_full(t_philo *philos);
 
 #endif
