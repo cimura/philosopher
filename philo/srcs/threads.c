@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   party.c                                            :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/09/29 14:06:08 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/06 14:26:05 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ static void	*simulation(void *info)
 		precise_sleep(philos->table->time_to_eat);
 	while (!is_dead(philos))
 	{
-		if (philos->table->nbr_limit_meals > 0
-			&& philos->meal_counter >= philos->table->nbr_limit_meals)
-			break ;
 		eating(philos);
+		if (is_full(philos))
+			return (NULL);
 		sleeping(philos);
 		thinking(philos);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/01 23:42:53 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/06 14:14:00 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,13 @@ bool	is_dead(t_philo *philos)
 	dead = philos->table->is_end;
 	ft_mutex(&philos->dead_monitor, UNLOCK);
 	return (dead);
+}
+
+bool	is_full(t_philo *philos)
+{
+	if (philos->table->nbr_limit_meals > 0
+		&& philos->meal_counter >= philos->table->nbr_limit_meals)
+		return (true);
+	else
+		return (false);
 }

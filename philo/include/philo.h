@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/01 23:42:20 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/06 14:11:51 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ void		sleeping(t_philo *philos);
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
 bool		is_dead(t_philo *philos);
+bool	is_full(t_philo *philos);
 
 #endif
