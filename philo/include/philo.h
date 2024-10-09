@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 22:21:37 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:59:18 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ struct	s_table
 	long long		start_time;
 	bool			is_end;
 	pthread_mutex_t	write;
-	pthread_mutex_t	forks[200];
+	pthread_mutex_t	forks[201];
 	pthread_t		death_thread;
-	t_philo			philos[200];
+	t_philo			philos[201];
 };
 
 enum	e_flag

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 22:24:38 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:43:48 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,16 @@ int	parse_input(t_table *table, char *argv[])
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
 	if (argv[5])
+	{
 		table->nbr_limit_meals = ft_atol(argv[5]);
+		if (table->nbr_limit_meals <= 0)
+			return (1);
+	}
 	else
 		table->nbr_limit_meals = ERROR_STATUS;
 	if (table->time_to_die < 6e1
 		|| table->time_to_eat < 6e1
-		|| table->time_to_sleep < 6e1
-    || table->nbr_limit_meals <= 0)
+		|| table->time_to_sleep < 6e1)
 		return (1);
   return (0);
 }
