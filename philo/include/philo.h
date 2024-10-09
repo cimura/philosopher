@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/06 14:11:51 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:27:15 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ typedef struct s_philo
 	int				philo_id;
 	int				left_fork_id;
 	int				right_fork_id;
-	long long		meal_counter;
 	bool			is_dead;
 	long long		last_mealtime;
 	pthread_mutex_t	meal_monitor;
-	pthread_mutex_t	dead_monitor;
+	// pthread_mutex_t	dead_monitor;
 	pthread_t		thread;
 	t_table			*table;
 }	t_philo;
@@ -43,6 +42,7 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
+	long long		meal_counter;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
@@ -90,6 +90,6 @@ void		sleeping(t_philo *philos);
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
 bool		is_dead(t_philo *philos);
-bool		is_full(t_philo *philos);
+bool		check_full(t_philo *philos);
 
 #endif

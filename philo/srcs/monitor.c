@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/06 14:14:00 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:27:24 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	check_starvation(long long last_meal, t_philo *philos)
 		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
 		ft_mutex(&philos->meal_monitor, UNLOCK);
-		precise_sleep(4);
+		// precise_sleep(4);
 		return (false);
 	}
 	return (true);
@@ -45,7 +45,7 @@ void	*monitor_philo_life(void *info)
 			last_meal = philos[id].last_mealtime;
 			ft_mutex(&philos->meal_monitor, UNLOCK);
 			if (!check_starvation(last_meal, &philos[id]))
-				return (NULL);
+        return (NULL);
 			id++;
 		}
 		precise_sleep(1);
@@ -57,17 +57,25 @@ bool	is_dead(t_philo *philos)
 {
 	bool	dead;
 
-	ft_mutex(&philos->dead_monitor, LOCK);
+	ft_mutex(&philos->meal_monitor, LOCK);
 	dead = philos->table->is_end;
-	ft_mutex(&philos->dead_monitor, UNLOCK);
+	ft_mutex(&philos->meal_monitor, UNLOCK);
 	return (dead);
 }
 
-bool	is_full(t_philo *philos)
+bool	check_full(t_philo *philos)
 {
 	if (philos->table->nbr_limit_meals > 0
-		&& philos->meal_counter >= philos->table->nbr_limit_meals)
-		return (true);
+		&& philos->table->meal_counter
+      >= philos->table->nbr_limit_meals * philos->table->philo_nbr)
+	{
+    // printf("check_full --before\n");
+   	ft_mutex(&philos->meal_monitor, LOCK);
+		philos->table->is_end = true;
+		ft_mutex(&philos->meal_monitor, UNLOCK); 
+    // printf("check_full --after\n");
+    return (true);
+  }
 	else
 		return (false);
 }
