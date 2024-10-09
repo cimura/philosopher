@@ -6,13 +6,13 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 21:27:24 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:32:06 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	check_starvation(long long last_meal, t_philo *philos)
+static bool	check_starvation(t_philo *philos, long long last_meal)
 {
 	long long	now;
 
@@ -23,7 +23,6 @@ static bool	check_starvation(long long last_meal, t_philo *philos)
 		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
 		ft_mutex(&philos->meal_monitor, UNLOCK);
-		// precise_sleep(4);
 		return (false);
 	}
 	return (true);
@@ -44,7 +43,7 @@ void	*monitor_philo_life(void *info)
 			ft_mutex(&philos->meal_monitor, LOCK);
 			last_meal = philos[id].last_mealtime;
 			ft_mutex(&philos->meal_monitor, UNLOCK);
-			if (!check_starvation(last_meal, &philos[id]))
+			if (!check_starvation(&philos[id], last_meal))
         return (NULL);
 			id++;
 		}
@@ -69,11 +68,9 @@ bool	check_full(t_philo *philos)
 		&& philos->table->meal_counter
       >= philos->table->nbr_limit_meals * philos->table->philo_nbr)
 	{
-    // printf("check_full --before\n");
    	ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
 		ft_mutex(&philos->meal_monitor, UNLOCK); 
-    // printf("check_full --after\n");
     return (true);
   }
 	else

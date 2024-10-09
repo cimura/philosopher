@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 21:27:18 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:12:32 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	data_init(t_table *table)
 			= (table->philos[i].philo_id) % table->philo_nbr + 1;
 		ft_mutex(&table->forks[i + 1], INIT);
 		ft_mutex(&table->philos[i].meal_monitor, INIT);
-		// ft_mutex(&table->philos[i].dead_monitor, INIT);
 		i++;
 	}
 }

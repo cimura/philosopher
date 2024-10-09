@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 21:20:42 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:12:54 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ static void	*simulation(void *info)
 		sleeping(philos);
 		thinking(philos);
 	}
-//  printf("simulation: id -> %d\n", philos->philo_id);
-  // ft_mutex(&philos->meal_monitor, LOCK);
-	// philos->table->is_end = true;
-	// ft_mutex(&philos->meal_monitor, UNLOCK);
 	return (NULL);
 }
 
-void	create_philos(t_table *table)
+int	create_philos(t_table *table)
 {
 	int	i;
 
@@ -56,17 +52,18 @@ void	create_philos(t_table *table)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL,
 				simulation, &table->philos[i]))
-			return ;
+			return (1);
       //error_exit("CREATION: simulation thread failed.");
 		i++;
 	}
 	if (pthread_create(&table->death_thread, NULL,
 			monitor_philo_life, &table->philos))
-		return ;
+		return (1);
     //error_exit("CREATION: death monitor thread failed.");
+  return (0);
 }
 
-void	join_threads(t_table *table)
+int	join_threads(t_table *table)
 {
 	int	i;
 
@@ -74,10 +71,11 @@ void	join_threads(t_table *table)
 	while (i < table->philo_nbr)
 	{
 		if (pthread_join(table->philos[i].thread, NULL))
-			return ;
+			return (1);
       //error_exit("JOIN: philo thread failed.");
 		i++;
 	}
   if (pthread_join(table->death_thread, NULL))
-    return ;
+    return (1);
+  return (0);
 }

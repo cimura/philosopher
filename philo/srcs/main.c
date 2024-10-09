@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 21:13:51 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/09 22:27:22 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ int	main(int argc, char *argv[])
 
 	if (5 == argc || 6 == argc)
 	{
-		parse_input(&table, argv);
+		if (parse_input(&table, argv) == 1)
+      return (1);
 		data_init(&table);
-		create_philos(&table);
-		join_threads(&table);
-//    printf("philo_id is %d\n", table.philos->philo_id);
+		if (create_philos(&table) == 1)
+      return (1);
+		if (join_threads(&table) == 1)
+      return (1);
 	}
 	else
-		error_exit("Wrong input:\n"
+    print_error("Wrong input:\n"
 			GREEN"example// ./philo 5 800 200 200 [5]"RESET);
 	return (0);
 }
