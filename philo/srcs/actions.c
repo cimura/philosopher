@@ -1,0 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
+/*   Updated: 2024/10/09 18:20:38 by sshimura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+void	taking_forks(t_philo *philos)
+{
+	if (is_dead(philos))
+		return ;
+	ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
+}
+
+void	eating(t_philo *philos)
+{
+	taking_forks(philos);
+	if (is_dead(philos))
+	{
+		ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+		ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+		return ;
+	}
+	print_state(philos->philo_id,
+		"is eating", philos->table);
+	precise_sleep(philos->table->time_to_eat);
+	ft_mutex(&philos->meal_monitor, LOCK);
+	philos->meal_counter++;
+	philos->last_mealtime = gettime_ms() - philos->table->start_time;
+	ft_mutex(&philos->meal_monitor, UNLOCK);
+	ft_mutex(&philos->table->forks[philos->right_fork_id], UNLOCK);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+}
+
+void	thinking(t_philo *philos)
+{
+	print_state(philos->philo_id, "is thinking", philos->table);
+}
+
+void	sleeping(t_philo *philos)
+{
+	print_state(philos->philo_id, "is sleeping", philos->table);
+	precise_sleep(philos->table->time_to_sleep);
+}

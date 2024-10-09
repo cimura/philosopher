@@ -1,0 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
+/*   Updated: 2024/10/09 18:17:47 by sshimura         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+void	data_init(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	table->is_end = false;
+	table->start_time = gettime_ms();
+	ft_mutex(&table->write, INIT);
+	while (i < table->philo_nbr)
+	{
+		table->philos[i].table = table;
+		table->philos[i].meal_counter = 0;
+		table->philos[i].philo_id = i + 1;
+		table->philos[i].last_mealtime = 0;
+		table->philos[i].left_fork_id = table->philos[i].philo_id;
+		table->philos[i].right_fork_id
+			= (table->philos[i].philo_id) % table->philo_nbr + 1;
+		ft_mutex(&table->forks[i + 1], INIT);
+		ft_mutex(&table->philos[i].meal_monitor, INIT);
+		ft_mutex(&table->philos[i].dead_monitor, INIT);
+		i++;
+	}
+}
