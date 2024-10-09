@@ -40,7 +40,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@printf "$(PINK)remove lib.a\n$(END)"
+	@printf "$(PINK)remove philo\n$(END)"
 
 re: fclean all
 
