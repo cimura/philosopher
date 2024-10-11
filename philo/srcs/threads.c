@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 22:12:54 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/11 10:22:22 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,11 @@ int	create_philos(t_table *table)
 		if (pthread_create(&table->philos[i].thread, NULL,
 				simulation, &table->philos[i]))
 			return (1);
-      //error_exit("CREATION: simulation thread failed.");
 		i++;
 	}
 	if (pthread_create(&table->death_thread, NULL,
 			monitor_philo_life, &table->philos))
 		return (1);
-    //error_exit("CREATION: death monitor thread failed.");
   return (0);
 }
 
@@ -72,7 +70,6 @@ int	join_threads(t_table *table)
 	{
 		if (pthread_join(table->philos[i].thread, NULL))
 			return (1);
-      //error_exit("JOIN: philo thread failed.");
 		i++;
 	}
   if (pthread_join(table->death_thread, NULL))
