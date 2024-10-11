@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 22:55:06 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/11 13:23:42 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ long long	gettime_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	precise_sleep(long long milisec)
+void	precise_sleep(t_philo *philos, long long milisec)
 {
 	long long	start;
 
 	start = gettime_ms();
-	while (gettime_ms() - start < milisec)
+	while (gettime_ms() - start < milisec && !is_dead(philos))
 		usleep(100);
 }
 

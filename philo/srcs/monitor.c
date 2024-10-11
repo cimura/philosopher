@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/11 10:20:44 by cimy             ###   ########.fr       */
+/*   Updated: 2024/10/11 13:22:56 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	*monitor_philo_life(void *info)
 			last_meal = philos[id].last_mealtime;
 			ft_mutex(&philos->meal_monitor, UNLOCK);
 			if (!check_starvation(&philos[id], last_meal))
-        return (NULL);
+				return (NULL);
 			id++;
 		}
-		precise_sleep(1);
+		precise_sleep(philos, 1);
 	}
 	return (NULL);
 }
@@ -66,13 +66,13 @@ bool	check_full(t_philo *philos)
 {
 	if (philos->table->nbr_limit_meals > 0
 		&& philos->table->meal_counter / philos->table->philo_nbr
-      >= philos->table->nbr_limit_meals)
+		>= philos->table->nbr_limit_meals)
 	{
-   	ft_mutex(&philos->meal_monitor, LOCK);
+		ft_mutex(&philos->meal_monitor, LOCK);
 		philos->table->is_end = true;
-		ft_mutex(&philos->meal_monitor, UNLOCK); 
-    return (true);
-  }
+		ft_mutex(&philos->meal_monitor, UNLOCK);
+		return (true);
+	}
 	else
 		return (false);
 }
