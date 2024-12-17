@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 15:07:26 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:58:40 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int argc, char *argv[])
 		// 	return (1);
 		// if (join_threads(&table) == 1)
 		// 	return (1);
-		if (create_death_thread(&table) == 1)
-			return (1);
+		// if (create_death_thread(&table) == 1)
+		// 	return (1);
 		// simulation(&table);
 		if (wait_all_philos(&table) == 1)
 			return (1);

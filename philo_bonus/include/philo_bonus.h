@@ -34,8 +34,6 @@ typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int				philo_id;
-	int				left_fork_id;
-	int				right_fork_id;
 	bool			is_dead;
 	long long		last_mealtime;
 	pid_t			pid;
@@ -51,10 +49,8 @@ struct	s_table
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	bool			is_end;
 	char			*sem_name;
-	sem_t			*sem;
-	pthread_t		death_thread;
+	sem_t			*forks;
 	t_philo			philos[201];
 };
 
@@ -71,7 +67,7 @@ enum	e_flag
 void		print_error(const char *message);
 long long	gettime_ms(void);
 void		print_state(int id, const char *state, t_table *table);
-void		precise_sleep(t_philo *philos, long long milisec);
+void		precise_sleep(long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
 
 // *** init.c ***
@@ -82,12 +78,12 @@ int			create_death_thread(t_table *table);
 int			parse_input(t_table *table, char *argv[]);
 
 // *** process.c ***
-void		simulation(t_table *table);
+void		simulation(t_table *table, t_philo *philo);
 int			wait_all_philos(t_table *table);
 
 // *** action.c ***
-int			taking_forks(t_philo *philos);
-int			eating(t_philo *philos);
+int			taking_forks(t_table *table, t_philo *philos);
+int			eating(t_table *table, t_philo *philos);
 void		thinking(t_philo *philos);
 void		sleeping(t_philo *philos);
 

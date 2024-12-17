@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 13:57:49 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:03:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ long long	gettime_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	precise_sleep(t_philo *philos, long long milisec)
+void	precise_sleep(long long milisec)
 {
 	long long	start;
 
 	start = gettime_ms();
-	while (gettime_ms() - start < milisec && !is_dead(philos))
+	while (gettime_ms() - start < milisec)
 		usleep(100);
 }
 
@@ -39,8 +39,7 @@ void	print_state(int id, const char *state, t_table *table)
 	long long	timestamp;
 
 	timestamp = gettime_ms() - table->start_time;
-	if (!is_dead(table->philos))
-		printf("%lld %d %s\n", timestamp, id, state);
+	printf("%lld %d %s\n", timestamp, id, state);
 }
 
 // void	ft_mutex(pthread_mutex_t *mutex, int flag)
