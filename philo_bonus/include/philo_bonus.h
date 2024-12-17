@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <semaphore.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define RESET	"\033[0m"
 # define RED	"\033[1;31m"

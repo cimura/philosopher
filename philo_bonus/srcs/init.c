@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 20:01:44 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/17 22:42:28 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	data_init(t_table *table)
 	i = 0;
 	table->meal_counter = 0;
 	table->start_time = gettime_ms();
-	table->sem_name = "/dsdadsdsadd";
+	sem_unlink("/mysem");
+	table->sem_name = "/mysem";
 	table->forks = sem_open(table->sem_name, O_CREAT, 0644, table->philo_nbr);
 	if (table->forks == SEM_FAILED)
 		return (1);

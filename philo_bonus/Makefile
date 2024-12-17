@@ -1,6 +1,6 @@
 NAME		:=	philo_bonus
 LIST_SRCS	:=	actions.c init.c main.c parse.c \
-				process.c utils.c monitor.c clean.c
+				process.c utils.c clean.c
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
