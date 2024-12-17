@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 13:20:38 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:40:45 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <limits.h>
+# include <fcntl.h>
+# include <semaphore.h>
+# include <sys/wait.h>
 
 # define RESET	"\033[0m"
 # define RED	"\033[1;31m"
@@ -35,8 +38,7 @@ typedef struct s_philo
 	int				right_fork_id;
 	bool			is_dead;
 	long long		last_mealtime;
-	pthread_mutex_t	meal_monitor;
-	pthread_t		thread;
+	pid_t			pid;
 	t_table			*table;
 }	t_philo;
 
@@ -50,8 +52,8 @@ struct	s_table
 	long long		nbr_limit_meals;
 	long long		start_time;
 	bool			is_end;
-	pthread_mutex_t	write;
-	pthread_mutex_t	forks[201];
+	char			*sem_name;
+	sem_t			*sem;
 	pthread_t		death_thread;
 	t_philo			philos[201];
 };
@@ -73,18 +75,19 @@ void		precise_sleep(t_philo *philos, long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
 
 // *** init.c ***
-void		data_init(t_table *table);
+int			data_init(t_table *table);
+int			create_death_thread(t_table *table);
 
 // *** parsing.c ***
 int			parse_input(t_table *table, char *argv[]);
 
-// *** party.c ***
-int			create_philos(t_table *table);
-int			join_threads(t_table *table);
+// *** process.c ***
+void		simulation(t_table *table);
+int			wait_all_philos(t_table *table);
 
 // *** action.c ***
-void		taking_forks(t_philo *philos);
-void		eating(t_philo *philos);
+int			taking_forks(t_philo *philos);
+int			eating(t_philo *philos);
 void		thinking(t_philo *philos);
 void		sleeping(t_philo *philos);
 
@@ -92,5 +95,8 @@ void		sleeping(t_philo *philos);
 void		*monitor_philo_life(void *info);
 bool		is_dead(t_philo *philos);
 bool		check_full(t_philo *philos);
+
+// *** clean.c ***
+void		clean(t_table *table);
 
 #endif

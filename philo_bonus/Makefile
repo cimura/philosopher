@@ -1,6 +1,6 @@
-NAME		:=	philo
+NAME		:=	philo_bonus
 LIST_SRCS	:=	actions.c init.c main.c parse.c \
-				threads.c utils.c monitor.c
+				process.c utils.c monitor.c clean.c
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
@@ -11,9 +11,9 @@ OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
 
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
-CC			:=	cc	
+CC			:=	cc
 CFLAGS		:=	-Wall -Wextra -Werror
-DEBUG_FLAGS	:=	-g -fsanitize=thread
+DEBUG_FLAGS	:=	-g
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m
@@ -24,7 +24,7 @@ END			:=	\033[0m
 all: $(NAME)
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
-	@$(CC) $(CFLAGS) -I $(DIR_INCS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -I $(DIR_INCS) -c $< -o $@
 	@printf "$(ERASE)$(BLUE) > Compilation :$(END) $<"
 
 $(DIR_OBJS):
