@@ -6,24 +6,23 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 22:55:56 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/18 11:04:11 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	check_starvation(t_philo *philos, long long last_meal)
-{
-	long long	now;
+//static void	check_starvation(t_philo *philos, long long last_meal)
+//{
+//	long long	now;
 
-	now = gettime_ms() - philos->table->start_time;
-	printf("[%d] last meal: %lld\n", philos->philo_id, last_meal);
-	if (now - last_meal > philos->table->time_to_die)
-	{
-		print_state(philos->philo_id, "died", philos->table);
-		exit(1);
-	}
-}
+//	now = gettime_ms() - philos->table->start_time;
+//	if (now - last_meal > philos->table->time_to_die)
+//	{
+//		print_state(philos->philo_id, "died", philos->table);
+//		exit(1);
+//	}
+//}
 
 
 static bool is_full(t_philo *philos)
@@ -46,7 +45,7 @@ static void	lonely_philo(t_philo *philos)
 	precise_sleep(philos->table->time_to_eat);
 	while (1)
 	{
-		check_starvation(philos, philos->last_mealtime);
+		sem_post(philos->table->death);
 		precise_sleep(philos->table->time_to_sleep);
 	}
 }
@@ -59,14 +58,10 @@ void	simulation(t_table *table, t_philo *philos)
 		precise_sleep(table->time_to_eat);
 	while (1)
 	{
-		check_starvation(philos, philos->last_mealtime);
 		eating(table, philos);
-		 check_starvation(philos, philos->last_mealtime);
 		if (is_full(philos))
 			break ;
-		 check_starvation(philos, philos->last_mealtime);
 		sleeping(philos);
-		 check_starvation(philos, philos->last_mealtime);
 		thinking(philos);
 	}
 	exit(EXIT_SUCCESS);
@@ -75,24 +70,16 @@ void	simulation(t_table *table, t_philo *philos)
 int	wait_all_philos(t_table *table)
 {
 	int	i;
-	int	status;
 
 	i = 0;
+	sem_wait(table->death);
+	if (pthread_join(table->death_detector, NULL))
+		return (1);
+	if (pthread_join(table->meal_updater, NULL))
+		return (1);
 	while (i < table->philo_nbr)
 	{
-		waitpid(-1, &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
-		{
-			printf("philo died....");
-			int	j = 0;
-			while (j < table->philo_nbr)
-			{
-				kill(table->philos[j].pid, SIGKILL);
-				j++;
-			}
-			printf("Finished child process");
-			break ;
-		}
+		waitpid(-1, NULL, 0);
 		i++;
 	}
 	return (0);
@@ -110,7 +97,7 @@ int	wait_all_philos(t_table *table)
 // 			return (1);
 // 		i++;
 // 	}
-// 	if (pthread_create(&table->death_thread, NULL,
+// 	if (pthread_create(&table->death_detector, NULL,
 // 			monitor_philo_life, &table->philos))
 // 		return (1);
 // 	return (0);

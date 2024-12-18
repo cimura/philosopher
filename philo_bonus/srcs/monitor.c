@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/11 13:22:56 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:05:57 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static bool	check_starvation(t_philo *philos, long long last_meal)
 {
@@ -20,59 +20,71 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	if (now - last_meal > philos->table->time_to_die)
 	{
 		print_state(philos->philo_id, "died", philos->table);
-		ft_mutex(&philos->meal_monitor, LOCK);
-		philos->table->is_end = true;
-		ft_mutex(&philos->meal_monitor, UNLOCK);
+		sem_post(philos->table->death);
+		send_kill_signal(philos->table);
 		return (false);
 	}
 	return (true);
 }
 
-void	*monitor_philo_life(void *info)
+void	*monitor_philo_life(void *arg)
 {
 	t_philo		*philos;
-	long long	last_meal;
 	int			id;
 
-	philos = (t_philo *)info;
+	philos = (t_philo *)arg;
 	while (1)
 	{
 		id = 0;
 		while (id < philos->table->philo_nbr)
 		{
-			ft_mutex(&philos->meal_monitor, LOCK);
-			last_meal = philos[id].last_mealtime;
-			ft_mutex(&philos->meal_monitor, UNLOCK);
-			if (!check_starvation(&philos[id], last_meal))
+			if (!check_starvation(&philos[id], philos->table->last_meal_time[id]))
 				return (NULL);
 			id++;
 		}
-		precise_sleep(philos, 1);
+		precise_sleep(1);
 	}
 	return (NULL);
 }
 
-bool	is_dead(t_philo *philos)
+void	*update_meal_time(void *arg)
 {
-	bool	dead;
+	int		i;
+	t_table	*table;
 
-	ft_mutex(&philos->meal_monitor, LOCK);
-	dead = philos->table->is_end;
-	ft_mutex(&philos->meal_monitor, UNLOCK);
-	return (dead);
-}
-
-bool	check_full(t_philo *philos)
-{
-	if (philos->table->nbr_limit_meals > 0
-		&& philos->table->meal_counter / philos->table->philo_nbr
-		>= philos->table->nbr_limit_meals)
+	table = (t_table *)arg;
+	while (1)
 	{
-		ft_mutex(&philos->meal_monitor, LOCK);
-		philos->table->is_end = true;
-		ft_mutex(&philos->meal_monitor, UNLOCK);
-		return (true);
+		sem_wait(table->meal);
+		i = 0;
+		while (i < table->philo_nbr)
+		{
+			table->last_meal_time[i] = gettime_ms() - table->start_time;
+			i++;
+		}
 	}
-	else
-		return (false);
+	return (NULL);
+}
+//bool	check_full(t_philo *philos)
+//{
+//	if (philos->table->nbr_limit_meals > 0
+//		&& philos->table->meal_counter / philos->table->philo_nbr
+//		>= philos->table->nbr_limit_meals)
+//	{
+//		return (true);
+//	}
+//	else
+//		return (false);
+//}
+
+void	send_kill_signal(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->philo_nbr)
+	{
+		kill(table->philos[i].pid, SIGKILL);
+		i++;
+	}
 }

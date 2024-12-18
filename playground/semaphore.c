@@ -35,7 +35,6 @@ int main() {
 	}
 	for (int j = 0; j < 3; ++j)
 		waitpid(pid[j], NULL, 0);
-	sem_close(sem);
 	sem_unlink("/no");
 	return 0;
 }
