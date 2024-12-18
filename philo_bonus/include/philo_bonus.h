@@ -36,7 +36,7 @@ typedef struct s_philo
 {
 	int				philo_id;
 	//bool			is_dead;
-	//long long		last_mealtime;
+	long long		last_mealtime;
 	pid_t			pid;
 	t_table			*table;
 }	t_philo;
@@ -50,13 +50,16 @@ struct	s_table
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	long long		*last_meal_time;
 	char			*sem_name;
+	bool			is_dead;
+	// from 1
+	long long		last_mealtime[202];
+	sem_t			*meal[202];
 	sem_t			*forks;
 	sem_t			*death;
-	sem_t			*meal;
+	sem_t			*write_lock;
 	pthread_t		death_detector;
-	pthread_t		meal_updater;
+	pthread_t		meal_updater[201];
 	t_philo			philos[201];
 };
 

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 11:04:11 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/18 17:22:53 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	lonely_philo(t_philo *philos)
 	precise_sleep(philos->table->time_to_eat);
 	while (1)
 	{
-		sem_post(philos->table->death);
 		precise_sleep(philos->table->time_to_sleep);
 	}
 }
@@ -72,16 +71,23 @@ int	wait_all_philos(t_table *table)
 	int	i;
 
 	i = 0;
-	sem_wait(table->death);
 	if (pthread_join(table->death_detector, NULL))
-		return (1);
-	if (pthread_join(table->meal_updater, NULL))
 		return (1);
 	while (i < table->philo_nbr)
 	{
-		waitpid(-1, NULL, 0);
+		if (pthread_detach(table->meal_updater[i]))
+			return (1);
 		i++;
 	}
+	//while (i < table->philo_nbr)
+	//{
+	//	waitpid(-1, NULL, 0);
+	//	i++;
+	//}
+	//printf("death wait\n");
+	sem_wait(table->death);
+	//printf("Lets kill\n");
+	send_kill_signal(table);
 	return (0);
 }
 
