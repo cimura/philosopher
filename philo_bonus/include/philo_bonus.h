@@ -38,6 +38,8 @@ typedef struct s_philo
 	//bool			is_dead;
 	long long		last_mealtime;
 	pid_t			pid;
+	sem_t			*last_meal;
+	pthread_t		death_detector;
 	t_table			*table;
 }	t_philo;
 
@@ -53,13 +55,13 @@ struct	s_table
 	char			*sem_name;
 	bool			is_dead;
 	// from 1
-	long long		last_mealtime[202];
-	sem_t			*meal[202];
+	//long long		last_mealtime[202];
+	//sem_t			*meal[202];
 	sem_t			*forks;
 	sem_t			*death;
 	sem_t			*write_lock;
-	pthread_t		death_detector;
-	pthread_t		meal_updater[201];
+	pthread_t		death_waiter;
+	//pthread_t		meal_updater[201];
 	t_philo			philos[201];
 };
 
@@ -80,7 +82,7 @@ void		precise_sleep(long long milisec);
 
 // *** init.c ***
 int			data_init(t_table *table);
-int			create_death_detector(t_table *table);
+int			create_death_waiter(t_table *table);
 
 // *** parsing.c ***
 int			parse_input(t_table *table, char *argv[]);

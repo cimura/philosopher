@@ -6,16 +6,25 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 17:25:25 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/19 00:57:10 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+//void	*wait_death(void *arg)
+//{
+//	t_table	*table;
+
+//	table = (t_table *)arg;
+//	sem_wait(table->death);
+//	send_kill_signal(table);
+//	return (NULL);
+//}
+
 int	data_init(t_table *table)
 {
 	table->meal_counter = 0;
-	table->is_dead = false;
 	table->start_time = gettime_ms();
 
 	sem_unlink("/forks");
@@ -28,33 +37,12 @@ int	data_init(t_table *table)
 	table->death = sem_open(table->sem_name, O_CREAT, 0644, 0);
 	if (table->death == SEM_FAILED)
 		return (1);
-	sem_unlink("/meal");
-	table->sem_name = "/meal";
-	int	i = 1;
-	while (i <= table->philo_nbr)
-	{
-		table->meal[i] = sem_open(table->sem_name, O_CREAT, 0644, 0);
-		if (table->meal[i] == SEM_FAILED)
-			return (1);
-		i++;
-	}
 	sem_unlink("/write_lock");
 	table->sem_name = "/write_lock";
 	table->write_lock = sem_open(table->sem_name, O_CREAT, 0644, 1);
 	if (table->write_lock == SEM_FAILED)
 		return (1);
-
-	//table->last_mealtime = malloc(sizeof(long long) * table->philo_nbr + 1);
-	//if (table->last_mealtime == NULL)
-	//	return (1);
-	i = 1;
-	while (i <= table->philo_nbr)
-	{
-		table->last_mealtime[i] = 0;
-		i++;
-	}
-
-	i = 0;
+	int	i = 0;
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;
@@ -65,27 +53,38 @@ int	data_init(t_table *table)
 			return (1);
 		if (table->philos[i].pid == 0)
 		{
+			sem_unlink("/lastmeal");
+			table->sem_name = "/lastmeal";
+			table->philos->last_meal = sem_open(table->sem_name, O_CREAT, 0644, 1);
+			if (table->philos->last_meal == SEM_FAILED)
+				return (1);
+			if (pthread_create(&table->philos[i].death_detector, NULL,
+				monitor_philo_life, &table->philos[i]))
+				return (1);
 			simulation(table, &table->philos[i]);
 		}
 		else
 			i++;
 	}
+	//if (pthread_create(&table->death_waiter, NULL, wait_death, table))
+	//	return (1);
 	return (0);
 }
 
-int	create_death_detector(t_table *table)
-{
-	int	i;
-	i = 0;
-	while (i < table->philo_nbr)
-	{
-		if (pthread_create(&table->meal_updater[i], NULL,
-				update_meal_time, &table->philos[i]))
-			return (1);
-		i++;
-	}
-	if (pthread_create(&table->death_detector, NULL,
-			monitor_philo_life, table->philos))
-		return (1);
-	return (0);
-}
+
+//int	create_death_waiter(t_table *table)
+//{
+//	//int	i;
+//	//i = 0;
+//	//while (i < table->philo_nbr)
+//	//{
+//	//	if (pthread_create(&table->meal_updater[i], NULL,
+//	//			update_meal_time, &table->philos[i]))
+//	//		return (1);
+//	//	i++;
+//	//}
+//	if (pthread_create(&table->death_waiter, NULL,
+//			wait_death, table->philos))
+//		return (1);
+//	return (0);
+//}

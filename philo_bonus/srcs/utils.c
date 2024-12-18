@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 18:03:25 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/19 00:44:00 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	print_state(int id, const char *state, t_table *table)
 	long long	timestamp;
 
 	timestamp = gettime_ms() - table->start_time;
+	sem_wait(table->write_lock);
 	printf("%lld %d %s\n", timestamp, id, state);
+	sem_post(table->write_lock);
 }
 
 // void	ft_mutex(pthread_mutex_t *mutex, int flag)

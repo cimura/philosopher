@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 17:22:53 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/19 00:55:17 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,34 @@ void	simulation(t_table *table, t_philo *philos)
 		sleeping(philos);
 		thinking(philos);
 	}
-	exit(EXIT_SUCCESS);
+	sem_post(table->death);
+	//exit(EXIT_SUCCESS);
 }
 
 int	wait_all_philos(t_table *table)
 {
-	int	i;
-
-	i = 0;
-	if (pthread_join(table->death_detector, NULL))
-		return (1);
-	while (i < table->philo_nbr)
-	{
-		if (pthread_detach(table->meal_updater[i]))
-			return (1);
-		i++;
-	}
+	//if (pthread_join(table->death_detector, NULL))
+	//	return (1);
 	//while (i < table->philo_nbr)
 	//{
-	//	waitpid(-1, NULL, 0);
+	//	if (pthread_detach(table->meal_updater[i]))
+	//		return (1);
 	//	i++;
 	//}
 	//printf("death wait\n");
-	sem_wait(table->death);
+
+
 	//printf("Lets kill\n");
+	sem_wait(table->death);
 	send_kill_signal(table);
+	int	i;
+
+	i = 0;
+	while (i < table->philo_nbr)
+	{
+		waitpid(table->philos[i].pid, NULL, 0);
+		i++;
+	}
 	return (0);
 }
 

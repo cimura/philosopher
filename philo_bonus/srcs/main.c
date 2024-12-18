@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 16:13:03 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/19 00:23:11 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(int argc, char *argv[])
 			return (1);
 		if (data_init(&table) == 1)
 			return (1);
-		if (create_death_detector(&table) == 1)
-			return (1);
+		//if (create_death_waiter(&table) == 1)
+		//	return (1);
 		if (wait_all_philos(&table) == 1)
 			return (1);
 		clean(&table);

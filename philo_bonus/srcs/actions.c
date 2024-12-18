@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 17:07:22 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/19 00:52:33 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ int	eating(t_table *table, t_philo *philos)
 {
 	if (taking_forks(table, philos) == 1)
 		return (1);
-
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
 	philos->table->meal_counter++;
-	if (sem_post(table->meal[philos->philo_id]) < 0)
-		return (1);
+	sem_wait(philos->last_meal);
+	philos->last_mealtime = gettime_ms() - philos->table->start_time;
+	sem_post(philos->last_meal);
+	//if (sem_post(table->meal[philos->philo_id]) < 0)
+	//	return (1);
 	if (sem_post(table->forks) < 0)
 		return (1);
 	if (sem_post(table->forks) < 0)
