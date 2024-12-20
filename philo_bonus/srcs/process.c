@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 11:46:03 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 17:35:27 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	simulation(t_table *table, t_philo *philos)
 		eating(table, philos);
 		if (is_full(philos))
 		{
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		sleeping(philos);
 		thinking(philos);
@@ -77,6 +77,8 @@ int	wait_all_philos(t_table *table)
 			return (1);
 		i++;
 	}
+	sem_post(table->death);
+	pthread_join(table->death_waiter, NULL);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 11:38:27 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 17:40:13 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,14 @@ void	*monitor_philo_life(void *arg)
 	while (1)
 	{
 		elapsed = gettime_ms() - philos->table->start_time;
-		//sem_wait(philos->meal_lock);
 		if (elapsed - philos->last_mealtime > philos->table->time_to_die)
 		{
-			sem_wait(philos->table->write_lock);
+			//sem_wait(philos->table->write_lock);
 			printf("%lld %d %s\n", elapsed, philos->philo_id, "died");
 			sem_post(philos->table->death);
-			//while (1)
-			//	precise_sleep(100);
+			while (1)
+				precise_sleep(100);
 		}
-		//sem_post(philos->meal_lock);
 		precise_sleep(1);
 	}
 	//sem_post(philos->table->death);

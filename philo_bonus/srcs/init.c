@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 12:00:17 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 17:43:14 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	*wait_death(void *arg)
 
 int	data_init(t_table *table)
 {
-	pthread_t	death_waiter;
 	sem_unlink("/forks");
 	sem_unlink("/death");
 	sem_unlink("/write_lock");
 
 	table->meal_counter = 0;
-
+	//table->is_end = false;
 	table->forks = sem_open("/forks", O_CREAT, 0644, table->philo_nbr);
 	if (table->forks == SEM_FAILED)
 		return (1);
@@ -47,14 +46,16 @@ int	data_init(t_table *table)
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = 0;
-		char	*name = ft_strjoin("/sem_meal", ft_itoa(table->philos[i].philo_id));
+		char	*uniq_id = ft_itoa(table->philos[i].philo_id);
+		char	*name = ft_strjoin("/sem_meal", uniq_id);
 		//printf("name: %s\n", name);
-		//sem_unlink(name);
+		sem_unlink(name);
 		table->philos[i].meal_lock = sem_open(name, O_CREAT, 0644, 1);
 		if (table->philos[i].meal_lock == SEM_FAILED)
 			return (1);
 		//sem_unlink(name);
 		free(name);
+		free(uniq_id);
 		i++;
 	}
 	// create philo process
@@ -66,17 +67,17 @@ int	data_init(t_table *table)
 			return (1);
 		if (table->philos[i].pid == 0)
 		{
-			if (pthread_create(&table->philos[i].death_detector, NULL,
+			pthread_t	death_detector;
+			if (pthread_create(&death_detector, NULL,
 				monitor_philo_life, &table->philos[i]))
 				return (1);
 			simulation(table, &table->philos[i]);
+			//pthread_join(death_detector, NULL);
 		}
 		else
 			i++;
 	}
-	if (pthread_create(&death_waiter, NULL, wait_death, table))
-		return (1);
-	if (pthread_join(death_waiter, NULL))
+	if (pthread_create(&table->death_waiter, NULL, wait_death, table))
 		return (1);
 	return (0);
 }

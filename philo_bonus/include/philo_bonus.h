@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/19 20:46:10 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 12:21:33 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ struct	s_table
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	//char			*sem_name;
+	bool			is_end;
 	bool			is_dead;
 	// from 1
 	//long long		last_mealtime[202];
