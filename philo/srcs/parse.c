@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:16:28 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:35:59 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,5 @@ int	parse_input(t_table *table, char *argv[])
 		|| table->time_to_eat < 6e1
 		|| table->time_to_sleep < 6e1)
 		return (PARSE_ERR);
-	printf("limit: %lld\n", table->nbr_limit_meals);
 	return (0);
 }

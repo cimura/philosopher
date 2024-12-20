@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:12:07 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:37:40 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # define PARSE_ERR		2
 # define THREAD_ERR		3
 # define JOIN_ERR		4
-
-
 
 typedef struct s_table	t_table;
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:22:15 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:35:29 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	join_threads(t_table *table)
 			return (JOIN_ERR);
 		i++;
 	}
+	table->is_end = true;
 	if (pthread_join(table->death_detector, NULL))
 		return (JOIN_ERR);
 	return (0);

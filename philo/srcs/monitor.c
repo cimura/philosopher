@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:24:31 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:37:57 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,8 @@ bool	is_dead(t_philo *philos)
 bool	check_full(t_philo *philos)
 {
 	if (philos->table->nbr_limit_meals > 0
-		&& philos->table->meal_counter / philos->table->philo_nbr
-		>= philos->table->nbr_limit_meals)
-	{
-		ft_mutex(&philos->meal_monitor, LOCK);
-		philos->table->is_end = true;
-		ft_mutex(&philos->meal_monitor, UNLOCK);
+		&& philos->table->meal_counter >= philos->table->nbr_limit_meals)
 		return (true);
-	}
 	else
 		return (false);
 }
