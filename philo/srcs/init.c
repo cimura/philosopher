@@ -6,17 +6,23 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/09 22:12:32 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:05:01 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	data_init(t_table *table)
+int	data_init(t_table *table)
 {
 	int	i;
 
 	i = 0;
+	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr + 1));
+	if (table->philos == NULL)
+		return (1);
+	table->forks = malloc(sizeof(pthread_mutex_t) * (table->philo_nbr + 1));
+	if (table->forks == NULL)
+		return (1);
 	table->is_end = false;
 	table->meal_counter = 0;
 	table->start_time = gettime_ms();
@@ -33,4 +39,5 @@ void	data_init(t_table *table)
 		ft_mutex(&table->philos[i].meal_monitor, INIT);
 		i++;
 	}
+	return (0);
 }

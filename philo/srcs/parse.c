@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/11 13:20:39 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/21 01:05:44 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,14 @@ static	long long	ft_atol(const char *str)
 	return (num);
 }
 
-int	parse_input(t_table *table, char *argv[])
+int	parse_input(t_table **_table, char *argv[])
 {
+	t_table	*table;
+
+	table = (*_table);
+	table = malloc(sizeof(t_table));
+	if (table == NULL)
+		return (1);
 	table->philo_nbr = ft_atol(argv[1]);
 	if (table->philo_nbr <= 0 || table->philo_nbr > 200)
 		return (1);
@@ -89,5 +95,6 @@ int	parse_input(t_table *table, char *argv[])
 		|| table->time_to_eat < 6e1
 		|| table->time_to_sleep < 6e1)
 		return (1);
+	*_table = table;
 	return (0);
 }

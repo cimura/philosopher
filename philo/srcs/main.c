@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/11 13:19:55 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:54:20 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 int	main(int argc, char *argv[])
 {
-	t_table	table;
+	t_table	*table;
 
 	if (5 == argc || 6 == argc)
 	{
-		if (parse_input(&table, argv) == 1)
-			return (1);
-		data_init(&table);
-		if (create_philos(&table) == 1)
-			return (1);
-		if (join_threads(&table) == 1)
+		if (parse_input(&table, argv) == PARSE_ERR)
+			return (EXIT_FAILURE);
+		if (data_init(table) == 1)
+			return (EXIT_FAILURE);
+		if (create_philos(table) == THREAD_ERR)
+			return (EXIT_FAILURE);
+		if (join_threads(table) == JOIN_ERR)
 			return (1);
 	}
 	else
