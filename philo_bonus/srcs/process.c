@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/19 00:55:17 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 11:46:03 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 static bool is_full(t_philo *philos)
 {
 	if (philos->table->nbr_limit_meals > 0
-			&& philos->table->meal_counter / philos->table->philo_nbr
+			&& philos->table->meal_counter
 			>= philos->table->nbr_limit_meals)
 	{
 		return (true);
@@ -59,36 +59,22 @@ void	simulation(t_table *table, t_philo *philos)
 	{
 		eating(table, philos);
 		if (is_full(philos))
-			break ;
+		{
+			exit(EXIT_FAILURE);
+		}
 		sleeping(philos);
 		thinking(philos);
 	}
-	sem_post(table->death);
-	//exit(EXIT_SUCCESS);
 }
 
 int	wait_all_philos(t_table *table)
 {
-	//if (pthread_join(table->death_detector, NULL))
-	//	return (1);
-	//while (i < table->philo_nbr)
-	//{
-	//	if (pthread_detach(table->meal_updater[i]))
-	//		return (1);
-	//	i++;
-	//}
-	//printf("death wait\n");
-
-
-	//printf("Lets kill\n");
-	sem_wait(table->death);
-	send_kill_signal(table);
 	int	i;
-
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		waitpid(table->philos[i].pid, NULL, 0);
+		if (waitpid(table->philos[i].pid, NULL, 0) == -1)
+			return (1);
 		i++;
 	}
 	return (0);

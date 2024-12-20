@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/19 00:49:37 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 11:38:27 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@
 //	return (true);
 //}
 
+//static bool is_full(t_philo *philos)
+//{
+//	if (philos->table->nbr_limit_meals > 0
+//			&& philos->table->meal_counter
+//			>= philos->table->nbr_limit_meals)
+//	{
+//		return (true);
+//	}
+//	else
+//		return (false);
+//}
+
 void	*monitor_philo_life(void *arg)
 {
 	t_philo		*philos;
@@ -39,15 +51,19 @@ void	*monitor_philo_life(void *arg)
 	while (1)
 	{
 		elapsed = gettime_ms() - philos->table->start_time;
+		//sem_wait(philos->meal_lock);
 		if (elapsed - philos->last_mealtime > philos->table->time_to_die)
 		{
 			sem_wait(philos->table->write_lock);
 			printf("%lld %d %s\n", elapsed, philos->philo_id, "died");
 			sem_post(philos->table->death);
-			return (NULL);
+			//while (1)
+			//	precise_sleep(100);
 		}
+		//sem_post(philos->meal_lock);
 		precise_sleep(1);
 	}
+	//sem_post(philos->table->death);
 	return (NULL);
 }
 

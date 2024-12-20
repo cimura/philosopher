@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 13:40:45 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:46:10 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_philo
 	//bool			is_dead;
 	long long		last_mealtime;
 	pid_t			pid;
-	sem_t			*last_meal;
+	sem_t			*meal_lock;
 	pthread_t		death_detector;
 	t_table			*table;
 }	t_philo;
@@ -52,7 +52,7 @@ struct	s_table
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	char			*sem_name;
+	//char			*sem_name;
 	bool			is_dead;
 	// from 1
 	//long long		last_mealtime[202];
@@ -82,13 +82,12 @@ void		precise_sleep(long long milisec);
 
 // *** init.c ***
 int			data_init(t_table *table);
-int			create_death_waiter(t_table *table);
 
 // *** parsing.c ***
 int			parse_input(t_table *table, char *argv[]);
 
 // *** process.c ***
-void		simulation(t_table *table, t_philo *philo);
+void			simulation(t_table *table, t_philo *philo);
 int			wait_all_philos(t_table *table);
 
 // *** action.c ***
@@ -99,10 +98,11 @@ void		sleeping(t_philo *philos);
 
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
-void		*update_meal_time(void *arg);
 void		send_kill_signal(t_table *table);
 
 // *** clean.c ***
 void		clean(t_table *table);
 
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_itoa(int n);
 #endif

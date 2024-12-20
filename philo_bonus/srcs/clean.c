@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:45:36 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 19:06:59 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/20 11:45:32 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	clean(t_table *table)
 {
-	if (sem_close(table->forks) < 0)
-		exit(EXIT_FAILURE);
-	if (sem_unlink(table->sem_name) < 0)
-		exit(EXIT_FAILURE);
+	exit(0);
+	sem_close(table->forks);
+	sem_close(table->death);
+	sem_close(table->write_lock);
 }
