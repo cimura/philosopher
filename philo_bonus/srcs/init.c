@@ -67,12 +67,11 @@ int	data_init(t_table *table)
 			return (1);
 		if (table->philos[i].pid == 0)
 		{
-			pthread_t	death_detector;
-			if (pthread_create(&death_detector, NULL,
+			if (pthread_create(&table->philos[i].death_detector, NULL,
 				monitor_philo_life, &table->philos[i]))
 				return (1);
 			simulation(table, &table->philos[i]);
-			//pthread_join(death_detector, NULL);
+			pthread_join(table->philos[i].death_detector, NULL);
 		}
 		else
 			i++;
