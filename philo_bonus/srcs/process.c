@@ -53,7 +53,7 @@ void	simulation(t_table *table, t_philo *philos)
 {
 	if (table->philo_nbr == 1)
 		lonely_philo(philos);
-	if (philos->philo_id % 2 == 0)
+	if (philos->philo_id % 2 != 0)
 		precise_sleep(table->time_to_eat);
 	while (1)
 	{

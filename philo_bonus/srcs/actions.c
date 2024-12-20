@@ -14,6 +14,19 @@
 
 int	taking_forks(t_table *table, t_philo *philos)
 {
+	sem_wait(philos->meal_lock);
+	long long	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
+	sem_post(philos->meal_lock);
+	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
+	{
+		long long sleep_time = table->time_to_die / 4; 
+		//if (since_lastmeal + sleep_time > table->time_to_die)
+		//{
+		//    sleep_time = table->time_to_die - since_lastmeal;
+		//}
+		//printf("\t\tsleep\n");
+		precise_sleep(sleep_time);
+	}
 	if (philos->philo_id % 2 == 0)
 	{
 		if (sem_wait(table->forks) < 0)
