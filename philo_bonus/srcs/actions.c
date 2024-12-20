@@ -47,9 +47,9 @@ int	eating(t_table *table, t_philo *philos)
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
 	philos->table->meal_counter++;
-	//sem_wait(philos->meal_lock);
+	sem_wait(philos->meal_lock);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
-	//sem_post(philos->meal_lock);
+	sem_post(philos->meal_lock);
 	if (sem_post(table->forks) < 0)
 		return (1);
 	if (sem_post(table->forks) < 0)
