@@ -39,9 +39,9 @@ void	print_state(int id, const char *state, t_table *table)
 	long long	timestamp;
 
 	//printf("lock\n");
-	//sem_wait(table->write_lock);
+	sem_wait(table->write_lock);
 	timestamp = gettime_ms() - table->start_time;
-	//sem_post(table->write_lock);
+	sem_post(table->write_lock);
 	printf("%lld %d %s\n", timestamp, id, state);
 	//printf("unlock\n");
 }
