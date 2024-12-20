@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 17:21:16 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 17:49:49 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	eating(t_table *table, t_philo *philos)
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
 	philos->table->meal_counter++;
-	sem_wait(philos->meal_lock);
+	//sem_wait(philos->meal_lock);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
-	sem_post(philos->meal_lock);
+	//sem_post(philos->meal_lock);
 	if (sem_post(table->forks) < 0)
 		return (1);
 	if (sem_post(table->forks) < 0)

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 17:43:14 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 20:07:34 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	data_init(t_table *table)
 			if (pthread_create(&death_detector, NULL,
 				monitor_philo_life, &table->philos[i]))
 				return (1);
+			pthread_join(death_detector, NULL);
 			simulation(table, &table->philos[i]);
-			//pthread_join(death_detector, NULL);
 		}
 		else
 			i++;
