@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/10/11 13:25:55 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/20 21:22:15 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	taking_forks(t_philo *philos)
 {
 	if (is_dead(philos))
 		return ;
+	if (philos->last_mealtime > 0
+		&& philos->last_mealtime < (philos->table->time_to_die) / 2)
+		precise_sleep(philos, philos->table->time_to_eat / 4);
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);

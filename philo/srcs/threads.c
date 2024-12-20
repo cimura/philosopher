@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/18 10:09:02 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/20 20:52:34 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	*simulation(void *info)
 	philos = (t_philo *)info;
 	if (philos->table->philo_nbr == 1)
 		lonely_philo(philos);
-	if (philos->philo_id % 2 == 0)
+	if (philos->philo_id % 2 != 0)
 		precise_sleep(philos, philos->table->time_to_eat);
 	while (!is_dead(philos))
 	{
