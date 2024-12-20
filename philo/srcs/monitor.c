@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 00:44:10 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:24:31 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor_philo_life(void *info)
 	int			id;
 
 	philos = (t_philo *)info;
-	while (1)
+	while(1)
 	{
 		id = 0;
 		while (id < philos->table->philo_nbr)

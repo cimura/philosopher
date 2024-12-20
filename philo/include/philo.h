@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 00:58:22 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 01:12:07 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
 
-# define ERROR_STATUS	1
 # define PARSE_ERR		2
 # define THREAD_ERR		3
 # define JOIN_ERR		4
@@ -79,7 +78,7 @@ void		ft_mutex(pthread_mutex_t *mutex, int flag);
 int			data_init(t_table *table);
 
 // *** parsing.c ***
-int			parse_input(t_table **table, char *argv[]);
+int			parse_input(t_table *table, char *argv[]);
 
 // *** party.c ***
 int			create_philos(t_table *table);
