@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 00:25:59 by cimy              #+#    #+#             */
-/*   Updated: 2024/12/22 00:37:21 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/22 01:04:50 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	clean_name(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
+		if (table->name_ptr[i] == NULL)
+			return ;
 		sem_unlink(table->name_ptr[i]);
 		free(table->name_ptr[i]);
 		i++;
