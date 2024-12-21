@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 21:21:47 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:36:46 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	semphore_init(t_table *table)
 	return (0);
 }
 
-static int	semphore_init_meal_lock(t_philo *philos)
+static int	semphore_init_meal_lock(t_table *table, t_philo *philos, int i)
 {
 	char	*uniq_id;
 	char	*name;
@@ -41,12 +41,12 @@ static int	semphore_init_meal_lock(t_philo *philos)
 	name = ft_strjoin("/sem_meal", uniq_id);
 	if (name == NULL)
 		return (free(uniq_id), 1);
+	free(uniq_id);
 	sem_unlink(name);
+	table->name_ptr[i] = name;
 	philos->meal_lock = sem_open(name, O_CREAT, 0644, 1);
 	if (philos->meal_lock == SEM_FAILED)
 		return (free(uniq_id), free(name), 1);
-	free(name);
-	free(uniq_id);
 	return (0);
 }
 
@@ -57,17 +57,20 @@ int	data_init(t_table *table)
 	if (semphore_init(table) == 1)
 		return (1);
 	table->start_time = gettime_ms();
-	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr + 1));
+	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr));
 	if (table->philos == NULL)
 		return (1);
+	table->name_ptr = malloc(sizeof(char *) * table->philo_nbr + 1);
+	if (table->name_ptr == NULL)
+		return (free(table->philos), 1);
 	i = 0;
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = 0;
-		if (semphore_init_meal_lock(&table->philos[i]) == 1)
-			return (free(table->philos), 1);
+		if (semphore_init_meal_lock(table, &table->philos[i], i) == 1)
+			return (free(table->philos), clean_name(table), 1);
 		i++;
 	}
 	return (0);

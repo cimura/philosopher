@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:56:03 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:28:47 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ struct	s_table
 	long long		start_time;
 	bool			is_end;
 	bool			is_dead;
+	char			**name_ptr;
 	sem_t			*forks;
 	sem_t			*death;
 	sem_t			*write_lock;
@@ -94,4 +95,10 @@ void		*monitor_philo_life(void *info);
 // *** string_utils.c ***
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_itoa(int nun);
+
+// *** clean.c ***
+void		clean_name(t_table *table);
+void		clean_sem_meal_lock(t_table *table);
+void		clean(t_table *table);
+
 #endif

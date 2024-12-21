@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:00:57 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:22:21 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	allocate_memory(t_table *table)
 {
-	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr + 1));
+	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr));
 	if (table->philos == NULL)
 		return (1);
 	table->forks = malloc(sizeof(pthread_mutex_t) * (table->philo_nbr + 1));
 	if (table->forks == NULL)
-		return (1);
+		return (free(table->philos), 1);
 	return (0);
 }
 

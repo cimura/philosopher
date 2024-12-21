@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:45:08 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:05:19 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			data_init(t_table *table);
 // *** parsing.c ***
 int			parse_input(t_table *table, char *argv[]);
 
-// *** party.c ***
+// *** threads.c ***
 int			create_threads(t_table *table);
 int			join_threads(t_table *table);
 

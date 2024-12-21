@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 18:55:17 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:06:38 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 static void	clean(t_table *table)
 {
+	int	i;
+
+	ft_mutex(&table->write, DESTROY);
+	i = 0;
+	while (i < table->philo_nbr)
+	{
+		ft_mutex(&table->forks[i + 1], DESTROY);
+		ft_mutex(&table->philos[i].end, DESTROY);
+		ft_mutex(&table->philos[i].meal_monitor, DESTROY);
+		i++;
+	}
 	free(table->philos);
 	free(table->forks);
 }
@@ -29,9 +40,9 @@ int	main(int argc, char *argv[])
 		if (data_init(&table) == 1)
 			return (EXIT_FAILURE);
 		if (create_threads(&table) == THREAD_ERR)
-			return (EXIT_FAILURE);
+			return (clean(&table), EXIT_FAILURE);
 		if (join_threads(&table) == JOIN_ERR)
-			return (1);
+			return (clean(&table), 1);
 		clean(&table);
 	}
 	else
