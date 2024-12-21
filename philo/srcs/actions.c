@@ -3,22 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 21:22:15 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 21:04:54 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int	tune_philo(t_philo *philos)
+{
+	long long	last;
+
+	ft_mutex(&philos->meal_monitor, LOCK);
+	last = philos->last_mealtime;
+	ft_mutex(&philos->meal_monitor, UNLOCK);
+	if (is_dead(philos))
+		return (DEAD);
+	// if (last > 0 && last < (philos->table->time_to_die) / 2)
+	// 	precise_sleep(philos, philos->table->time_to_die / 4);
+	return (0);
+}
+
 void	taking_forks(t_philo *philos)
 {
-	if (is_dead(philos))
+	if (tune_philo(philos) == DEAD)
 		return ;
-	if (philos->last_mealtime > 0
-		&& philos->last_mealtime < (philos->table->time_to_die) / 2)
-		precise_sleep(philos, philos->table->time_to_eat / 4);
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
@@ -45,8 +56,8 @@ void	eating(t_philo *philos)
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
-	ft_mutex(&philos->meal_monitor, LOCK);
 	philos->table->meal_counter++;
+	ft_mutex(&philos->meal_monitor, LOCK);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
 	ft_mutex(&philos->meal_monitor, UNLOCK);
 	if (philos->philo_id % 2 == 0)

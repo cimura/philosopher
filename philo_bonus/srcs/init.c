@@ -3,33 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 20:07:34 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 21:21:47 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*wait_death(void *arg)
-{
-	t_table	*table;
-
-	table = (t_table *)arg;
-	sem_wait(table->death);
-	send_kill_signal(table);
-	return (NULL);
-}
-
-int	data_init(t_table *table)
+static int	semphore_init(t_table *table)
 {
 	sem_unlink("/forks");
 	sem_unlink("/death");
 	sem_unlink("/write_lock");
-
 	table->meal_counter = 0;
-	//table->is_end = false;
 	table->forks = sem_open("/forks", O_CREAT, 0644, table->philo_nbr);
 	if (table->forks == SEM_FAILED)
 		return (1);
@@ -39,61 +27,48 @@ int	data_init(t_table *table)
 	table->write_lock = sem_open("write_lock", O_CREAT, 0644, 1);
 	if (table->write_lock == SEM_FAILED)
 		return (1);
+	return (0);
+}
+
+static int	semphore_init_meal_lock(t_philo *philos)
+{
+	char	*uniq_id;
+	char	*name;
+
+	uniq_id = ft_itoa(philos->philo_id);
+	if (uniq_id == NULL)
+		return (1);
+	name = ft_strjoin("/sem_meal", uniq_id);
+	if (name == NULL)
+		return (free(uniq_id), 1);
+	sem_unlink(name);
+	philos->meal_lock = sem_open(name, O_CREAT, 0644, 1);
+	if (philos->meal_lock == SEM_FAILED)
+		return (free(uniq_id), free(name), 1);
+	free(name);
+	free(uniq_id);
+	return (0);
+}
+
+int	data_init(t_table *table)
+{
+	int	i;
+
+	if (semphore_init(table) == 1)
+		return (1);
 	table->start_time = gettime_ms();
-	int	i = 0;
+	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr + 1));
+	if (table->philos == NULL)
+		return (1);
+	i = 0;
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = 0;
-		char	*uniq_id = ft_itoa(table->philos[i].philo_id);
-		char	*name = ft_strjoin("/sem_meal", uniq_id);
-		//printf("name: %s\n", name);
-		sem_unlink(name);
-		table->philos[i].meal_lock = sem_open(name, O_CREAT, 0644, 1);
-		if (table->philos[i].meal_lock == SEM_FAILED)
-			return (1);
-		//sem_unlink(name);
-		free(name);
-		free(uniq_id);
+		if (semphore_init_meal_lock(&table->philos[i]) == 1)
+			return (free(table->philos), 1);
 		i++;
 	}
-	// create philo process
-	i = 0;
-	while (i < table->philo_nbr)
-	{
-		table->philos[i].pid = fork();
-		if (table->philos[i].pid == -1)
-			return (1);
-		if (table->philos[i].pid == 0)
-		{
-			if (pthread_create(&table->philos[i].death_detector, NULL,
-				monitor_philo_life, &table->philos[i]))
-				return (1);
-			simulation(table, &table->philos[i]);
-		}
-		else
-			i++;
-	}
-	if (pthread_create(&table->death_waiter, NULL, wait_death, table))
-		return (1);
 	return (0);
 }
-
-
-//int	create_death_waiter(t_table *table)
-//{
-//	//int	i;
-//	//i = 0;
-//	//while (i < table->philo_nbr)
-//	//{
-//	//	if (pthread_create(&table->meal_updater[i], NULL,
-//	//			update_meal_time, &table->philos[i]))
-//	//		return (1);
-//	//	i++;
-//	//}
-//	if (pthread_create(&table->death_waiter, NULL,
-//			wait_death, table->philos))
-//		return (1);
-//	return (0);
-//}

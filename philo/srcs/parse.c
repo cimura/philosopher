@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:35:59 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 21:02:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,24 @@ static int	valid_input(const char *str)
 
 	len = 0;
 	if (str == NULL || *str == '\0')
-		return (-1);
+		return (ERR_STATUS);
 	while (is_whitespace(*str))
 		str++;
 	if (*str == '+')
 		str++;
 	else if (*str == '-')
-		return (-1);
+		return (ERR_STATUS);
 	if (!is_digit(*str))
-		return (-1);
+		return (ERR_STATUS);
 	while (is_digit(*str))
 	{
 		len++;
 		str++;
 	}
 	if (*str != '\0' && !is_whitespace(*str))
-		return (-1);
+		return (ERR_STATUS);
 	if (len > 10)
-		return (-1);
+		return (ERR_STATUS);
 	return (0);
 }
 
@@ -54,8 +54,8 @@ static	long long	ft_atol(const char *str)
 	long long	num;
 
 	num = 0;
-	if (valid_input(str) == -1)
-		return (-1);
+	if (valid_input(str) == ERR_STATUS)
+		return (ERR_STATUS);
 	while (is_whitespace(*str))
 		str++;
 	if (*str == '+')
@@ -63,9 +63,9 @@ static	long long	ft_atol(const char *str)
 	while (is_digit(*str))
 		num = (num * 10) + (*str++ - '0');
 	if (num > INT_MAX)
-		return (-1);
+		return (ERR_STATUS);
 	else if (num <= 0)
-		return (-1);
+		return (ERR_STATUS);
 	return (num);
 }
 
@@ -85,9 +85,9 @@ int	parse_input(t_table *table, char *argv[])
 	}
 	else
 		table->nbr_limit_meals = -1;
-	if (table->time_to_die < 6e1
-		|| table->time_to_eat < 6e1
-		|| table->time_to_sleep < 6e1)
+	if (table->time_to_die < 1
+		|| table->time_to_eat < 1
+		|| table->time_to_sleep < 1)
 		return (PARSE_ERR);
 	return (0);
 }

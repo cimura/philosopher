@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 17:49:49 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 21:27:27 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+static void	tune_philo(t_table *table, t_philo *philos)
+{
+	long long	since_lastmeal;
+
+	sem_wait(philos->meal_lock);
+	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
+	sem_post(philos->meal_lock);
+	// if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
+	// 	precise_sleep(table->time_to_die / 10);
+}
+
 int	taking_forks(t_table *table, t_philo *philos)
 {
-	sem_wait(philos->meal_lock);
-	long long	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
-	sem_post(philos->meal_lock);
-	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
-	{
-		long long sleep_time = table->time_to_die / 4; 
-		//if (since_lastmeal + sleep_time > table->time_to_die)
-		//{
-		//    sleep_time = table->time_to_die - since_lastmeal;
-		//}
-		//printf("\t\tsleep\n");
-		precise_sleep(sleep_time);
-	}
+	tune_philo(table, philos);
 	if (philos->philo_id % 2 == 0)
 	{
 		if (sem_wait(table->forks) < 0)

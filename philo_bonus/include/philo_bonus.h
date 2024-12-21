@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/20 12:21:33 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 20:56:03 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -29,13 +29,10 @@
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
 
-# define ERROR_STATUS -1
-
 typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int				philo_id;
-	//bool			is_dead;
 	long long		last_mealtime;
 	pid_t			pid;
 	sem_t			*meal_lock;
@@ -54,24 +51,20 @@ struct	s_table
 	long long		start_time;
 	bool			is_end;
 	bool			is_dead;
-	// from 1
-	//long long		last_mealtime[202];
-	//sem_t			*meal[202];
 	sem_t			*forks;
 	sem_t			*death;
 	sem_t			*write_lock;
 	pthread_t		death_waiter;
-	//pthread_t		meal_updater[201];
-	t_philo			philos[201];
+	t_philo			*philos;
 };
 
-enum	e_flag
+enum	e_err_flag
 {
-	INIT,
-	DESTROY,
-	LOCK,
-	UNLOCK,
-	CREATE
+	ERR_STATUS = -5,
+	PARSE_ERR,
+	THREAD_ERR,
+	JOIN_ERR,
+	DEAD
 };
 
 // *** utils.c ***
@@ -87,8 +80,7 @@ int			data_init(t_table *table);
 int			parse_input(t_table *table, char *argv[]);
 
 // *** process.c ***
-void			simulation(t_table *table, t_philo *philo);
-int			wait_all_philos(t_table *table);
+int			create_philos(t_table *table);
 
 // *** action.c ***
 int			taking_forks(t_table *table, t_philo *philos);
@@ -98,11 +90,8 @@ void		sleeping(t_philo *philos);
 
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
-void		send_kill_signal(t_table *table);
 
-// *** clean.c ***
-void		clean(t_table *table);
-
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_itoa(int n);
+// *** string_utils.c ***
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_itoa(int nun);
 #endif

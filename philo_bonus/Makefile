@@ -1,6 +1,6 @@
 NAME		:=	philo_bonus
 LIST_SRCS	:=	actions.c init.c main.c parse.c \
-				process.c utils.c str_utils.c monitor.c clean.c
+				process.c utils.c string_utils.c monitor.c
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
@@ -13,7 +13,7 @@ INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
 CFLAGS		:=	-Wall -Wextra -Werror
-#DEBUG_FLAGS	:=	-g -fsanitize=thread
+#DEBUG_FLAGS	:=	-g -fsanitize=address
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m

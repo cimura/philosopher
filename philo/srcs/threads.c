@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:35:29 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 20:06:56 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	*simulation(void *info)
 	return (NULL);
 }
 
-int	create_philos(t_table *table)
+int	create_threads(t_table *table)
 {
 	int	i;
 
@@ -56,7 +56,7 @@ int	create_philos(t_table *table)
 		i++;
 	}
 	if (pthread_create(&table->death_detector, NULL,
-			monitor_philo_life, &table->philos[0]))
+			monitor_philo_life, table))
 		return (THREAD_ERR);
 	return (0);
 }

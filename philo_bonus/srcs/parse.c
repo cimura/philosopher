@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/17 13:47:08 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:24:07 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,24 @@ static int	valid_input(const char *str)
 
 	len = 0;
 	if (str == NULL || *str == '\0')
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	while (is_whitespace(*str))
 		str++;
 	if (*str == '+')
 		str++;
 	else if (*str == '-')
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	if (!is_digit(*str))
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	while (is_digit(*str))
 	{
 		len++;
 		str++;
 	}
 	if (*str != '\0' && !is_whitespace(*str))
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	if (len > 10)
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	return (0);
 }
 
@@ -54,8 +54,8 @@ static	long long	ft_atol(const char *str)
 	long long	num;
 
 	num = 0;
-	if (valid_input(str) == ERROR_STATUS)
-		return (ERROR_STATUS);
+	if (valid_input(str) == ERR_STATUS)
+		return (ERR_STATUS);
 	while (is_whitespace(*str))
 		str++;
 	if (*str == '+')
@@ -63,9 +63,9 @@ static	long long	ft_atol(const char *str)
 	while (is_digit(*str))
 		num = (num * 10) + (*str++ - '0');
 	if (num > INT_MAX)
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	else if (num <= 0)
-		return (ERROR_STATUS);
+		return (ERR_STATUS);
 	return (num);
 }
 
@@ -73,7 +73,7 @@ int	parse_input(t_table *table, char *argv[])
 {
 	table->philo_nbr = ft_atol(argv[1]);
 	if (table->philo_nbr <= 0 || table->philo_nbr > 200)
-		return (1);
+		return (PARSE_ERR);
 	table->time_to_die = ft_atol(argv[2]);
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
@@ -81,13 +81,13 @@ int	parse_input(t_table *table, char *argv[])
 	{
 		table->nbr_limit_meals = ft_atol(argv[5]);
 		if (table->nbr_limit_meals <= 0)
-			return (1);
+			return (PARSE_ERR);
 	}
 	else
-		table->nbr_limit_meals = ERROR_STATUS;
-	if (table->time_to_die < 6e1
-		|| table->time_to_eat < 6e1
-		|| table->time_to_sleep < 6e1)
-		return (1);
+		table->nbr_limit_meals = -1;
+	if (table->time_to_die < 1
+		|| table->time_to_eat < 1
+		|| table->time_to_sleep < 1)
+		return (PARSE_ERR);
 	return (0);
 }

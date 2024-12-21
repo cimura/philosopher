@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:07:24 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 18:55:17 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	clean(t_table *table)
+{
+	free(table->philos);
+	free(table->forks);
+}
 
 int	main(int argc, char *argv[])
 {
@@ -22,10 +28,11 @@ int	main(int argc, char *argv[])
 			return (EXIT_FAILURE);
 		if (data_init(&table) == 1)
 			return (EXIT_FAILURE);
-		if (create_philos(&table) == THREAD_ERR)
+		if (create_threads(&table) == THREAD_ERR)
 			return (EXIT_FAILURE);
 		if (join_threads(&table) == JOIN_ERR)
 			return (1);
+		clean(&table);
 	}
 	else
 		print_error("Wrong input:\n"

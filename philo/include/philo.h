@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 01:37:40 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/21 20:45:08 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
 
-# define PARSE_ERR		2
-# define THREAD_ERR		3
-# define JOIN_ERR		4
-
 typedef struct s_table	t_table;
 typedef struct s_philo
 {
@@ -37,6 +33,7 @@ typedef struct s_philo
 	int				right_fork_id;
 	long long		last_mealtime;
 	pthread_mutex_t	meal_monitor;
+	pthread_mutex_t	end;
 	pthread_t		thread;
 	t_table			*table;
 }	t_philo;
@@ -57,12 +54,21 @@ struct	s_table
 	t_philo			*philos;
 };
 
-enum	e_flag
+enum	e_mutex_flag
 {
 	INIT = 42,
 	DESTROY,
 	LOCK,
 	UNLOCK,
+};
+
+enum	e_err_flag
+{
+	ERR_STATUS = -5,
+	PARSE_ERR,
+	THREAD_ERR,
+	JOIN_ERR,
+	DEAD
 };
 
 // *** utils.c ***
@@ -79,7 +85,7 @@ int			data_init(t_table *table);
 int			parse_input(t_table *table, char *argv[]);
 
 // *** party.c ***
-int			create_philos(t_table *table);
+int			create_threads(t_table *table);
 int			join_threads(t_table *table);
 
 // *** action.c ***
