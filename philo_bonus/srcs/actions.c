@@ -12,20 +12,20 @@
 
 #include "philo_bonus.h"
 
-static void	tune_philo(t_table *table, t_philo *philos)
-{
-	long long	since_lastmeal;
-
-	sem_wait(philos->meal_lock);
-	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
-	sem_post(philos->meal_lock);
-	// if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
-	// 	precise_sleep(table->time_to_die / 10);
-}
+//static void	tune_philo(t_table *table, t_philo *philos)
+//{
+//	long long	since_lastmeal;
+//
+//	sem_wait(philos->meal_lock);
+//	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
+//	sem_post(philos->meal_lock);
+//	// if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
+//	// 	precise_sleep(table->time_to_die / 10);
+//}
 
 int	taking_forks(t_table *table, t_philo *philos)
 {
-	tune_philo(table, philos);
+//	tune_philo(table, philos);
 	if (philos->philo_id % 2 == 0)
 	{
 		if (sem_wait(table->forks) < 0)
