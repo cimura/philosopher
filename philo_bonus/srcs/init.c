@@ -37,7 +37,7 @@ static int	semphore_init_meal_lock(t_table *table, t_philo *philos, int i)
 
 	uniq_id = ft_itoa(philos->philo_id);
 	if (uniq_id == NULL)
-		return (1);
+		return (table->name_ptr[i] = NULL, 1);
 	name = ft_strjoin("/sem_meal", uniq_id);
 	if (name == NULL)
 		return (table->name_ptr[i] = NULL, free(uniq_id), 1);

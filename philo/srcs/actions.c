@@ -3,33 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 21:04:54 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:49:37 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//static int	tune_philo(t_philo *philos)
-//{
-//	long long	last;
-//
-//	ft_mutex(&philos->meal_monitor, LOCK);
-//	last = philos->last_mealtime;
-//	ft_mutex(&philos->meal_monitor, UNLOCK);
-//	if (is_dead(philos))
-//		return (DEAD);
-//	// if (last > 0 && last < (philos->table->time_to_die) / 2)
-//	// 	precise_sleep(philos, philos->table->time_to_die / 4);
-//	return (0);
-//}
+static int	tune_philo(t_philo *philos)
+{
+	long long	last;
+	long long	eval;
+
+	eval = (philos->table->time_to_die
+			- (philos->table->time_to_eat + philos->table->time_to_sleep))
+		/ philos->table->philo_nbr;
+	ft_mutex(&philos->meal_monitor, LOCK);
+	last = philos->last_mealtime;
+	ft_mutex(&philos->meal_monitor, UNLOCK);
+	if (is_dead(philos))
+		return (DEAD);
+	if (eval < 10)
+		return (0);
+	if (last > 0 && last < (philos->table->time_to_die) / 2)
+		precise_sleep(philos, philos->table->time_to_die / 4);
+	return (0);
+}
 
 void	taking_forks(t_philo *philos)
 {
-//	if (tune_philo(philos) == DEAD)
-//		return ;
+	if (tune_philo(philos) == DEAD)
+		return ;
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
