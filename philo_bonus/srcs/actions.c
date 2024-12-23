@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/23 12:49:02 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/24 08:46:03 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ static void	tune_philo(t_table *table, t_philo *philos)
 	sem_wait(philos->meal_lock);
 	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
 	sem_post(philos->meal_lock);
+	if (eval < 10)
+		return ;
 	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
-		precise_sleep(table->time_to_die / 10);
+		precise_sleep(1);
 }
 
 int	taking_forks(t_table *table, t_philo *philos)

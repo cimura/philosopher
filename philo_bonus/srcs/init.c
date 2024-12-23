@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/22 01:05:10 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/24 08:44:50 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	semphore_init_meal_lock(t_table *table, t_philo *philos, int i)
 	table->name_ptr[i] = name;
 	philos->meal_lock = sem_open(name, O_CREAT, 0644, 1);
 	if (philos->meal_lock == SEM_FAILED)
-		return (free(uniq_id), free(name), 1);
+		return (free(name), 1);
 	return (0);
 }
 
