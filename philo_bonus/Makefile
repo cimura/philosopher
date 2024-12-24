@@ -1,6 +1,6 @@
 NAME		:=	philo_bonus
-LIST_SRCS	:=	actions.c init.c main.c parse.c \
-				process.c utils.c string_utils.c monitor.c clean.c
+LIST_SRCS	:=	actions_bonus.c init_bonus.c main_bonus.c parse_bonus.c \
+				process_bonus.c utils_bonus.c string_utils_bonus.c monitor_bonus.c clean_bonus.c
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
@@ -13,7 +13,6 @@ INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
 CFLAGS		:=	-Wall -Wextra -Werror
-DEBUG_FLAGS	:=	-g -fsanitize=address
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m
@@ -44,4 +43,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+leak: fclean
+	$(MAKE) CFLAGS="$(CFLAGS) -g -fsanitize=thread"
+
+.PHONY: all clean fclean re leak

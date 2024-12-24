@@ -44,4 +44,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+leak: fclean
+	$(MAKE) CFLAGS="$(CFLAGS) -g -fsanitize=thread"
+
+.PHONY: all clean fclean re leak
