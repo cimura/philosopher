@@ -13,6 +13,7 @@ INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
 CFLAGS		:=	-Wall -Wextra -Werror
+#DEBUG_FLAGS	:=	-g -fsanitize=thread
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m
@@ -43,7 +44,4 @@ fclean: clean
 
 re: fclean all
 
-leak: fclean
-	$(MAKE) CFLAGS="$(CFLAGS) -g -fsanitize=thread"
-
-.PHONY: all clean fclean re leak
+.PHONY: all clean fclean re 
