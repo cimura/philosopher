@@ -33,6 +33,8 @@ int	data_init(t_table *table)
 	table->is_end = false;
 	table->meal_counter = 0;
 	ft_mutex(&table->write, INIT);
+	ft_mutex(&table->end, INIT);
+	ft_mutex(&table->meal_counter_lock, INIT);
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;
@@ -42,7 +44,6 @@ int	data_init(t_table *table)
 		table->philos[i].right_fork_id
 			= (table->philos[i].philo_id) % table->philo_nbr + 1;
 		ft_mutex(&table->forks[i + 1], INIT);
-		ft_mutex(&table->philos[i].end, INIT);
 		ft_mutex(&table->philos[i].meal_monitor, INIT);
 		i++;
 	}

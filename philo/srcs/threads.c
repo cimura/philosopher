@@ -72,7 +72,9 @@ int	join_threads(t_table *table)
 			return (JOIN_ERR);
 		i++;
 	}
+	ft_mutex(&table->end, LOCK);
 	table->is_end = true;
+	ft_mutex(&table->end, UNLOCK);
 	if (pthread_join(table->death_detector, NULL))
 		return (JOIN_ERR);
 	return (0);
