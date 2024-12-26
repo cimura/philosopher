@@ -4,7 +4,7 @@ LIST_SRCS	:=	actions.c init.c main.c parse.c \
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	objs
-DIR_INCS	:=	include
+DIR_INCS	:=	incs
 
 SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LIST_SRCS))
 OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
