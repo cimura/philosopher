@@ -62,7 +62,9 @@ void	eating(t_philo *philos)
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
-	philos->table->meal_counter++;
+	ft_mutex(&philos->table->meal_counter_lock, LOCK);
+	philos->table->meal_counter += 1; 
+	ft_mutex(&philos->table->meal_counter_lock, UNLOCK);
 	ft_mutex(&philos->meal_monitor, LOCK);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
 	ft_mutex(&philos->meal_monitor, UNLOCK);

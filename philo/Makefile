@@ -13,7 +13,6 @@ INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc	
 CFLAGS		:=	-Wall -Wextra -Werror
-DEBUG_FLAGS	:=	-g -fsanitize=thread
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m
@@ -24,7 +23,7 @@ END			:=	\033[0m
 all: $(NAME)
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
-	@$(CC) $(CFLAGS) -I $(DIR_INCS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -I $(DIR_INCS) -c $< -o $@
 	@printf "$(ERASE)$(BLUE) > Compilation :$(END) $<"
 
 $(DIR_OBJS):

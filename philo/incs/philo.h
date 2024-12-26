@@ -33,7 +33,6 @@ typedef struct s_philo
 	int				right_fork_id;
 	long long		last_mealtime;
 	pthread_mutex_t	meal_monitor;
-	pthread_mutex_t	end;
 	pthread_t		thread;
 	t_table			*table;
 }	t_philo;
@@ -48,8 +47,10 @@ struct	s_table
 	long long		nbr_limit_meals;
 	long long		start_time;
 	bool			is_end;
+	pthread_mutex_t	end;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	meal_counter_lock;
 	pthread_t		death_detector;
 	t_philo			*philos;
 };

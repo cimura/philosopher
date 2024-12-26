@@ -22,9 +22,9 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	if (now - last_meal > philos->table->time_to_die)
 	{
 		print_state(philos->philo_id, RED"died"RESET, philos->table);
-		ft_mutex(&philos->end, LOCK);
+		ft_mutex(&philos->table->end, LOCK);
 		philos->table->is_end = true;
-		ft_mutex(&philos->end, UNLOCK);
+		ft_mutex(&philos->table->end, UNLOCK);
 		return (false);
 	}
 	return (true);
@@ -58,17 +58,18 @@ bool	is_dead(t_philo *philos)
 {
 	bool	dead;
 
-	ft_mutex(&philos->end, LOCK);
+	ft_mutex(&philos->table->end, LOCK);
 	dead = philos->table->is_end;
-	ft_mutex(&philos->end, UNLOCK);
+	ft_mutex(&philos->table->end, UNLOCK);
 	return (dead);
 }
 
 bool	check_full(t_philo *philos)
 {
+	ft_mutex(&philos->table->meal_counter_lock, LOCK);
 	if (philos->table->nbr_limit_meals > 0
 		&& philos->table->meal_counter >= philos->table->nbr_limit_meals)
-		return (true);
+		return (ft_mutex(&philos->table->meal_counter_lock, UNLOCK), true);
 	else
-		return (false);
+		return (ft_mutex(&philos->table->meal_counter_lock, UNLOCK), false);
 }

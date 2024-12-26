@@ -17,11 +17,12 @@ static void	clean(t_table *table)
 	int	i;
 
 	ft_mutex(&table->write, DESTROY);
+	ft_mutex(&table->end, DESTROY);
+	ft_mutex(&table->meal_counter_lock, DESTROY);
 	i = 0;
 	while (i < table->philo_nbr)
 	{
 		ft_mutex(&table->forks[i + 1], DESTROY);
-		ft_mutex(&table->philos[i].end, DESTROY);
 		ft_mutex(&table->philos[i].meal_monitor, DESTROY);
 		i++;
 	}
