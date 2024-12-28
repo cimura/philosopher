@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:07:27 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:37:29 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	check_full(t_philo *philos)
 {
 	ft_mutex(&philos->table->meal_counter_lock, LOCK);
 	if (philos->table->nbr_limit_meals > 0
-		&& philos->table->meal_counter >= philos->table->nbr_limit_meals)
+		&& philos->meal_counter >= philos->table->nbr_limit_meals)
 		return (ft_mutex(&philos->table->meal_counter_lock, UNLOCK), true);
 	else
 		return (ft_mutex(&philos->table->meal_counter_lock, UNLOCK), false);

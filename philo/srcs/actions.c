@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/24 08:44:12 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/28 15:37:07 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	eating(t_philo *philos)
 		"is eating", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
 	ft_mutex(&philos->table->meal_counter_lock, LOCK);
-	philos->table->meal_counter += 1; 
+	philos->meal_counter++;
 	ft_mutex(&philos->table->meal_counter_lock, UNLOCK);
 	ft_mutex(&philos->meal_monitor, LOCK);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;

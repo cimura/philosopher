@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   process_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:56:26 by sshimura         ###   ########.fr       */
+/*   Updated: 2024/12/28 16:29:35 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ static void	simulation(t_table *table, t_philo *philos)
 	while (1)
 	{
 		eating(table, philos);
-		if (philos->table->nbr_limit_meals > 0 && philos->table->meal_counter
+		sem_wait(table->meal_counter_lock);
+		if (philos->table->nbr_limit_meals > 0 && philos->meal_counter
 			>= philos->table->nbr_limit_meals)
 			exit(EXIT_SUCCESS);
+		sem_post(table->meal_counter_lock);
 		sleeping(philos);
 		thinking(philos);
 	}

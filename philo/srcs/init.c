@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/22 00:22:21 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/28 15:36:56 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	data_init(t_table *table)
 	if (allocate_memory(table) == 1)
 		return (1);
 	table->is_end = false;
-	table->meal_counter = 0;
 	ft_mutex(&table->write, INIT);
 	ft_mutex(&table->end, INIT);
 	ft_mutex(&table->meal_counter_lock, INIT);
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;
+		table->philos[i].meal_counter = 0;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = 0;
 		table->philos[i].left_fork_id = table->philos[i].philo_id;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/24 08:44:50 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/28 16:28:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	semphore_init(t_table *table)
 	sem_unlink("/forks");
 	sem_unlink("/death");
 	sem_unlink("/write_lock");
-	table->meal_counter = 0;
+	sem_unlink("/meal_counter_lock");
 	table->forks = sem_open("/forks", O_CREAT, 0644, table->philo_nbr);
 	if (table->forks == SEM_FAILED)
 		return (1);
@@ -26,6 +26,9 @@ static int	semphore_init(t_table *table)
 		return (1);
 	table->write_lock = sem_open("write_lock", O_CREAT, 0644, 1);
 	if (table->write_lock == SEM_FAILED)
+		return (1);
+	table->meal_counter_lock = sem_open("meal_counter_lock", O_CREAT, 0644, 1);
+	if (table->meal_counter_lock == SEM_FAILED)
 		return (1);
 	return (0);
 }
@@ -66,6 +69,7 @@ int	data_init(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
+		table->philos[i].meal_counter = 0;
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i + 1;
 		table->philos[i].last_mealtime = 0;

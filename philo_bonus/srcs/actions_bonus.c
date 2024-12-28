@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   actions_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/24 08:46:03 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/28 16:28:43 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ int	eating(t_table *table, t_philo *philos)
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
-	philos->table->meal_counter++;
+	sem_wait(table->meal_counter_lock);
+	philos->meal_counter++;
+	sem_post(table->meal_counter_lock);
 	sem_wait(philos->meal_lock);
 	philos->last_mealtime = gettime_ms() - philos->table->start_time;
 	sem_post(philos->meal_lock);

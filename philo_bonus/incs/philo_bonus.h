@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/22 00:28:47 by cimy             ###   ########.fr       */
+/*   Updated: 2024/12/28 16:27:50 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_philo
 {
 	int				philo_id;
 	long long		last_mealtime;
+	long long		meal_counter;
 	pid_t			pid;
 	sem_t			*meal_lock;
 	pthread_t		death_detector;
@@ -43,7 +44,6 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
-	long long		meal_counter;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
@@ -55,6 +55,7 @@ struct	s_table
 	sem_t			*forks;
 	sem_t			*death;
 	sem_t			*write_lock;
+	sem_t			*meal_counter_lock;
 	pthread_t		death_waiter;
 	t_philo			*philos;
 };
