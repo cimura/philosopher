@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/22 00:05:07 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/07 21:59:40 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 		mutex_value = pthread_mutex_unlock(mutex);
 	if (mutex_value != 0)
 		print_error("The return value of mutex func is bad...");
+}
+
+void	set_value(pthread_mutex_t *mutex, long long *dst, long long src)
+{
+	ft_mutex(mutex, LOCK);
+	*dst = src;
+	ft_mutex(mutex, UNLOCK);
 }

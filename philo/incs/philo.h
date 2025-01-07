@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/28 15:36:22 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:45:05 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,42 @@
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
 
+typedef struct s_end
+{
+	bool			is_end;
+	pthread_mutex_t	lock;
+}	t_end;
+
+typedef struct s_meal_counter
+{
+	long long		meal_counter;
+	pthread_mutex_t	lock;
+}	t_meal_counter;
+
+typedef struct	s_hungry
+{
+	int				hungry_id;
+	pthread_mutex_t	lock;
+}	t_hungry;
+
+typedef struct s_last_mealtime
+{
+	long long		last_mealtime;
+	pthread_mutex_t	lock;	
+}	t_last_mealtime;
+
 typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int				philo_id;
 	int				left_fork_id;
 	int				right_fork_id;
-	long long		last_mealtime;
-	long long		meal_counter;
-	pthread_mutex_t	meal_monitor;
+	//long long		last_mealtime;
+	//pthread_mutex_t	meal_monitor;
+	t_last_mealtime	_time;
+	t_meal_counter	_meal;
+	//long long		meal_counter;
+	//pthread_mutex_t	meal_counter_lock;
 	pthread_t		thread;
 	t_table			*table;
 }	t_philo;
@@ -41,16 +68,16 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
+	//int				hungry_id;
+	t_hungry		_hunger;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	bool			is_end;
-	pthread_mutex_t	end;
+	t_end			_end;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	meal_counter_lock;
 	pthread_t		death_detector;
 	t_philo			*philos;
 };
@@ -78,6 +105,7 @@ long long	gettime_ms(void);
 void		print_state(int id, const char *state, t_table *table);
 void		precise_sleep(t_philo *philos, long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
+void		set_value(pthread_mutex_t *mutex, long long *dst, long long src);
 
 // *** init.c ***
 int			data_init(t_table *table);

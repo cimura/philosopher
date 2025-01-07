@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/22 00:06:38 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/07 19:03:44 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static void	clean(t_table *table)
 	int	i;
 
 	ft_mutex(&table->write, DESTROY);
-	ft_mutex(&table->end, DESTROY);
-	ft_mutex(&table->meal_counter_lock, DESTROY);
+	ft_mutex(&table->_end.lock, DESTROY);
 	i = 0;
 	while (i < table->philo_nbr)
 	{
 		ft_mutex(&table->forks[i + 1], DESTROY);
-		ft_mutex(&table->philos[i].meal_monitor, DESTROY);
+		ft_mutex(&table->philos[i]._meal.lock, DESTROY);
+		ft_mutex(&table->philos[i]._time.lock, DESTROY);
 		i++;
 	}
 	free(table->philos);
