@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 19:48:25 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 20:55:50 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ struct	s_table
 	t_fork			forks;
 	sem_t			*death;
 	sem_t			*write_lock;
-	//sem_t			*start;
+	sem_t			*start;
 	pthread_t		death_waiter;
 	t_philo			*philos;
 };

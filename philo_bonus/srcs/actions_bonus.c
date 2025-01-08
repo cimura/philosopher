@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 19:28:06 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 21:04:45 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	taking_forks(t_table *table, t_philo *philos)
 	sem_wait(table->forks.lock);
 	sem_wait(table->forks.fork);
 	print_state(philos->philo_id,
-		"has taken a fork", philos->table);
+		"has taken a fork", table);
 	sem_wait(table->forks.fork);
 	print_state(philos->philo_id,
-		"has taken a fork", philos->table);
+		"has taken a fork", table);
 	sem_post(table->forks.lock);
 	return (0);
 }
@@ -47,7 +47,7 @@ int	eating(t_table *table, t_philo *philos)
 	if (taking_forks(table, philos) == 1)
 		return (1);
 	print_state(philos->philo_id,
-		"is eating", philos->table);
+		"is eating", table);
 	precise_sleep(philos->table->time_to_eat);
 	sem_wait(philos->_meal.lock);
 	philos->_meal.meal_counter++;

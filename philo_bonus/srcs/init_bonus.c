@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 19:48:32 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 20:55:55 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static int	semphore_init(t_table *table)
 	if (table->write_lock == SEM_FAILED)
 		return (1);
 	sem_unlink("/write_lock");
-	//table->start = sem_open("/start", O_CREAT | O_EXCL, 0644, 0);
-	//if (table->start == SEM_FAILED)
-	//	return (1);
-	//sem_unlink("/start");
+	table->start = sem_open("/start", O_CREAT | O_EXCL, 0644, 0);
+	if (table->start == SEM_FAILED)
+		return (1);
+	sem_unlink("/start");
 	return (0);
 }
 

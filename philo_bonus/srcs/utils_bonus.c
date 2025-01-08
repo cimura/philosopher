@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/07 18:19:34 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 20:39:03 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void	print_state(int id, const char *state, t_table *table)
 
 	sem_wait(table->write_lock);
 	timestamp = gettime_ms() - table->start_time;
-	sem_post(table->write_lock);
 	printf("%lld %d %s\n", timestamp, id, state);
+	sem_post(table->write_lock);
 }
