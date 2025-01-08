@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 00:25:59 by cimy              #+#    #+#             */
-/*   Updated: 2025/01/08 19:48:53 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 23:37:47 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ void	clean_name(t_table *table)
 	{
 		if (table->name_ptr1[i] == NULL)
 			return ;
-		sem_unlink(table->name_ptr1[i]);
 		free(table->name_ptr1[i]);
 		if (table->name_ptr2[i] == NULL)
 			return ;
-		sem_unlink(table->name_ptr2[i]);
 		free(table->name_ptr2[i]);
 		i++;
 	}
@@ -53,6 +51,6 @@ void	clean(t_table *table)
 	sem_close(table->forks.lock);
 	sem_close(table->death);
 	sem_close(table->write_lock);
-	//sem_close(table->start);
+	sem_close(table->start);
 	free(table->philos);
 }

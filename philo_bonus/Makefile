@@ -12,7 +12,7 @@ OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LIST_SRCS:.c=.h))
 
 CC			:=	cc
-CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-Wall -Wextra -Werror -Ofast -g
 
 ERASE		:=	\033[2K\r
 PINK		:=	\033[35m

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 20:32:24 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 23:34:09 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	*monitor_philo_life(void *arg)
 			sem_wait(philos->table->write_lock);
 			printf("%lld %d %s\n", elapsed, philos->philo_id, RED"died"RESET);
 			sem_post(philos->table->death);
-			while (1)
-				precise_sleep(100);
+			break ;
 		}
 		sem_post(philos->_meal.lock);
 		precise_sleep(1);

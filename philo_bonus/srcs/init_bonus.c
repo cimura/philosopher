@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 20:55:55 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 23:37:02 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static int	semphore_init_meal_lock(t_table *table, t_philo *philos, int i)
 		return (free(name1), free(uniq_id), 1);
 	sem_unlink(name1);
 	name2 = ft_strjoin("/sem_time", uniq_id);
-	if (name2 == NULL)
-		return (table->name_ptr1[i] = NULL, table->name_ptr2[i] = NULL, free(uniq_id), 1);
 	free(uniq_id);
+	if (name2 == NULL)
+		return (free(name1), table->name_ptr1[i] = NULL, 1);
 	table->name_ptr2[i] = name2;
 	philos->_time.lock = sem_open(name2, O_CREAT | O_EXCL, 0644, 1);
 	if (philos->_time.lock == SEM_FAILED)
-		return (free(name2), 1);
+		return (free(name1), free(name2), table->name_ptr1[i] = NULL, table->name_ptr2[i] = NULL, 1);
 	sem_unlink(name2);
 	return (0);
 }
@@ -86,7 +86,6 @@ int	data_init(t_table *table)
 	while (i < table->philo_nbr)
 	{
 		table->philos[i]._meal.meal_counter = 0;
-		table->philos[i]._time.last_mealtime = 0;
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i + 1;
 		if (semphore_init_meal_lock(table, &table->philos[i], i) == 1)
