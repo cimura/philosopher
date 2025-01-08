@@ -3,57 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   actions_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/28 16:28:43 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:28:06 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	tune_philo(t_table *table, t_philo *philos)
-{
-	long long	since_lastmeal;
-	long long	eval;
+//static void	tune_philo(t_table *table, t_philo *philos)
+//{
+//	long long	since_lastmeal;
+//	long long	eval;
 
-	eval = (philos->table->time_to_die
-			- (philos->table->time_to_eat + philos->table->time_to_sleep))
-		/ philos->table->philo_nbr;
-	sem_wait(philos->meal_lock);
-	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
-	sem_post(philos->meal_lock);
-	if (eval < 10)
-		return ;
-	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
-		precise_sleep(1);
-}
+//	eval = (philos->table->time_to_die
+//			- (philos->table->time_to_eat + philos->table->time_to_sleep))
+//		/ philos->table->philo_nbr;
+//	sem_wait(philos->meal_lock);
+//	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
+//	sem_post(philos->meal_lock);
+//	if (eval < 10)
+//		return ;
+//	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
+//		precise_sleep(1);
+//}
 
 int	taking_forks(t_table *table, t_philo *philos)
 {
-	tune_philo(table, philos);
-	if (philos->philo_id % 2 == 0)
-	{
-		if (sem_wait(table->forks) < 0)
-			return (1);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-		if (sem_wait(table->forks) < 0)
-			return (1);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-	}
-	else
-	{
-		if (sem_wait(table->forks) < 0)
-			return (1);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-		if (sem_wait(table->forks) < 0)
-			return (1);
-		print_state(philos->philo_id,
-			"has taken a fork", philos->table);
-	}
+	sem_wait(table->forks.lock);
+	sem_wait(table->forks.fork);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
+	sem_wait(table->forks.fork);
+	print_state(philos->philo_id,
+		"has taken a fork", philos->table);
+	sem_post(table->forks.lock);
 	return (0);
 }
 
@@ -64,16 +49,14 @@ int	eating(t_table *table, t_philo *philos)
 	print_state(philos->philo_id,
 		"is eating", philos->table);
 	precise_sleep(philos->table->time_to_eat);
-	sem_wait(table->meal_counter_lock);
-	philos->meal_counter++;
-	sem_post(table->meal_counter_lock);
-	sem_wait(philos->meal_lock);
-	philos->last_mealtime = gettime_ms() - philos->table->start_time;
-	sem_post(philos->meal_lock);
-	if (sem_post(table->forks) < 0)
-		return (1);
-	if (sem_post(table->forks) < 0)
-		return (1);
+	sem_wait(philos->_meal.lock);
+	philos->_meal.meal_counter++;
+	sem_post(philos->_meal.lock);
+	sem_wait(philos->_time.lock);
+	philos->_time.last_mealtime = gettime_ms() - philos->table->start_time;
+	sem_post(philos->_time.lock);
+	sem_post(table->forks.fork);
+	sem_post(table->forks.fork);
 	return (0);
 }
 

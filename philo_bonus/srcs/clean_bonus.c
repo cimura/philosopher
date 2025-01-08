@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   clean_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 00:25:59 by cimy              #+#    #+#             */
-/*   Updated: 2024/12/22 01:04:50 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/08 19:48:53 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ void	clean_name(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		if (table->name_ptr[i] == NULL)
+		if (table->name_ptr1[i] == NULL)
 			return ;
-		sem_unlink(table->name_ptr[i]);
-		free(table->name_ptr[i]);
+		sem_unlink(table->name_ptr1[i]);
+		free(table->name_ptr1[i]);
+		if (table->name_ptr2[i] == NULL)
+			return ;
+		sem_unlink(table->name_ptr2[i]);
+		free(table->name_ptr2[i]);
 		i++;
 	}
 }
@@ -34,21 +38,21 @@ void	clean_sem_meal_lock(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		sem_close(table->philos[i].meal_lock);
+		sem_close(table->philos[i]._meal.lock);
 		i++;
 	}
 	clean_name(table);
-	free(table->name_ptr);
+	free(table->name_ptr1);
+	free(table->name_ptr2);
 }
 
 void	clean(t_table *table)
 {
 	clean_sem_meal_lock(table);
-	sem_close(table->forks);
+	sem_close(table->forks.fork);
+	sem_close(table->forks.lock);
 	sem_close(table->death);
 	sem_close(table->write_lock);
-	sem_unlink("/forks");
-	sem_unlink("/death");
-	sem_unlink("/write_lock");
+	//sem_close(table->start);
 	free(table->philos);
 }

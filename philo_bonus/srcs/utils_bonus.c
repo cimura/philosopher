@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 20:23:38 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:19:34 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ void	precise_sleep(long long milisec)
 		usleep(1000);
 }
 
-void	print_error(const char *message)
+void	print_error(char *message)
 {
-	printf(RED"%s\n"RESET, message);
+	write(STDERR_FILENO, RED, ft_strlen(RED));
+	write(STDERR_FILENO, message, ft_strlen(message));
+	write(STDERR_FILENO, "\n", 1);
+	write(STDERR_FILENO, RED, ft_strlen(RED));
 }
 
 void	print_state(int id, const char *state, t_table *table)

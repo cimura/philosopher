@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/28 16:23:36 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:47:39 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int	main(int argc, char *argv[])
 	}
 	else
 		print_error("Wrong input:\n"
-			GREEN"example// ./philo 5 800 200 200 [5]"RESET);
+			GREEN"example// ./philo_bonus 5 800 200 200 [5]"RESET);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.c                                     :+:      :+:    :+:   */
+/*   string_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:47:00 by cimy              #+#    #+#             */
-/*   Updated: 2024/12/21 21:21:08 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:19:05 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_itoa(int num)
 	return (result);
 }
 
-static ssize_t	ft_strlen(char *str)
+ssize_t	ft_strlen(char *str)
 {
 	ssize_t	count;
 
