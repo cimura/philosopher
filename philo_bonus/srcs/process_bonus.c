@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 21:12:03 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/09 13:28:20 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	lonely_philo(t_philo *philos)
 static void	simulation(t_table *table, t_philo *philos)
 {
 	sem_wait(table->start);
-	table->start_time = gettime_ms();
+	philos->table->start_time = gettime_ms();
+	//table->start_time = gettime_ms();
 	if (pthread_create(&philos->death_detector, NULL,
 			monitor_philo_life, philos))
 		exit(EXIT_FAILURE);
@@ -84,6 +85,7 @@ int	create_philos(t_table *table)
 		return (1);
 	for(int j = 0; j < table->philo_nbr; ++j)
 	{
+		//table->philos[j].table->start_time = gettime_ms();
 		sem_post(table->start);
 	}
 	return (0);
