@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:13:16 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:13:24 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ void	*monitor_philo_life(void *info)
 {
 	t_table		*table;
 	int			max_id;
-	int			id;
 
 	table = (t_table *)info;
 	max_id = 0;
 	while (1)
 	{
-		id = 0;
 		if (monitor_loop(table, &max_id) == STARVATION)
 			return (NULL);
 		ft_mutex(&table->_hunger.lock, LOCK);

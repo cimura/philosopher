@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 19:58:25 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:36:32 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	lonely_philo(t_philo *philos)
 {
-	ft_mutex(&philos->table->forks[philos->left_fork_id].lock, LOCK);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
 	print_state(philos->philo_id,
 		"has taken a fork", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
-	ft_mutex(&philos->table->forks[philos->left_fork_id].lock, UNLOCK);
+	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
 	while (!is_end(philos))
 		precise_sleep(philos, philos->table->time_to_sleep);
 }

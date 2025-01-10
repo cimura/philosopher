@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 19:59:22 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 23:00:35 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ static int	allocate_memory(t_table *table)
 	table->philos = malloc(sizeof(t_philo) * (table->philo_nbr));
 	if (table->philos == NULL)
 		return (1);
-	table->forks = malloc(sizeof(t_forks) * (table->philo_nbr + 1));
+	table->forks = malloc(sizeof(pthread_mutex_t) * (table->philo_nbr + 1));
 	if (table->forks == NULL)
 		return (free(table->philos), 1);
+	table->que.memory = malloc(sizeof(int) * (table->philo_nbr + 1));
+	if (table->que.memory == NULL)
+		return (free(table->philos), free(table->forks), 1);
 	return (0);
 }
 
@@ -27,14 +30,19 @@ static void	table_init(t_table *table)
 {
 	int	i;
 
-	i = 0;
 	table->que.head = 0;
 	table->que.tail = 0;
+	i = 1;
 	ft_mutex(&table->que.lock, INIT);
-	while (i < table->philo_nbr)
+	while (i <= table->philo_nbr / 2)
 	{
-		// que
-		enque(table, i + 1);
+		enque(table, i * 2);
+		i++;
+	}
+	i = 0;
+	while (i <= table->philo_nbr / 2)
+	{
+		enque(table, i * 2 + 1);
 		i++;
 	}
 	table->_end.is_end = false;
@@ -61,8 +69,7 @@ int	data_init(t_table *table)
 		table->philos[i].left_fork_id = table->philos[i].philo_id;
 		table->philos[i].right_fork_id
 			= (table->philos[i].philo_id) % table->philo_nbr + 1;
-		table->forks[i + 1].clean = true;
-		ft_mutex(&table->forks[i + 1].lock, INIT);
+		ft_mutex(&table->forks[i + 1], INIT);
 		ft_mutex(&table->philos[i]._meal.lock, INIT);
 		ft_mutex(&table->philos[i]._time.lock, INIT);
 		i++;

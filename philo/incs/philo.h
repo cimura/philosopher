@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 20:06:21 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:54:50 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,11 @@ typedef struct s_last_mealtime
 	pthread_mutex_t	lock;	
 }	t_last_mealtime;
 
-typedef struct s_forks
-{
-	bool			clean;
-	// int				id;
-	pthread_mutex_t	lock;
-}	t_forks;
-
 typedef struct s_que
 {
-	int	que[201];
-	int	head;
-	int	tail;
+	int				*memory;
+	int				head;
+	int				tail;
 	pthread_mutex_t	lock;
 }	t_que;
 
@@ -88,8 +81,7 @@ struct	s_table
 	long long		start_time;
 	t_end			_end;
 	pthread_mutex_t	write;
-	// pthread_mutex_t	*forks;
-	t_forks			*forks;
+	pthread_mutex_t	*forks;
 	pthread_t		death_detector;
 	t_philo			*philos;
 };
