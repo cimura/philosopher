@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 23:37:02 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:27:07 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	semphore_init(t_table *table)
 {
-	table->forks.fork = sem_open("/forks", O_CREAT | O_EXCL, 0644, table->philo_nbr);
+	table->forks.fork = sem_open("/forks",
+			O_CREAT | O_EXCL, 0644, table->philo_nbr);
 	if (table->forks.fork == SEM_FAILED)
 		return (1);
 	sem_unlink("/forks");
@@ -52,16 +53,16 @@ static int	semphore_init_meal_lock(t_table *table, t_philo *philos, int i)
 	table->name_ptr1[i] = name1;
 	philos->_meal.lock = sem_open(name1, O_CREAT | O_EXCL, 0644, 1);
 	if (philos->_meal.lock == SEM_FAILED)
-		return (free(name1), free(uniq_id), 1);
+		return (free(uniq_id), 1);
 	sem_unlink(name1);
 	name2 = ft_strjoin("/sem_time", uniq_id);
 	free(uniq_id);
 	if (name2 == NULL)
-		return (free(name1), table->name_ptr1[i] = NULL, 1);
+		return (table->name_ptr1[i] = NULL, 1);
 	table->name_ptr2[i] = name2;
 	philos->_time.lock = sem_open(name2, O_CREAT | O_EXCL, 0644, 1);
 	if (philos->_time.lock == SEM_FAILED)
-		return (free(name1), free(name2), table->name_ptr1[i] = NULL, table->name_ptr2[i] = NULL, 1);
+		return (table->name_ptr1[i] = NULL, table->name_ptr2[i] = NULL, 1);
 	sem_unlink(name2);
 	return (0);
 }
@@ -81,7 +82,7 @@ int	data_init(t_table *table)
 		return (free(table->philos), 1);
 	table->name_ptr2 = malloc(sizeof(char *) * table->philo_nbr + 1);
 	if (table->name_ptr2 == NULL)
-		return (free(table->name_ptr1), free(table->philos), 1);	
+		return (free(table->name_ptr1), free(table->philos), 1);
 	i = 0;
 	while (i < table->philo_nbr)
 	{

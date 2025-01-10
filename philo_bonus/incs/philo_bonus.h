@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 20:55:50 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:50:01 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ struct	s_table
 	bool			is_dead;
 	char			**name_ptr1;
 	char			**name_ptr2;
-	//sem_t			*forks;
 	t_fork			forks;
 	sem_t			*death;
 	sem_t			*write_lock;
@@ -81,7 +80,7 @@ struct	s_table
 
 enum	e_err_flag
 {
-	ERR_STATUS = -5,
+	ERR_STATUS = -42,
 	PARSE_ERR,
 	THREAD_ERR,
 	JOIN_ERR,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/09 13:28:23 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:25:05 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	*monitor_philo_life(void *arg)
 	long long	elapsed;
 
 	philos = (t_philo *)arg;
-	//sem_wait(philos->table->start);
-	//philos->table->start_time = gettime_ms();
 	while (1)
 	{
 		sem_wait(philos->_meal.lock);

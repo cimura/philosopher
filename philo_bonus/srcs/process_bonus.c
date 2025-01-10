@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/09 14:17:45 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:25:38 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	simulation(t_table *table, t_philo *philos)
 {
 	sem_wait(table->start);
 	philos->table->start_time = gettime_ms();
-	//table->start_time = gettime_ms();
 	if (pthread_create(&philos->death_detector, NULL,
 			monitor_philo_life, philos))
 		exit(EXIT_FAILURE);
@@ -83,10 +82,11 @@ int	create_philos(t_table *table)
 	}
 	if (pthread_create(&table->death_waiter, NULL, wait_death, table))
 		return (1);
-	for(int j = 0; j < table->philo_nbr; ++j)
+	i = 0;
+	while (i < table->philo_nbr)
 	{
-		//table->philos[j].table->start_time = gettime_ms();
 		sem_post(table->start);
+		i++;
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 13:21:21 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:46:20 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_meal_counter
 	pthread_mutex_t	lock;
 }	t_meal_counter;
 
-typedef struct	s_hungry
+typedef struct s_hungry
 {
 	int				hungry_id;
 	pthread_mutex_t	lock;
@@ -87,11 +87,12 @@ enum	e_mutex_flag
 
 enum	e_err_flag
 {
-	ERR_STATUS = -5,
+	ERR_STATUS = -42,
 	PARSE_ERR,
 	THREAD_ERR,
 	JOIN_ERR,
-	DEAD
+	DEAD,
+	STARVATION
 };
 
 // *** utils.c ***
@@ -100,7 +101,6 @@ long long	gettime_ms(void);
 void		print_state(int id, const char *state, t_table *table);
 void		precise_sleep(t_philo *philos, long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
-void		set_value(pthread_mutex_t *mutex, long long *dst, long long src);
 
 // *** init.c ***
 int			data_init(t_table *table);
@@ -120,7 +120,6 @@ void		sleeping(t_philo *philos);
 
 // *** monitor.c ***
 void		*monitor_philo_life(void *info);
-bool		is_dead(t_philo *philos);
-bool		check_full(t_philo *philos);
+bool		is_end(t_philo *philos);
 
 #endif

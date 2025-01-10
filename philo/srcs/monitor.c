@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 13:05:01 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:13:16 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	long long	now;
 
 	now = gettime_ms() - philos->table->start_time;
-	if (is_dead(philos))
-		return(false);
+	if (is_end(philos))
+		return (false);
 	if (now - last_meal > philos->table->time_to_die)
 	{
 		ft_mutex(&philos->table->_end.lock, LOCK);
-		printf("%lld %d is "RED"died\n"RESET, gettime_ms() - philos->table->start_time, philos->philo_id);
+		now = gettime_ms() - philos->table->start_time;
+		printf("%lld %d is "RED"died\n"RESET, now, philos->philo_id);
 		philos->table->_end.is_end = true;
 		ft_mutex(&philos->table->_end.lock, UNLOCK);
 		return (false);
@@ -30,41 +31,52 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	return (true);
 }
 
+static int	monitor_loop(t_table *table, int *max_id)
+{
+	int			id;
+	long long	last_meal;
+	long long	max_last_mealtime;
+
+	id = 0;
+	while (id < table->philo_nbr)
+	{
+		ft_mutex(&table->philos[id]._time.lock, LOCK);
+		if (table->philos[id]._time.last_mealtime > max_last_mealtime)
+		{
+			max_last_mealtime = table->philos[id]._time.last_mealtime;
+			*max_id = id;
+		}
+		last_meal = table->philos[id]._time.last_mealtime;
+		ft_mutex(&table->philos[id]._time.lock, UNLOCK);
+		if (!check_starvation(&table->philos[id], last_meal))
+			return (STARVATION);
+		id++;
+	}
+	return (0);
+}
+
 void	*monitor_philo_life(void *info)
 {
 	t_table		*table;
-	long long	last_meal;
-	long long	max_last_mealtime;
-	int			max_id = 0;
+	int			max_id;
 	int			id;
 
 	table = (t_table *)info;
+	max_id = 0;
 	while (1)
 	{
 		id = 0;
-		max_last_mealtime = INT_MIN;
-		while (id < table->philo_nbr)
-		{
-			ft_mutex(&table->philos[id]._time.lock, LOCK);
-			if (table->philos[id]._time.last_mealtime > max_last_mealtime)
-			{
-				max_last_mealtime = table->philos[id]._time.last_mealtime;
-				max_id = id;
-			}
-			ft_mutex(&table->philos[id]._time.lock, UNLOCK);
-			set_value(&table->philos[id]._time.lock, &last_meal,table->philos[id]._time.last_mealtime);
-			if (!check_starvation(&table->philos[id], last_meal))
-				return (NULL);
-			id++;
-		}
-		set_value(&table->_hunger.lock, (long long *)&table->_hunger.hungry_id, max_id);
-		//table->_hunger.hungry_id = max_id;
+		if (monitor_loop(table, &max_id) == STARVATION)
+			return (NULL);
+		ft_mutex(&table->_hunger.lock, LOCK);
+		table->_hunger.hungry_id = max_id;
+		ft_mutex(&table->_hunger.lock, UNLOCK);
 		precise_sleep(table->philos, 1);
 	}
 	return (NULL);
 }
 
-bool	is_dead(t_philo *philos)
+bool	is_end(t_philo *philos)
 {
 	bool	dead;
 
@@ -72,18 +84,4 @@ bool	is_dead(t_philo *philos)
 	dead = philos->table->_end.is_end;
 	ft_mutex(&philos->table->_end.lock, UNLOCK);
 	return (dead);
-}
-
-bool	check_full(t_philo *philos)
-{
-	bool	is_full;
-
-	ft_mutex(&philos->_meal.lock, LOCK);
-	if (philos->table->nbr_limit_meals > 0
-		&& philos->_meal.meal_counter >= philos->table->nbr_limit_meals)
-		is_full = true;
-	else
-		is_full = false;
-	ft_mutex(&philos->_meal.lock, UNLOCK);
-	return (is_full);
 }

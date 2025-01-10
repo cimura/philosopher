@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 12:09:57 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:12:16 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@ static int	allocate_memory(t_table *table)
 	return (0);
 }
 
+static void	table_init(t_table *table)
+{
+	table->_end.is_end = false;
+	table->_hunger.hungry_id = -1;
+	ft_mutex(&table->write, INIT);
+	ft_mutex(&table->_end.lock, INIT);
+	ft_mutex(&table->_hunger.lock, INIT);
+}
+
 int	data_init(t_table *table)
 {
 	int	i;
@@ -30,11 +39,7 @@ int	data_init(t_table *table)
 	i = 0;
 	if (allocate_memory(table) == 1)
 		return (1);
-	table->_end.is_end = false;
-	table->_hunger.hungry_id = -1;
-	ft_mutex(&table->write, INIT);
-	ft_mutex(&table->_end.lock, INIT);
-	ft_mutex(&table->_hunger.lock, INIT);
+	table_init(table);
 	while (i < table->philo_nbr)
 	{
 		table->philos[i].table = table;

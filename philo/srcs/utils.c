@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/07 21:59:40 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:00:02 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	precise_sleep(t_philo *philos, long long milisec)
 	long long	start;
 
 	start = gettime_ms();
-	while ((gettime_ms() - start) < milisec && !is_dead(philos))
+	while ((gettime_ms() - start) < milisec && !is_end(philos))
 		usleep(500);
 }
 
@@ -41,7 +41,7 @@ void	print_state(int id, const char *state, t_table *table)
 
 	timestamp = gettime_ms() - table->start_time;
 	ft_mutex(&table->write, LOCK);
-	if (!is_dead(table->philos))
+	if (!is_end(table->philos))
 		printf("%lld %d %s\n", timestamp, id, state);
 	ft_mutex(&table->write, UNLOCK);
 }
@@ -61,11 +61,4 @@ void	ft_mutex(pthread_mutex_t *mutex, int flag)
 		mutex_value = pthread_mutex_unlock(mutex);
 	if (mutex_value != 0)
 		print_error("The return value of mutex func is bad...");
-}
-
-void	set_value(pthread_mutex_t *mutex, long long *dst, long long src)
-{
-	ft_mutex(mutex, LOCK);
-	*dst = src;
-	ft_mutex(mutex, UNLOCK);
 }

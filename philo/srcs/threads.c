@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 13:21:26 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:14:05 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,22 @@ static void	lonely_philo(t_philo *philos)
 		"has taken a fork", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
 	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
-	while (!is_dead(philos))
+	while (!is_end(philos))
 		precise_sleep(philos, philos->table->time_to_sleep);
+}
+
+static inline bool	check_full(t_philo *philos)
+{
+	bool	is_full;
+
+	ft_mutex(&philos->_meal.lock, LOCK);
+	if (philos->table->nbr_limit_meals > 0
+		&& philos->_meal.meal_counter >= philos->table->nbr_limit_meals)
+		is_full = true;
+	else
+		is_full = false;
+	ft_mutex(&philos->_meal.lock, UNLOCK);
+	return (is_full);
 }
 
 static void	*simulation(void *info)
@@ -32,7 +46,7 @@ static void	*simulation(void *info)
 		lonely_philo(philos);
 	if (philos->philo_id % 2 != 0)
 		precise_sleep(philos, philos->table->time_to_sleep);
-	while (!is_dead(philos))
+	while (!is_end(philos))
 	{
 		eating(philos);
 		if (check_full(philos))
