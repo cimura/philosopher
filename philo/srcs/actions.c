@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/07 22:47:12 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 13:27:12 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 static void	tune_philo(t_philo *philos)
 {
-	//printf("=== \ti am %d, hungry id is %d\n", philos->philo_id, philos->table->hungry_id);
 	ft_mutex(&philos->table->_hunger.lock, LOCK);
 	if (philos->philo_id != philos->table->_hunger.hungry_id && philos->_time.last_mealtime != 0)
 	{
-		//printf("%lld %d is not hungry...\n", gettime_ms() - philos->table->start_time, philos->philo_id);
+		printf("%d is sleeping %lld ms\n", philos->philo_id, philos->table->time_to_eat - philos->table->time_to_sleep + 5);
 		precise_sleep(philos, philos->table->time_to_eat - philos->table->time_to_sleep + 5);
 	}
 	ft_mutex(&philos->table->_hunger.lock, UNLOCK);
@@ -26,8 +25,7 @@ static void	tune_philo(t_philo *philos)
 
 void	taking_forks(t_philo *philos)
 {
-	if (philos->table->philo_nbr % 2 != 0)
-		tune_philo(philos);
+	tune_philo(philos);
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);

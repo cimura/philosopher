@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/07 22:45:05 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 13:21:21 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,8 @@ typedef struct s_philo
 	int				philo_id;
 	int				left_fork_id;
 	int				right_fork_id;
-	//long long		last_mealtime;
-	//pthread_mutex_t	meal_monitor;
 	t_last_mealtime	_time;
 	t_meal_counter	_meal;
-	//long long		meal_counter;
-	//pthread_mutex_t	meal_counter_lock;
 	pthread_t		thread;
 	t_table			*table;
 }	t_philo;
@@ -68,7 +64,6 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
-	//int				hungry_id;
 	t_hungry		_hunger;
 	long long		time_to_die;
 	long long		time_to_eat;

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/09 13:28:20 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/09 14:17:45 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	simulation(t_table *table, t_philo *philos)
 		exit(EXIT_FAILURE);
 	if (table->philo_nbr == 1)
 		lonely_philo(philos);
-	if (table->philo_nbr % 2 == 0 && philos->philo_id % 2 != 0)
+	if (philos->philo_id % 2 != 0)
 		precise_sleep(table->time_to_eat);
 	while (1)
 	{
