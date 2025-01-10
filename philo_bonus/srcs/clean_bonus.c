@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 00:25:59 by cimy              #+#    #+#             */
-/*   Updated: 2025/01/08 23:37:47 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 18:16:10 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	clean_name(t_table *table)
 		if (table->name_ptr1[i] == NULL)
 			return ;
 		free(table->name_ptr1[i]);
+		i++;
+	}
+	i = 0;
+	while (i < table->philo_nbr)
+	{
 		if (table->name_ptr2[i] == NULL)
 			return ;
 		free(table->name_ptr2[i]);

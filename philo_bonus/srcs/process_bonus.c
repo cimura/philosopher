@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:25:38 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:17:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	simulation(t_table *table, t_philo *philos)
 	}
 }
 
-static void	send_kill_signal(t_table *table)
+static void	send_signal(t_table *table)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ static void	*wait_death(void *arg)
 
 	table = (t_table *)arg;
 	sem_wait(table->death);
-	send_kill_signal(table);
+	send_signal(table);
 	return (NULL);
 }
 

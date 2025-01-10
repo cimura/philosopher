@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:00:02 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:13:41 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	precise_sleep(t_philo *philos, long long milisec)
 
 void	print_error(const char *message)
 {
-	printf(RED"%s\n"RESET, message);
+	write(STDERR_FILENO, RED, ft_strlen(RED));
+	write(STDERR_FILENO, message, ft_strlen(message));
+	write(STDERR_FILENO, "\n", 1);
+	write(STDERR_FILENO, RED, ft_strlen(RED));
 }
 
 void	print_state(int id, const char *state, t_table *table)

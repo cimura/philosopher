@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:46:35 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:12:42 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 
 static void	tune_philo(t_philo *philos)
 {
-	long long	sleep_time;
-
-	sleep_time = philos->table->time_to_eat - philos->table->time_to_sleep + 5;
 	ft_mutex(&philos->table->_hunger.lock, LOCK);
 	if (philos->philo_id != philos->table->_hunger.hungry_id
 		&& philos->_time.last_mealtime != 0)
 	{
-		precise_sleep(philos, sleep_time);
+		precise_sleep(philos, 5);
 	}
 	ft_mutex(&philos->table->_hunger.lock, UNLOCK);
 }
 
 void	taking_forks(t_philo *philos)
 {
-	if (philos->table->philo_nbr % 2 != 0)
-		tune_philo(philos);
+	tune_philo(philos);
 	if (philos->philo_id % 2 == 0)
 	{
 		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);

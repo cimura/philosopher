@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/09 13:29:51 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 18:16:36 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	wait_all_philos(t_table *table)
 		i++;
 	}
 	sem_post(table->death);
-	sem_wait(table->write_lock);
 	pthread_join(table->death_waiter, NULL);
 	return (0);
 }

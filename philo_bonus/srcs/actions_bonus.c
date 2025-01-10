@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actions_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/08 21:04:45 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 18:15:31 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-//static void	tune_philo(t_table *table, t_philo *philos)
-//{
-//	long long	since_lastmeal;
-//	long long	eval;
-
-//	eval = (philos->table->time_to_die
-//			- (philos->table->time_to_eat + philos->table->time_to_sleep))
-//		/ philos->table->philo_nbr;
-//	sem_wait(philos->meal_lock);
-//	since_lastmeal = gettime_ms() - table->start_time - philos->last_mealtime;
-//	sem_post(philos->meal_lock);
-//	if (eval < 10)
-//		return ;
-//	if (philos->last_mealtime > 0 && since_lastmeal < (table->time_to_die) / 2)
-//		precise_sleep(1);
-//}
 
 int	taking_forks(t_table *table, t_philo *philos)
 {
@@ -36,9 +19,9 @@ int	taking_forks(t_table *table, t_philo *philos)
 	print_state(philos->philo_id,
 		"has taken a fork", table);
 	sem_wait(table->forks.fork);
+	sem_post(table->forks.lock);
 	print_state(philos->philo_id,
 		"has taken a fork", table);
-	sem_post(table->forks.lock);
 	return (0);
 }
 
