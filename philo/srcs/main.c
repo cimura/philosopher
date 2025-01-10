@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/07 19:03:44 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/10 20:00:55 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	clean(t_table *table)
 	i = 0;
 	while (i < table->philo_nbr)
 	{
-		ft_mutex(&table->forks[i + 1], DESTROY);
+		ft_mutex(&table->forks[i + 1].lock, DESTROY);
 		ft_mutex(&table->philos[i]._meal.lock, DESTROY);
 		ft_mutex(&table->philos[i]._time.lock, DESTROY);
 		i++;

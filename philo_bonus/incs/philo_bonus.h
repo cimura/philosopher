@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:50:01 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:38:30 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void		sleeping(t_philo *philos);
 void		*monitor_philo_life(void *info);
 
 // *** string_utils.c ***
-ssize_t		ft_strlen(char *str);
+size_t		ft_strlen(char *str);
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_itoa(int nun);
 

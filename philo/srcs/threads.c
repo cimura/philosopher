@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 18:07:22 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:58:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	lonely_philo(t_philo *philos)
 {
-	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+	ft_mutex(&philos->table->forks[philos->left_fork_id].lock, LOCK);
 	print_state(philos->philo_id,
 		"has taken a fork", philos->table);
 	precise_sleep(philos, philos->table->time_to_eat);
-	ft_mutex(&philos->table->forks[philos->left_fork_id], UNLOCK);
+	ft_mutex(&philos->table->forks[philos->left_fork_id].lock, UNLOCK);
 	while (!is_end(philos))
 		precise_sleep(philos, philos->table->time_to_sleep);
 }
@@ -44,7 +44,7 @@ static void	*simulation(void *info)
 	philos = (t_philo *)info;
 	if (philos->table->philo_nbr == 1)
 		lonely_philo(philos);
-	if (philos->philo_id % 2 != 0)
+	if (philos->philo_id % 2 != 0 && philos->table->philo_nbr % 2 == 0)
 		precise_sleep(philos, philos->table->time_to_sleep);
 	while (!is_end(philos))
 	{

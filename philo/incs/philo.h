@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 17:46:20 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:06:21 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,21 @@ typedef struct s_last_mealtime
 	pthread_mutex_t	lock;	
 }	t_last_mealtime;
 
+typedef struct s_forks
+{
+	bool			clean;
+	// int				id;
+	pthread_mutex_t	lock;
+}	t_forks;
+
+typedef struct s_que
+{
+	int	que[201];
+	int	head;
+	int	tail;
+	pthread_mutex_t	lock;
+}	t_que;
+
 typedef struct s_table	t_table;
 typedef struct s_philo
 {
@@ -65,6 +80,7 @@ struct	s_table
 {
 	int				philo_nbr;
 	t_hungry		_hunger;
+	t_que			que;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
@@ -72,7 +88,8 @@ struct	s_table
 	long long		start_time;
 	t_end			_end;
 	pthread_mutex_t	write;
-	pthread_mutex_t	*forks;
+	// pthread_mutex_t	*forks;
+	t_forks			*forks;
 	pthread_t		death_detector;
 	t_philo			*philos;
 };
@@ -101,6 +118,13 @@ long long	gettime_ms(void);
 void		print_state(int id, const char *state, t_table *table);
 void		precise_sleep(t_philo *philos, long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
+
+void	enque(t_table *table, int id);
+int	deque(t_table *table, int id);
+
+// *** print.c ***
+void		print_error(const char *message);
+void		print_state(int id, const char *state, t_table *table);
 
 // *** init.c ***
 int			data_init(t_table *table);
