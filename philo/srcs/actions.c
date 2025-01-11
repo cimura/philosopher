@@ -20,12 +20,24 @@ static void	tune_philo(t_philo *philos)
 			break ;
 		precise_sleep(philos, 1);
 	}
-	ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
-	print_state(philos->philo_id,
-		"has taken a fork", philos->table);
-	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
-	print_state(philos->philo_id,
-		"has taken a fork", philos->table);
+	if (philos->philo_id % 2 == 0)
+	{
+		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
+		print_state(philos->philo_id,
+			"has taken a fork", philos->table);
+		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+		print_state(philos->philo_id,
+			"has taken a fork", philos->table);
+	}
+	else
+	{
+		ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
+		print_state(philos->philo_id,
+			"has taken a fork", philos->table);
+		ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
+		print_state(philos->philo_id,
+			"has taken a fork", philos->table);
+	}
 	increase_que_head(philos->table);
 	enque(philos->table, philos->philo_id);
 }

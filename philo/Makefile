@@ -10,7 +10,7 @@ SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LIST_SRCS))
 OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
 
 CC			:=	cc
-CFLAGS		:=	-MMD -Wall -Wextra -Werror
+CFLAGS		:=	-MMD -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
