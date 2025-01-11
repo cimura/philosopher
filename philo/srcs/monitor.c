@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 22:13:24 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 09:32:03 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	{
 		ft_mutex(&philos->table->_end.lock, LOCK);
 		now = gettime_ms() - philos->table->start_time;
-		printf("%lld %d is "RED"died\n"RESET, now, philos->philo_id);
+		if (!is_end(philos))
+			printf("%lld %d is "RED"died\n"RESET, now, philos->philo_id);
+		else
+		{
+			ft_mutex(&philos->table->_end.lock, UNLOCK);
+			return (false);
+		}
 		philos->table->_end.is_end = true;
 		ft_mutex(&philos->table->_end.lock, UNLOCK);
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 23:00:35 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 09:58:34 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ static void	table_init(t_table *table)
 	ft_mutex(&table->write, INIT);
 	ft_mutex(&table->_end.lock, INIT);
 	ft_mutex(&table->_hunger.lock, INIT);
+	i = 0;
+	while (i <= table->philo_nbr)
+	{
+		ft_mutex(&table->forks[i + 1], INIT);
+		ft_mutex(&table->philos[i]._meal.lock, INIT);
+		ft_mutex(&table->philos[i]._time.lock, INIT);
+		i++;
+	}
 }
 
 int	data_init(t_table *table)
@@ -69,9 +77,9 @@ int	data_init(t_table *table)
 		table->philos[i].left_fork_id = table->philos[i].philo_id;
 		table->philos[i].right_fork_id
 			= (table->philos[i].philo_id) % table->philo_nbr + 1;
-		ft_mutex(&table->forks[i + 1], INIT);
-		ft_mutex(&table->philos[i]._meal.lock, INIT);
-		ft_mutex(&table->philos[i]._time.lock, INIT);
+		//ft_mutex(&table->forks[i + 1], INIT);
+		//ft_mutex(&table->philos[i]._meal.lock, INIT);
+		//ft_mutex(&table->philos[i]._time.lock, INIT);
 		i++;
 	}
 	table->start_time = gettime_ms();
