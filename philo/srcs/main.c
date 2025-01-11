@@ -6,13 +6,22 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 10:23:39 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 12:21:43 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	clean(t_table *table)
+static int	clean(t_table *table, char *message, void (*func)(t_table *))
+{
+	if (message != NULL)
+		print_error(message);
+	if (func != NULL)
+		func(table);
+	return (EXIT_FAILURE);
+}
+
+static void	free_data(t_table *table)
 {
 	int	i;
 
@@ -28,6 +37,7 @@ static void	clean(t_table *table)
 	}
 	free(table->philos);
 	free(table->forks);
+	free(table->que.memory);
 }
 
 int	main(int argc, char *argv[])
@@ -37,14 +47,14 @@ int	main(int argc, char *argv[])
 	if (5 == argc || 6 == argc)
 	{
 		if (parse_input(&table, argv) == PARSE_ERR)
-			return (print_error("parse error"), EXIT_FAILURE);
+			return (clean(&table, "parse error", NULL));
 		if (data_init(&table) == 1)
-			return (print_error("data init error"), EXIT_FAILURE);
+			return (clean(&table, "data init error", NULL));
 		if (create_threads(&table) == THREAD_ERR)
-			return (print_error("thread init error"), clean(&table), EXIT_FAILURE);
+			return (clean(&table, "thread init error", free_data));
 		if (join_threads(&table) == JOIN_ERR)
-			return (print_error("thread join error"), clean(&table), 1);
-		clean(&table);
+			return (clean(&table, "thread join error", free_data));
+		clean(&table, NULL, free_data);
 	}
 	else
 		print_error(RED"Wrong input:\n"

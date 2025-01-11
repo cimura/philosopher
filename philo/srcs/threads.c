@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 22:36:32 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 12:42:09 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ static void	*simulation(void *info)
 	{
 		eating(philos);
 		if (check_full(philos))
+		{
 			break ;
+		}
 		sleeping(philos);
 		thinking(philos);
 	}

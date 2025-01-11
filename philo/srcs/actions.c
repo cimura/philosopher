@@ -6,64 +6,27 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 10:17:47 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 12:58:08 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	enque(t_table *table, int id)
-{
-	ft_mutex(&table->que.lock, LOCK);
-	//if (table->que.head == (table->que.tail + 1) % table->philo_nbr)
-	//{
-	//	printf("que max\n");
-	//	ft_mutex(&table->que.lock, UNLOCK);
-	//	return ;
-	//}
-	table->que.memory[table->que.tail] = id;
-	table->que.tail++;
-	if (table->que.tail == table->philo_nbr)
-		table->que.tail = 0;
-	ft_mutex(&table->que.lock, UNLOCK);
-}
-
-int	deque(t_table *table, int id)
-{
-	ft_mutex(&table->que.lock, LOCK);
-	//if (table->que.head == table->que.tail)
-	//{
-	//	printf("head == tail::: %d deq\n", id);
-	//	ft_mutex(&table->que.lock, UNLOCK);
-	//	return -1;
-	//}
-	int res = table->que.memory[table->que.head];
-	if (res != id)
-	{
-		ft_mutex(&table->que.lock, UNLOCK);
-		return -1;
-	}
-	table->que.head++;
-	if (table->que.head == table->philo_nbr)
-		table->que.head = 0; 
-	ft_mutex(&table->que.lock, UNLOCK);
-	return (res);
-}
-
 static void	tune_philo(t_philo *philos)
 {
 	while (!is_end(philos))
 	{
-		if (deque(philos->table, philos->philo_id) == philos->philo_id)
+		if (call_que_head(philos->table, philos->philo_id) == philos->philo_id)
 			break ;
-		precise_sleep(philos, 5);
+		precise_sleep(philos, 1);
 	}
 	ft_mutex(&philos->table->forks[philos->right_fork_id], LOCK);
 	print_state(philos->philo_id,
-			"has taken a fork", philos->table);
+		"has taken a fork", philos->table);
 	ft_mutex(&philos->table->forks[philos->left_fork_id], LOCK);
 	print_state(philos->philo_id,
-			"has taken a fork", philos->table);
+		"has taken a fork", philos->table);
+	increase_que_head(philos->table);
 	enque(philos->table, philos->philo_id);
 }
 

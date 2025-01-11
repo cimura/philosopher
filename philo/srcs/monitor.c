@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:15:50 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 10:20:05 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 12:38:37 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static bool	check_starvation(t_philo *philos, long long last_meal)
 	if (now - last_meal > philos->table->time_to_die)
 	{
 		ft_mutex(&philos->table->_end.lock, LOCK);
-		now = gettime_ms() - philos->table->start_time;
 		if (!philos->table->_end.is_end)
 			printf("%lld %d is "RED"died\n"RESET, now, philos->philo_id);
 		else
@@ -53,7 +52,7 @@ void	*monitor_philo_life(void *info)
 			last_meal = table->philos[id]._time.last_mealtime;
 			ft_mutex(&table->philos[id]._time.lock, UNLOCK);
 			if (!check_starvation(&table->philos[id], last_meal))
-				break ;
+				return (NULL);
 			id++;
 		}
 		precise_sleep(table->philos, 1);

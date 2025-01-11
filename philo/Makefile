@@ -1,5 +1,5 @@
 NAME		:=	philo
-LIST_SRCS	:=	actions.c init.c main.c parse.c \
+LIST_SRCS	:=	actions.c init.c main.c parse.c que.c \
 				threads.c utils.c monitor.c print.c
 
 DIR_SRCS	:=	srcs

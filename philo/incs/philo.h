@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 22:54:50 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 12:49:08 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ typedef struct s_meal_counter
 	pthread_mutex_t	lock;
 }	t_meal_counter;
 
-typedef struct s_hungry
-{
-	int				hungry_id;
-	pthread_mutex_t	lock;
-}	t_hungry;
-
 typedef struct s_last_mealtime
 {
 	long long		last_mealtime;
@@ -72,7 +66,6 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
-	t_hungry		_hunger;
 	t_que			que;
 	long long		time_to_die;
 	long long		time_to_eat;
@@ -111,8 +104,11 @@ void		print_state(int id, const char *state, t_table *table);
 void		precise_sleep(t_philo *philos, long long milisec);
 void		ft_mutex(pthread_mutex_t *mutex, int flag);
 
-void	enque(t_table *table, int id);
-int	deque(t_table *table, int id);
+// *** que.c ***
+void		que_init(t_table *table);
+void		enque(t_table *table, int id);
+int			call_que_head(t_table *table, int id);
+void		increase_que_head(t_table *table);
 
 // *** print.c ***
 void		print_error(const char *message);
