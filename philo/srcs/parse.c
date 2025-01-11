@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:50:01 by sshimura          #+#    #+#             */
-/*   Updated: 2024/12/21 21:02:25 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:03:20 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	parse_input(t_table *table, char *argv[])
 	}
 	else
 		table->nbr_limit_meals = -1;
-	if (table->time_to_die < 1
-		|| table->time_to_eat < 1
-		|| table->time_to_sleep < 1)
+	if (table->time_to_die < 60
+		|| table->time_to_eat < 60
+		|| table->time_to_sleep < 60)
 		return (PARSE_ERR);
 	return (0);
 }

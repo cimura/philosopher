@@ -10,7 +10,7 @@ SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LIST_SRCS))
 OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LIST_SRCS:.c=.o))
 
 CC			:=	cc
-CFLAGS		:=	-MMD -Wall -Wextra -Werror -g
+CFLAGS		:=	-MMD -Wall -Wextra -Werror
 
 all: $(NAME)
 
@@ -36,7 +36,4 @@ re: fclean all
 thread: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) -g -fsanitize=thread"
 
-leak: fclean
-	$(MAKE) CFLAGS="$(CFLAGS) -g -fsanitize=address"
-
-.PHONY: all clean fclean re leak
+.PHONY: all clean fclean re thread

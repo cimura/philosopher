@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 20:38:30 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:26:32 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ struct	s_table
 	bool			is_dead;
 	char			**name_ptr1;
 	char			**name_ptr2;
-	t_fork			forks;
 	sem_t			*death;
 	sem_t			*write_lock;
 	sem_t			*start;
 	pthread_t		death_waiter;
+	t_fork			forks;
 	t_philo			*philos;
 };
 
@@ -103,7 +103,6 @@ int			parse_input(t_table *table, char *argv[]);
 int			create_philos(t_table *table);
 
 // *** action.c ***
-int			taking_forks(t_table *table, t_philo *philos);
 int			eating(t_table *table, t_philo *philos);
 void		thinking(t_philo *philos);
 void		sleeping(t_philo *philos);
@@ -118,7 +117,7 @@ char		*ft_itoa(int nun);
 
 // *** clean.c ***
 void		clean_name(t_table *table);
-void		clean_sem_meal_lock(t_table *table);
-void		clean(t_table *table);
+void		destroy_data(t_table *table);
+int			clean(t_table *table, char *message, void (*func)(t_table *));
 
 #endif

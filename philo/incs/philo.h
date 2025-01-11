@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:05:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 12:49:08 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 17:27:06 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ typedef struct s_philo
 struct	s_table
 {
 	int				philo_nbr;
-	t_que			que;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	long long		nbr_limit_meals;
 	long long		start_time;
-	t_end			_end;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
 	pthread_t		death_detector;
+	t_end			_end;
+	t_que			que;
 	t_philo			*philos;
 };
 
@@ -124,8 +124,7 @@ int			parse_input(t_table *table, char *argv[]);
 int			create_threads(t_table *table);
 int			join_threads(t_table *table);
 
-// *** action.c ***
-void		taking_forks(t_philo *philos);
+// *** actions.c ***
 void		eating(t_philo *philos);
 void		thinking(t_philo *philos);
 void		sleeping(t_philo *philos);

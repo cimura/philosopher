@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:23 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 12:38:43 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 17:19:38 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ static int	allocate_memory(t_table *table)
 	table->forks = malloc(sizeof(pthread_mutex_t) * (table->philo_nbr + 1));
 	if (table->forks == NULL)
 		return (free(table->philos), 1);
-	table->que.memory = malloc(sizeof(int) * (table->philo_nbr + 1));
-	if (table->que.memory == NULL)
-		return (free(table->philos), free(table->forks), 1);
+	if (table->philo_nbr % 2 != 0)
+	{
+		table->que.memory = malloc(sizeof(int) * (table->philo_nbr + 1));
+		if (table->que.memory == NULL)
+			return (free(table->philos), free(table->forks), 1);
+	}
 	return (0);
 }
 
@@ -31,7 +34,8 @@ static void	table_init(t_table *table)
 	int	i;
 
 	table->_end.is_end = false;
-	que_init(table);
+	if (table->philo_nbr % 2 != 0)
+		que_init(table);
 	ft_mutex(&table->write, INIT);
 	ft_mutex(&table->_end.lock, INIT);
 	i = 0;
@@ -42,6 +46,7 @@ static void	table_init(t_table *table)
 		ft_mutex(&table->philos[i]._time.lock, INIT);
 		i++;
 	}
+	table->start_time = gettime_ms();
 }
 
 int	data_init(t_table *table)
@@ -63,6 +68,5 @@ int	data_init(t_table *table)
 			= (table->philos[i].philo_id) % table->philo_nbr + 1;
 		i++;
 	}
-	table->start_time = gettime_ms();
 	return (0);
 }

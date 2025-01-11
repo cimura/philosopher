@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 12:42:09 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 18:17:14 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ static void	*simulation(void *info)
 	{
 		eating(philos);
 		if (check_full(philos))
-		{
 			break ;
-		}
 		sleeping(philos);
 		thinking(philos);
 	}

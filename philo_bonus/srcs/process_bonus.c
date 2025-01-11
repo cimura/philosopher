@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:13:24 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 18:17:25 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:25:36 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static void	simulation(t_table *table, t_philo *philos)
 	while (1)
 	{
 		eating(table, philos);
-		if (philos->table->nbr_limit_meals > 0 && philos->_meal.meal_counter
-			>= philos->table->nbr_limit_meals)
+		if (philos->table->nbr_limit_meals > 0
+			&& philos->_meal.meal_counter >= philos->table->nbr_limit_meals)
 			exit(EXIT_SUCCESS);
 		sleeping(philos);
 		thinking(philos);

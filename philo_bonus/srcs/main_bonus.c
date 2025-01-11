@@ -6,7 +6,7 @@
 /*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 18:16:36 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:24:25 by sshimura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int	main(int argc, char *argv[])
 	if (5 == argc || 6 == argc)
 	{
 		if (parse_input(&table, argv) == PARSE_ERR)
-			return (1);
+			return (clean(&table, "parse error", NULL));
 		if (data_init(&table) == 1)
-			return (1);
+			return (clean(&table, "data init error", NULL));
 		if (create_philos(&table) == 1)
-			return (clean(&table), 1);
+			return (clean(&table, "create error", destroy_data));
 		if (wait_all_philos(&table) == 1)
-			return (clean(&table), 1);
-		clean(&table);
+			return (clean(&table, "wait error", destroy_data));
+		clean(&table, NULL, destroy_data);
 	}
 	else
-		print_error("Wrong input:\n"
+		print_error(RED"Wrong input:\n"
 			GREEN"example// ./philo_bonus 5 800 200 200 [5]"RESET);
 	return (0);
 }
