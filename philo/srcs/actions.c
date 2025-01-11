@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:28:48 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/11 10:02:30 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 10:17:47 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	deque(t_table *table, int id)
 	int res = table->que.memory[table->que.head];
 	if (res != id)
 	{
-		//printf("res != id::: res->%d, id-> %d\n", res, id);
 		ft_mutex(&table->que.lock, UNLOCK);
 		return -1;
 	}
@@ -48,7 +47,6 @@ int	deque(t_table *table, int id)
 	if (table->que.head == table->philo_nbr)
 		table->que.head = 0; 
 	ft_mutex(&table->que.lock, UNLOCK);
-	//printf("res -> %d\n", res);
 	return (res);
 }
 

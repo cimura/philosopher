@@ -6,7 +6,7 @@
 /*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:11:32 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 22:36:24 by cimy             ###   ########.fr       */
+/*   Updated: 2025/01/11 10:23:39 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ int	main(int argc, char *argv[])
 	if (5 == argc || 6 == argc)
 	{
 		if (parse_input(&table, argv) == PARSE_ERR)
-			return (EXIT_FAILURE);
+			return (print_error("parse error"), EXIT_FAILURE);
 		if (data_init(&table) == 1)
-			return (EXIT_FAILURE);
+			return (print_error("data init error"), EXIT_FAILURE);
 		if (create_threads(&table) == THREAD_ERR)
-			return (clean(&table), EXIT_FAILURE);
+			return (print_error("thread init error"), clean(&table), EXIT_FAILURE);
 		if (join_threads(&table) == JOIN_ERR)
-			return (clean(&table), 1);
+			return (print_error("thread join error"), clean(&table), 1);
 		clean(&table);
 	}
 	else
-		print_error("Wrong input:\n"
-			GREEN"example// ./philo 5 800 200 200 [5]"RESET);
+		print_error(RED"Wrong input:\n"
+			GREEN"example) ./philo 5 800 200 200 [5]"RESET);
 	return (0);
 }

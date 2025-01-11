@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshimura <sshimura@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cimy <cimy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 13:07:44 by sshimura          #+#    #+#             */
-/*   Updated: 2025/01/10 18:24:16 by sshimura         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:22:58 by cimy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ size_t	ft_strlen(const char *str)
 
 void	print_error(const char *message)
 {
-	write(STDERR_FILENO, RED, ft_strlen(RED));
 	write(STDERR_FILENO, message, ft_strlen(message));
 	write(STDERR_FILENO, "\n", 1);
-	write(STDERR_FILENO, RESET, ft_strlen(RESET));
 }
 
 void	print_state(int id, const char *state, t_table *table)
